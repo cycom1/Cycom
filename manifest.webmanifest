@@ -1,0 +1,21 @@
+{
+  "name": "CyCom Internet Billing",
+  "short_name": "CyCom",
+  "description": "Manage customers, billing, hotspot, and network operations.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "id": "./",
+  "background_color": "#f1f3ee",
+  "theme_color": "#34d7d8",
+  "orientation": "portrait",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
