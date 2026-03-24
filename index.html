@@ -78,8 +78,18 @@
   .nav-logo-icon {
     width: 38px; height: 38px; background: var(--aqua);
     border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative; overflow: hidden; flex-shrink: 0;
   }
   .nav-logo-icon svg { width: 22px; height: 22px; fill: white; }
+  .nav-logo-icon:hover .logo-edit-hint { opacity: 1; }
+  .logo-edit-hint {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.5); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  }
+  .logo-edit-hint svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  #logoImg { width: 38px; height: 38px; object-fit: contain; border-radius: 10px; display: none; }
+  #logoUpload { display: none; }
   .nav-logo-text { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
   .nav-logo-text span { color: var(--aqua-dark); }
   .nav-links { display: flex; align-items: center; gap: 6px; }
@@ -421,9 +431,12 @@
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <div class="nav-logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <div class="nav-logo-icon" onclick="document.getElementById('logoUpload').click()" title="Click to upload your logo">
+      <span id="logoDefault"><svg viewBox="0 0 24 24"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
+      <img id="logoImg" alt="CyCom Logo">
+      <span class="logo-edit-hint"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
     </div>
+    <input type="file" id="logoUpload" accept="image/*" onchange="uploadLogo(this)">
     <span class="nav-logo-text">Cy<span>Com</span></span>
   </a>
   <div class="nav-links">
@@ -851,6 +864,36 @@
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
   }
+
+  // Logo upload — stored in localStorage so it persists across refreshes
+  function uploadLogo(input) {
+    const file = input.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Please choose an image smaller than 2 MB.');
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try { localStorage.setItem('cycom_logo', e.target.result); } catch(_) {}
+      applyLogo(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+  function applyLogo(dataUrl) {
+    const img = document.getElementById('logoImg');
+    const def = document.getElementById('logoDefault');
+    img.src = dataUrl;
+    img.style.display = 'block';
+    def.style.display = 'none';
+  }
+  (function initLogo() {
+    try {
+      const saved = localStorage.getItem('cycom_logo');
+      if (saved) applyLogo(saved);
+    } catch(_) {}
+  })();
 
   function submitEnquiry() {
     const fname = document.getElementById('cf-fname').value.trim();
