@@ -202,6 +202,17 @@
   .section-sub { font-size: 17px; color: var(--text2); max-width: 560px; line-height: 1.65; margin-bottom: 56px; }
 
   /* WHY CYCOM */
+  #features {
+    position: relative;
+    background-image:
+      linear-gradient(135deg, rgba(255,255,255,0.94) 0%, rgba(240,250,250,0.9) 100%),
+      url('https://images.pexels.com/photos/433308/pexels-photo-433308.jpeg?auto=compress&cs=tinysrgb&w=1200'),
+      url('https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1200');
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: cover, 28% auto, 34% auto;
+    background-position: center, right -8% top 0, left -10% bottom -8%;
+  }
+  #features .section-inner { position: relative; z-index: 1; }
   .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; }
   .feature-card {
     background: white; border-radius: var(--radius); padding: 32px 28px;
@@ -214,7 +225,15 @@
   .feature-card p { font-size: 14.5px; color: var(--text2); line-height: 1.6; }
 
   /* PLANS */
-  #plans { background: linear-gradient(180deg, #f0fafa 0%, #ffffff 100%); }
+  #plans {
+    background-image:
+      linear-gradient(180deg, rgba(240,250,250,0.94) 0%, rgba(255,255,255,0.95) 100%),
+      url('https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1200');
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, 32% auto;
+    background-position: center, right -8% center;
+  }
+  #plans .section-inner { position: relative; z-index: 1; }
   .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; }
   .plan-card {
     background: white; border-radius: var(--radius); padding: 36px 32px;
@@ -353,7 +372,15 @@
   .cta-banner-actions { display: flex; gap: 14px; flex-wrap: wrap; flex-shrink: 0; }
 
   /* CONTACT */
-  #contact { background: white; }
+  #contact {
+    background-image:
+      linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(241,249,255,0.92) 100%),
+      url('https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1200');
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, 34% auto;
+    background-position: center, left -7% center;
+  }
+  #contact .section-inner { position: relative; z-index: 1; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
   .contact-info h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
   .contact-info p { font-size: 15px; color: var(--text2); line-height: 1.65; margin-bottom: 32px; }
@@ -407,6 +434,18 @@
       background-position: center, left -24% bottom 8%, right -26% top 10%, right 14% bottom -5%;
     }
     .hero-inner { flex-direction: column; }
+    #features {
+      background-size: cover, 40% auto, 44% auto;
+      background-position: center, right -22% top -6%, left -26% bottom -10%;
+    }
+    #plans {
+      background-size: cover, 42% auto;
+      background-position: center, right -24% center;
+    }
+    #contact {
+      background-size: cover, 48% auto;
+      background-position: center, left -30% center;
+    }
     .hero-visual { max-width: 100%; }
     .contact-grid { grid-template-columns: 1fr; }
     .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -418,6 +457,18 @@
       background-position: center, left -52% bottom 8%, right top, right -12% bottom -4%;
     }
     section { padding: 64px 5%; }
+    #features {
+      background-size: cover, 56% auto, 0 0;
+      background-position: center, right -34% top -8%, left top;
+    }
+    #plans {
+      background-size: cover, 0 0;
+      background-position: center, right center;
+    }
+    #contact {
+      background-size: cover, 56% auto;
+      background-position: center, left -48% center;
+    }
     .lead-strip-inner { min-height: 38px; padding: 6px 5%; }
     .lead-strip-text { font-size: 12px; }
     .lead-strip-cta { font-size: 11px; padding: 5px 10px; }
