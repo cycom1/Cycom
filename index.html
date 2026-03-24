@@ -78,8 +78,10 @@
   .nav-logo-icon {
     width: 38px; height: 38px; background: var(--aqua);
     border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; flex-shrink: 0; position: relative;
   }
   .nav-logo-icon svg { width: 22px; height: 22px; fill: white; }
+  .nav-logo-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
   .nav-logo-text { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
   .nav-logo-text span { color: var(--aqua-dark); }
   .nav-links { display: flex; align-items: center; gap: 6px; }
@@ -422,7 +424,8 @@
 <nav>
   <a class="nav-logo" href="#">
     <div class="nav-logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <svg id="logoSvg" viewBox="0 0 24 24"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <img src="logo.png" alt="CyCom Logo" onload="document.getElementById('logoSvg').style.display='none'" onerror="this.style.display='none'">
     </div>
     <span class="nav-logo-text">Cy<span>Com</span></span>
   </a>
