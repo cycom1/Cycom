@@ -201,6 +201,42 @@
   .section-title { font-size: clamp(28px, 3.5vw, 42px); font-weight: 700; letter-spacing: -1px; line-height: 1.15; margin-bottom: 14px; }
   .section-sub { font-size: 17px; color: var(--text2); max-width: 560px; line-height: 1.65; margin-bottom: 56px; }
 
+  /* CCTV MINI PRICING STRIP */
+  .cctv-mini-strip {
+    padding: 22px 5% 30px;
+    background: linear-gradient(180deg, rgba(12,24,42,0.05) 0%, rgba(12,24,42,0) 100%);
+  }
+  .cctv-mini-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #0f1724 0%, #1d3557 65%, #204f72 100%);
+    border-radius: 18px;
+    padding: 20px 24px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-lg);
+  }
+  .cctv-mini-title { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+  .cctv-mini-sub { font-size: 13px; color: rgba(255,255,255,0.78); margin-top: 4px; }
+  .cctv-mini-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cctv-mini-badge {
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .cctv-mini-badge b { color: #a7f3d0; }
+  .cctv-mini-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cctv-mini-actions a { text-decoration: none; font-size: 12px; font-weight: 700; padding: 9px 12px; border-radius: 10px; }
+  .cctv-mini-actions .primary { background: #34d7d8; color: #08373a; }
+  .cctv-mini-actions .secondary { background: rgba(255,255,255,0.14); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); }
+
   /* WHY CYCOM */
   #features {
     position: relative;
@@ -549,6 +585,14 @@
     .hamburger { display: block; }
     .mobile-menu { top: 100px; }
     .hero { min-height: auto; padding: 48px 5% 44px; }
+    .cctv-mini-strip { padding: 14px 5% 20px; }
+    .cctv-mini-inner { padding: 14px; border-radius: 14px; }
+    .cctv-mini-title { font-size: 14px; }
+    .cctv-mini-sub { font-size: 12px; }
+    .cctv-mini-badges { gap: 8px; }
+    .cctv-mini-badge { font-size: 11px; padding: 6px 9px; }
+    .cctv-mini-actions { width: 100%; }
+    .cctv-mini-actions a { flex: 1; text-align: center; }
     .hero-inner { gap: 30px; }
     .hero h1 { font-size: clamp(30px, 10vw, 40px); margin-bottom: 14px; letter-spacing: -1px; }
     .hero p { font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
@@ -700,6 +744,24 @@
           <div><div style="font-size:12px;color:#6b7280;">Uptime</div><div style="font-weight:700;">31 days</div></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="cctv-mini-strip" aria-label="CCTV quick pricing">
+  <div class="cctv-mini-inner">
+    <div>
+      <div class="cctv-mini-title">CCTV Installations Now Available</div>
+      <div class="cctv-mini-sub">Professional setup for homes, shops, offices, and compounds.</div>
+    </div>
+    <div class="cctv-mini-badges">
+      <span class="cctv-mini-badge">Home Kits from <b>KSh 24,999</b></span>
+      <span class="cctv-mini-badge">Business Kits from <b>KSh 49,999</b></span>
+      <span class="cctv-mini-badge">Site Survey <b>Free in selected areas</b></span>
+    </div>
+    <div class="cctv-mini-actions">
+      <a class="primary" href="#cctv">See CCTV Packages</a>
+      <a class="secondary" href="#contact">Book Survey</a>
     </div>
   </div>
 </section>
