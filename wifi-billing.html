@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f1f3ee;
+    --bg: #eef7e2;
     --surface: #e6e9ef;
     --surface2: #f0f2f8;
     --border: #e4e7f0;
@@ -28,7 +28,6 @@
     --btn-aqua-hover: #20c6c7;
     --btn-aqua-text: #073536;
     --green: #10b981;
-    --green-light: #ecfdf5;
     --orange: #f59e0b;
     --orange-light: #fffbeb;
     --red: #ef4444;
@@ -413,6 +412,7 @@
   }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .page.active { animation: fadeIn 0.2s ease; }
 </style>
 </head>
@@ -444,6 +444,10 @@
       Customers
       <span class="nav-badge">3</span>
     </div>
+    <div class="nav-item" data-require-role="manager" onclick="showPage('user-management', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>
+      User Management
+    </div>
     <div class="nav-item" onclick="showPage('customer-portal', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6"/><path d="M8.5 5.5h7"/><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M7 14h10"/><path d="M7 17h6"/></svg>
       Customer Portal
@@ -455,6 +459,10 @@
     <div class="nav-item" onclick="showPage('invoices', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       Invoices
+    </div>
+    <div class="nav-item" data-require-role="manager" onclick="showPage('billing-automation', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/><path d="M7.5 10.5C6 8 4.5 4 4.5 4"/><circle cx="15" cy="9" r="1"/></svg>
+      Billing Automation
     </div>
     <div class="nav-item" onclick="showPage('campaigns', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-8v18l-18-8z"/><path d="M11 13v6"/><path d="M7 14.5v4.5"/></svg>
@@ -746,6 +754,80 @@
             <button class="btn btn-outline" style="padding:6px 12px">2</button>
             <button class="btn btn-outline" style="padding:6px 12px">3</button>
             <button class="btn btn-outline" style="padding:6px 12px">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER MANAGEMENT PAGE -->
+  <div id="page-user-management" class="page" data-require-role="manager">
+    <div class="topbar">
+      <div class="page-title">User Management</div>
+      <div class="topbar-actions">
+        <span class="chip blue">Admin Only</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Create Staff Account</div></div>
+          <div class="card-body">
+            <div class="grid-2" style="margin-bottom:0">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input id="newUserFirstName" class="form-input" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input id="newUserLastName" class="form-input" placeholder="Doe">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input id="newUserEmail" class="form-input" type="email" placeholder="staff@cycom.africa">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input id="newUserPhone" class="form-input" placeholder="+254700000000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <select id="newUserRole" class="form-select">
+                <option value="operator">Operator</option>
+                <option value="customer">Customer</option>
+                <option value="manager">Manager</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Temporary Password</label>
+              <input id="newUserPassword" class="form-input" type="password" placeholder="StrongPass123">
+              <div style="font-size:11px;color:var(--text2);margin-top:5px">Must include uppercase, lowercase, and number.</div>
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="handleAdminCreateUser()">Create User</button>
+            <div id="newUserMessage" style="margin-top:10px;font-size:12px;color:var(--text2)"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Access Policy</div></div>
+          <div class="card-body">
+            <div class="alert info" style="margin-bottom:12px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div class="alert-text">
+                <div class="alert-title">Role Guardrails</div>
+                <div class="alert-desc">Public users register as customer only. Staff accounts must be created here by manager/super admin.</div>
+              </div>
+            </div>
+            <div style="font-size:13px;line-height:1.8;color:var(--text2)">
+              <div>- <strong>Manager</strong>: full operations, billing, reports.</div>
+              <div>- <strong>Operator</strong>: day-to-day customer operations.</div>
+              <div>- <strong>Customer</strong>: portal and self-service only.</div>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:var(--bg2);border-radius:8px">
+              <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Last created account</div>
+              <div id="lastCreatedUser" style="font-size:13px">No recent account created</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1212,6 +1294,115 @@
               <tr><td class="td-mono">INV-2025-0308</td><td>Fatuma Ali</td><td>Home 5Mbps</td><td style="font-weight:600">KES 1,500</td><td>Feb 28, 2025</td><td>Mar 5, 2025</td><td><span class="badge overdue">Overdue</span></td><td><button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button></td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BILLING AUTOMATION PAGE -->
+  <div id="page-billing-automation" class="page" data-require-role="manager">
+    <div class="topbar">
+      <div class="page-title">Billing Automation</div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="triggerAutomationBtn" onclick="triggerBillingAutomation()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+          Run Automation Now
+        </button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+          </div>
+          <div class="stat-value" id="invoicesGenerated">0</div>
+          <div class="stat-label">Invoices Generated</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"/></svg></div>
+          </div>
+          <div class="stat-value" id="remindersSent">0</div>
+          <div class="stat-label">Reminders Sent</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+          </div>
+          <div class="stat-value" id="customersSuspended">0</div>
+          <div class="stat-label">Customers Suspended</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          </div>
+          <div class="stat-value" id="automationStatus">Ready</div>
+          <div class="stat-label">Status</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Last Automation Run</div></div>
+          <div class="card-body">
+            <div style="display:flex;justify-content:space-between;margin-bottom:16px">
+              <div><div style="font-size:13px;color:var(--text2)">Last Executed</div><div id="lastRunTime" style="font-weight:600;margin-top:4px">Never</div></div>
+              <div><div style="font-size:13px;color:var(--text2)">Next Scheduled</div><div id="nextRunTime" style="font-weight:600;margin-top:4px">Calculating...</div></div>
+            </div>
+            <div style="padding:12px;background:var(--bg2);border-radius:8px;margin-bottom:12px">
+              <div style="font-size:12px;color:var(--text2);margin-bottom:8px">Summary</div>
+              <div id="automationSummary" style="font-size:13px;line-height:1.6">
+                <div>↳ No recent automation runs</div>
+              </div>
+            </div>
+            <div id="automationErrors" style="display:none;padding:12px;background:rgba(255,80,80,0.1);border-left:3px solid var(--red);border-radius:4px;margin-bottom:12px">
+              <div style="font-size:12px;color:var(--red);font-weight:600;margin-bottom:4px">Errors</div>
+              <div id="automationErrorText" style="font-size:12px;color:var(--text2)"></div>
+            </div>
+            <button class="btn btn-outline" style="width:100%" onclick="location.href='#page-invoices'; showPage('invoices', null)">View Invoices</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Manual Actions</div></div>
+          <div class="card-body">
+            <div style="margin-bottom:16px">
+              <label class="form-label">Grace Period (days)</label>
+              <div style="display:flex;gap:8px">
+                <input id="gracePeriodInput" type="number" class="form-input" value="5" min="0" max="30" style="flex:1">
+                <button class="btn btn-outline" onclick="updateGracePeriod()">Apply</button>
+              </div>
+              <div style="font-size:11px;color:var(--text2);margin-top:4px">Days before marking invoice overdue</div>
+            </div>
+
+            <div style="margin-bottom:16px">
+              <label class="form-label">Find Override Invoice</label>
+              <div style="display:flex;gap:8px">
+                <input id="invoiceSearchInput" type="text" class="form-input" placeholder="INV-2025-..." style="flex:1">
+                <button class="btn btn-outline" onclick="searchInvoice()">Search</button>
+              </div>
+            </div>
+
+            <div id="invoiceSearchResult" style="display:none;padding:12px;background:var(--bg2);border-radius:8px;margin-bottom:12px">
+              <div style="font-size:12px;color:var(--text2);margin-bottom:8px">Found Invoice</div>
+              <div id="invoiceResultContent"></div>
+            </div>
+
+            <button class="btn btn-outline" style="width:100%;margin-bottom:8px" onclick="forceCheckOverdueAccounts()">Force Check Overdue</button>
+            <button class="btn btn-outline" style="width:100%" onclick="forceCheckPaymentReminders()">Force Check Reminders</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Recent Activity Log</div><span style="font-size:12px;color:var(--text3)" id="activityCount">0 entries</span></div>
+        <div class="card-body">
+          <div id="activityLog" style="max-height:400px;overflow-y:auto">
+            <div style="padding:24px;text-align:center;color:var(--text2);font-size:13px">
+              No activity recorded yet. Run automation to see logs here.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2491,12 +2682,21 @@
   }
 
   function showPage(name, el) {
+    // Check role access for restricted pages
+    const page = document.getElementById('page-' + name);
+    if (page && page.dataset.requireRole) {
+      if (!authCanAccess(page.dataset.requireRole)) {
+        alert('You do not have permission to access this section.');
+        return;
+      }
+    }
+    
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
+    page.classList.add('active');
     if (el) el.classList.add('active');
 
-    const titles = { dashboard: 'Dashboard', customers: 'Customers', 'customer-portal': 'Customer Portal', campaigns: 'Campaigns', tickets: 'Support Tickets', communication: 'Chat & Communication', notifications: 'Notifications', device: 'Device / Network Info', plans: 'Plans & Pricing', invoices: 'Invoices', usage: 'Usage & Bandwidth', nodes: 'Network Nodes', pppoe: 'PPPoE Connections', mikrotik: 'MikroTik Integration', hotspot: 'Hotspot Portal', 'hotspot-settings': 'Hotspot Settings' };
+    const titles = { dashboard: 'Dashboard', customers: 'Customers', 'user-management': 'User Management', 'customer-portal': 'Customer Portal', campaigns: 'Campaigns', tickets: 'Support Tickets', communication: 'Chat & Communication', notifications: 'Notifications', device: 'Device / Network Info', plans: 'Plans & Pricing', invoices: 'Invoices', 'billing-automation': 'Billing Automation', usage: 'Usage & Bandwidth', nodes: 'Network Nodes', pppoe: 'PPPoE Connections', mikrotik: 'MikroTik Integration', hotspot: 'Hotspot Portal', 'hotspot-settings': 'Hotspot Settings' };
     document.querySelectorAll('.page-title').forEach(t => t.textContent = titles[name] || name);
   }
 
@@ -4127,19 +4327,575 @@
     });
   });
 
-  loadMikrotikConfig();
-  loadPPPoEConfig();
-  loadTicketTracking();
-  loadCustomerManagement();
-  renderCommunication();
-  renderNotifications();
-  renderPlans();
-  renderHotspotSettings();
-  registerDeviceNetworkListeners();
-  loadDeviceNetworkInfo();
-  loadDiscoveryResults();
-  loadHotspotSession();
-  loadLogoImage();
+  // ===== ROLE-BASED AUTH & BACKEND API =====
+  
+  // Backend API Client
+  const API = {
+    baseURL: localStorage.getItem('apiBaseURL') || 'http://localhost:5000/api',
+    token: localStorage.getItem('authToken'),
+    
+    async request(endpoint, options = {}) {
+      const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers
+      };
+      if (this.token) headers.Authorization = `Bearer ${this.token}`;
+      
+      try {
+        const res = await fetch(`${this.baseURL}${endpoint}`, {
+          ...options,
+          headers
+        });
+        if (res.status === 401) {
+          authLogout();
+          return null;
+        }
+        return await res.json();
+      } catch (error) {
+        console.error('API Error:', error);
+        return null;
+      }
+    },
+    
+    auth: {
+      async register(email, firstName, lastName, password, phone) {
+        return API.request('/auth/register', {
+          method: 'POST',
+          body: JSON.stringify({ email, firstName, lastName, password, phone })
+        });
+      },
+      async createUser(email, firstName, lastName, password, phone, role) {
+        return API.request('/auth/create-user', {
+          method: 'POST',
+          body: JSON.stringify({ email, firstName, lastName, password, phone, role })
+        });
+      },
+      async login(email, password) {
+        return API.request('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ email, password })
+        });
+      },
+      async verify() {
+        return API.request('/auth/verify');
+      }
+    },
+    
+    customers: {
+      async getAll() {
+        return API.request('/customers');
+      },
+      async create(data) {
+        return API.request('/customers', {
+          method: 'POST',
+          body: JSON.stringify(data)
+        });
+      },
+      async get(id) {
+        return API.request(`/customers/${id}`);
+      },
+      async update(id, data) {
+        return API.request(`/customers/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify(data)
+        });
+      }
+    },
+    
+    billing: {
+      async getInvoices() {
+        return API.request('/billing/invoices');
+      },
+      async getSummary() {
+        return API.request('/billing/summary');
+      },
+      async createPaymentIntent(amount, customerId, invoiceId) {
+        return API.request('/billing/payment-intent', {
+          method: 'POST',
+          body: JSON.stringify({ amount, customerId, invoiceId })
+        });
+      }
+    },
+    
+    reports: {
+      async getRevenue(startDate, endDate) {
+        return API.request(`/reports/revenue?startDate=${startDate}&endDate=${endDate}`);
+      },
+      async getCustomerStats() {
+        return API.request('/reports/customers');
+      },
+      async getUsage() {
+        return API.request('/reports/usage');
+      }
+    },
+    
+    backups: {
+      async create() {
+        return API.request('/backups', { method: 'POST' });
+      },
+      async getAll() {
+        return API.request('/backups');
+      },
+      async restore(id) {
+        return API.request(`/backups/${id}/restore`, { method: 'POST' });
+      }
+    },
+    
+    notifications: {
+      async sendSms(phone, message) {
+        return API.request('/notifications/sms', {
+          method: 'POST',
+          body: JSON.stringify({ phone, message })
+        });
+      },
+      async sendWhatsapp(phone, message) {
+        return API.request('/notifications/whatsapp', {
+          method: 'POST',
+          body: JSON.stringify({ phone, message })
+        });
+      }
+    }
+  };
+  
+  // Auth State
+  const authState = {
+    isAuthenticated: !!localStorage.getItem('authToken'),
+    user: JSON.parse(localStorage.getItem('authUser') || '{}'),
+    role: localStorage.getItem('userRole') || 'customer'
+  };
+  
+  function authCanAccess(requiredRole) {
+    const roleHierarchy = {
+      'super_admin': 4,
+      'manager': 3,
+      'operator': 2,
+      'customer': 1
+    };
+    return (roleHierarchy[authState.role] || 0) >= (roleHierarchy[requiredRole] || 0);
+  }
+  
+  async function authLogin(email, password) {
+    const result = await API.auth.login(email, password);
+    if (result && result.token) {
+      authState.isAuthenticated = true;
+      authState.user = result.user;
+      authState.role = result.user.role;
+      localStorage.setItem('authToken', result.token);
+      localStorage.setItem('authUser', JSON.stringify(result.user));
+      localStorage.setItem('userRole', result.user.role);
+      API.token = result.token;
+      renderAuthUI();
+      return true;
+    }
+    return false;
+  }
+  
+  function authLogout() {
+    authState.isAuthenticated = false;
+    authState.user = {};
+    authState.role = 'customer';
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
+    localStorage.removeItem('userRole');
+    API.token = null;
+    renderAuthUI();
+  }
+  
+  function renderAuthUI() {
+    const sidebar = document.querySelector('.sidebar');
+    const userCard = document.querySelector('.user-card');
+    
+    if (!authState.isAuthenticated) {
+      if (sidebar) sidebar.style.display = 'none';
+      document.querySelector('.main').innerHTML = renderLoginPage();
+    } else {
+      if (sidebar) sidebar.style.display = 'flex';
+      // Show/hide nav items based on role
+      document.querySelectorAll('[data-require-role]').forEach(el => {
+        el.style.display = authCanAccess(el.dataset.requireRole) ? 'flex' : 'none';
+      });
+      
+      if (userCard) {
+        userCard.innerHTML = `
+          <div class="avatar">${authState.user.firstName?.charAt(0) || 'U'}</div>
+          <div class="user-info">
+            <div class="user-name">${authState.user.firstName}</div>
+            <div class="user-role">${authState.role}</div>
+          </div>
+        `;
+      }
+    }
+  }
+  
+  function renderLoginPage() {
+    return `
+      <div style="display:flex; align-items:center; justify-content:center; min-height:100vh; background:var(--bg)">
+        <div class="card" style="width:380px; padding:32px">
+          <h2 style="margin-bottom:16px; text-align:center; font-size:22px">CyCom Access Portal</h2>
+          <div style="display:flex; gap:8px; margin-bottom:16px">
+            <button id="authTabLogin" class="btn btn-primary" style="flex:1" onclick="setAuthMode('login')">Login</button>
+            <button id="authTabRegister" class="btn btn-outline" style="flex:1" onclick="setAuthMode('register')">Register</button>
+          </div>
+
+          <div id="loginForm">
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input id="loginEmail" class="form-input" type="email" placeholder="admin@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input id="loginPassword" class="form-input" type="password" placeholder="••••••••">
+            </div>
+            <button class="btn btn-primary" style="width:100%; margin-bottom:10px" onclick="handleLogin()">Login</button>
+            <button class="btn btn-outline" style="width:100%" onclick="switchToLocalMode()">Use Local Mode</button>
+          </div>
+
+          <div id="registerForm" style="display:none">
+            <div class="grid-2" style="margin-bottom:0">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input id="registerFirstName" class="form-input" type="text" placeholder="Jane">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input id="registerLastName" class="form-input" type="text" placeholder="Doe">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input id="registerEmail" class="form-input" type="email" placeholder="jane@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input id="registerPhone" class="form-input" type="text" placeholder="+254700000000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input id="registerPassword" class="form-input" type="password" placeholder="At least 8 characters">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirm Password</label>
+              <input id="registerPasswordConfirm" class="form-input" type="password" placeholder="Repeat password">
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="handleRegister()">Create Account</button>
+          </div>
+
+          <div id="authMessage" style="margin-top:12px; font-size:12px; color:var(--text2); min-height:16px"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function setAuthMode(mode) {
+    const isLogin = mode === 'login';
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const loginTab = document.getElementById('authTabLogin');
+    const registerTab = document.getElementById('authTabRegister');
+    const authMessage = document.getElementById('authMessage');
+
+    if (loginForm) loginForm.style.display = isLogin ? 'block' : 'none';
+    if (registerForm) registerForm.style.display = isLogin ? 'none' : 'block';
+
+    if (loginTab) loginTab.className = isLogin ? 'btn btn-primary' : 'btn btn-outline';
+    if (registerTab) registerTab.className = isLogin ? 'btn btn-outline' : 'btn btn-primary';
+    if (authMessage) authMessage.textContent = '';
+  }
+  
+  async function handleLogin() {
+    const email = (document.querySelector('#loginEmail')?.value || '').trim();
+    const password = document.querySelector('#loginPassword')?.value || '';
+    const authMessage = document.getElementById('authMessage');
+
+    if (!email || !password) {
+      if (authMessage) authMessage.textContent = 'Enter email and password.';
+      return;
+    }
+
+    if (await authLogin(email, password)) {
+      showPage('dashboard', document.querySelector('[onclick="showPage(\'dashboard\')"]'));
+    } else {
+      if (authMessage) authMessage.textContent = 'Login failed. Check your credentials.';
+    }
+  }
+
+  async function handleRegister() {
+    const firstName = (document.getElementById('registerFirstName')?.value || '').trim();
+    const lastName = (document.getElementById('registerLastName')?.value || '').trim();
+    const email = (document.getElementById('registerEmail')?.value || '').trim();
+    const phone = (document.getElementById('registerPhone')?.value || '').trim();
+    const password = document.getElementById('registerPassword')?.value || '';
+    const passwordConfirm = document.getElementById('registerPasswordConfirm')?.value || '';
+    const authMessage = document.getElementById('authMessage');
+
+    if (!firstName || !lastName || !email || !password) {
+      if (authMessage) authMessage.textContent = 'Fill all required fields.';
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      if (authMessage) authMessage.textContent = 'Passwords do not match.';
+      return;
+    }
+
+    const result = await API.auth.register(email, firstName, lastName, password, phone);
+    if (result && result.token) {
+      authState.isAuthenticated = true;
+      authState.user = result.user;
+      authState.role = result.user.role;
+      localStorage.setItem('authToken', result.token);
+      localStorage.setItem('authUser', JSON.stringify(result.user));
+      localStorage.setItem('userRole', result.user.role);
+      API.token = result.token;
+      renderAuthUI();
+      showPage('dashboard', document.querySelector('[onclick="showPage(\'dashboard\')"]'));
+      return;
+    }
+
+    if (authMessage) {
+      authMessage.textContent = 'Registration failed. Email may exist or password is weak.';
+    }
+  }
+
+  async function handleAdminCreateUser() {
+    const firstName = (document.getElementById('newUserFirstName')?.value || '').trim();
+    const lastName = (document.getElementById('newUserLastName')?.value || '').trim();
+    const email = (document.getElementById('newUserEmail')?.value || '').trim();
+    const phone = (document.getElementById('newUserPhone')?.value || '').trim();
+    const role = (document.getElementById('newUserRole')?.value || 'operator').trim();
+    const password = document.getElementById('newUserPassword')?.value || '';
+    const message = document.getElementById('newUserMessage');
+
+    if (!firstName || !lastName || !email || !password) {
+      if (message) message.textContent = 'Fill all required fields before creating a user.';
+      return;
+    }
+
+    const result = await API.auth.createUser(email, firstName, lastName, password, phone, role);
+    if (!result || result.error) {
+      if (message) message.textContent = (result && result.error) || 'User creation failed.';
+      return;
+    }
+
+    if (message) message.textContent = 'User account created successfully.';
+    const lastCreated = document.getElementById('lastCreatedUser');
+    if (lastCreated) {
+      lastCreated.textContent = `${firstName} ${lastName} (${role}) - ${email}`;
+    }
+
+    document.getElementById('newUserFirstName').value = '';
+    document.getElementById('newUserLastName').value = '';
+    document.getElementById('newUserEmail').value = '';
+    document.getElementById('newUserPhone').value = '';
+    document.getElementById('newUserPassword').value = '';
+  }
+  
+  function switchToLocalMode() {
+    authState.isAuthenticated = true;
+    authState.user = { firstName: 'Admin', email: 'local@admin' };
+    authState.role = 'super_admin';
+    renderAuthUI();
+    showPage('dashboard', document.querySelector('[onclick="showPage(\'dashboard\')"]'));
+  }
+  
+  // Initialize auth on load
+  if (authState.isAuthenticated) {
+    renderAuthUI();
+  } else {
+    document.body.innerHTML = renderLoginPage();
+  }
+
+  if (authState.isAuthenticated) {
+    loadMikrotikConfig();
+    loadPPPoEConfig();
+    loadTicketTracking();
+    loadCustomerManagement();
+    renderCommunication();
+    renderNotifications();
+    renderPlans();
+    renderHotspotSettings();
+    registerDeviceNetworkListeners();
+    loadDeviceNetworkInfo();
+    loadDiscoveryResults();
+    loadHotspotSession();
+    loadLogoImage();
+  }
+
+  // Billing Automation Functions
+  async function triggerBillingAutomation() {
+    const btn = document.getElementById('triggerAutomationBtn');
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<svg style="animation:spin 1s linear infinite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg> Running...';
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/billing/run-automation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Automation run failed');
+      }
+      
+      const result = await response.json();
+      
+      // Update stat cards
+      document.getElementById('invoicesGenerated').textContent = result.invoicesGenerated || 0;
+      document.getElementById('remindersSent').textContent = result.remindersSent || 0;
+      document.getElementById('customersSuspended').textContent = result.customersSuspended || 0;
+      document.getElementById('automationStatus').textContent = 'Just Ran';
+      
+      // Update last run time
+      const now = new Date();
+      document.getElementById('lastRunTime').textContent = now.toLocaleTimeString();
+      
+      // Update summary
+      const summary = document.getElementById('automationSummary');
+      summary.innerHTML = `
+        <div>✓ Generated ${result.invoicesGenerated || 0} invoices</div>
+        <div>✓ Sent ${result.remindersSent || 0} payment reminders</div>
+        <div>✓ Suspended ${result.customersSuspended || 0} overdue accounts</div>
+      `;
+      
+      // Add to activity log
+      addAutomationLog('Automation Run', `Completed: ${result.invoicesGenerated || 0} invoices, ${result.remindersSent || 0} reminders, ${result.customersSuspended || 0} suspended`, 'success');
+      
+      addNotification('Billing Automation Complete', `Generated ${result.invoicesGenerated || 0} invoices and processed ${result.remindersSent || 0} reminders.`, 'success', 'Billing');
+    } catch (error) {
+      console.error('Automation error:', error);
+      const errorDiv = document.getElementById('automationErrors');
+      errorDiv.style.display = 'block';
+      document.getElementById('automationErrorText').textContent = error.message;
+      document.getElementById('automationStatus').textContent = 'Error';
+      addAutomationLog('Automation Run Failed', error.message, 'error');
+      addNotification('Automation Error', error.message, 'error', 'Billing');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+      document.getElementById('automationStatus').textContent = 'Ready';
+    }
+  }
+
+  function addAutomationLog(title, description, status) {
+    const activityLog = document.getElementById('activityLog');
+    const timestamp = new Date().toLocaleTimeString();
+    const statusIcon = status === 'success' ? '✓' : status === 'error' ? '✕' : 'ℹ';
+    const statusColor = status === 'success' ? 'var(--green)' : status === 'error' ? 'var(--red)' : 'var(--blue)';
+    
+    const logEntry = document.createElement('div');
+    logEntry.style.cssText = 'border-bottom:1px solid var(--bg2);padding:12px 0;display:flex;gap:12px;align-items:flex-start';
+    logEntry.innerHTML = `
+      <div style="color:${statusColor};flex-shrink:0;font-weight:600">${statusIcon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:13px">${title}</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">${description}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">${timestamp}</div>
+      </div>
+    `;
+    
+    // Clear placeholder if this is the first entry
+    if (activityLog.textContent.includes('No activity recorded')) {
+      activityLog.innerHTML = '';
+    }
+    
+    activityLog.insertBefore(logEntry, activityLog.firstChild);
+    
+    // Update count
+    const count = activityLog.children.length;
+    document.getElementById('activityCount').textContent = count + ' ' + (count === 1 ? 'entry' : 'entries');
+  }
+
+  function updateGracePeriod() {
+    const period = document.getElementById('gracePeriodInput').value;
+    if (period < 0 || period > 30) {
+      alert('Grace period must be between 0 and 30 days');
+      return;
+    }
+    alert(`Grace period updated to ${period} days.\nInvoices older than ${period} days will be marked overdue.`);
+    addAutomationLog('Grace Period Updated', `Changed to ${period} days`, 'success');
+  }
+
+  async function searchInvoice() {
+    const invoiceId = document.getElementById('invoiceSearchInput').value.trim();
+    if (!invoiceId) {
+      alert('Please enter an invoice ID');
+      return;
+    }
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/billing/invoices?search=${encodeURIComponent(invoiceId)}`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      
+      if (!response.ok) throw new Error('Search failed');
+      
+      const data = await response.json();
+      const invoices = Array.isArray(data) ? data : data.invoices || [];
+      const invoice = invoices.find(inv => inv.invoiceNumber === invoiceId || inv._id === invoiceId);
+      
+      if (!invoice) {
+        alert('Invoice not found');
+        return;
+      }
+      
+      const result = document.getElementById('invoiceSearchResult');
+      result.style.display = 'block';
+      document.getElementById('invoiceResultContent').innerHTML = `
+        <div style="font-size:12px;line-height:1.6">
+          <div><strong>${invoice.invoiceNumber}</strong> - ${invoice.customerName || 'Unknown'}</div>
+          <div style="color:var(--text2);margin-top:4px">Amount: KES ${invoice.amount || 0}</div>
+          <div style="color:var(--text2)">Status: <span class="badge ${invoice.status}">${invoice.status}</span></div>
+          <div style="color:var(--text2)">Due: ${new Date(invoice.dueDate).toLocaleDateString()}</div>
+        </div>
+      `;
+      addAutomationLog('Invoice Search', `Found ${invoice.invoiceNumber}`, 'success');
+    } catch (error) {
+      alert('Error searching invoice: ' + error.message);
+      addAutomationLog('Invoice Search Failed', error.message, 'error');
+    }
+  }
+
+  async function forceCheckOverdueAccounts() {
+    if (!confirm('This will check all customers for overdue payments and suspend those past grace period. Continue?')) return;
+    
+    try {
+      addAutomationLog('Checking Overdue Accounts', 'Starting...');
+      // This would call a backend endpoint to manually trigger the check
+      const response = await fetch(`${API_BASE_URL}/billing/check-overdue`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      
+      if (response.ok) {
+        addAutomationLog('Overdue Check Complete', 'All overdue accounts reviewed', 'success');
+        addNotification('Overdue Check Done', 'Checked all accounts for overdue payments', 'success', 'Billing');
+      }
+    } catch (error) {
+      addAutomationLog('Overdue Check Failed', error.message, 'error');
+    }
+  }
+
+  async function forceCheckPaymentReminders() {
+    if (!confirm('This will send payment reminders for invoices due within 1 day. Continue?')) return;
+    
+    try {
+      addAutomationLog('Checking Payment Reminders', 'Starting...');
+      const response = await fetch(`${API_BASE_URL}/billing/check-reminders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        addAutomationLog('Reminders Check Complete', `Sent ${result.remindersSent || 0} reminders`, 'success');
+        addNotification('Reminders Sent', `Payment reminders sent to ${result.remindersSent || 0} customers`, 'success', 'Billing');
+      }
+    } catch (error) {
+      addAutomationLog('Reminders Check Failed', error.message, 'error');
+    }
+  }
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
