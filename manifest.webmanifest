@@ -1,7 +1,7 @@
 {
-  "name": "CyCom Internet Billing",
+  "name": "CyCom Internet",
   "short_name": "CyCom",
-  "description": "Manage customers, billing, hotspot, and network operations.",
+  "description": "Fast, reliable internet for homes and businesses.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
