@@ -331,6 +331,25 @@
     border-radius: 999px;
     box-shadow: var(--shadow);
   }
+  .admin-stats {
+    position: fixed;
+    top: 116px;
+    right: 18px;
+    z-index: 128;
+    min-width: 220px;
+    background: rgba(15, 23, 36, 0.94);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(6px);
+  }
+  .admin-stats strong { display: block; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; color: #a7f3d0; }
+  .admin-stats-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .admin-stats-row span { font-size: 12px; opacity: 0.82; }
+  .admin-stats-row b { font-size: 20px; letter-spacing: -0.4px; }
+  .admin-stats-note { margin-top: 6px; font-size: 11px; opacity: 0.65; }
   @keyframes waPulse {
     0% { box-shadow: 0 16px 30px rgba(34,197,94,0.36), 0 0 0 0 rgba(34,197,94,0.45); }
     70% { box-shadow: 0 16px 30px rgba(34,197,94,0.36), 0 0 0 16px rgba(34,197,94,0); }
@@ -513,6 +532,14 @@
     .wa-float { width: 52px; height: 52px; right: 12px; bottom: 12px; }
     .wa-float svg { width: 24px; height: 24px; }
     .wa-float-label { display: none; }
+    .admin-stats {
+      top: auto;
+      bottom: 74px;
+      right: 12px;
+      min-width: 172px;
+      padding: 10px 11px;
+    }
+    .admin-stats-row b { font-size: 18px; }
   }
 
   @media (max-width: 420px) {
@@ -966,10 +993,63 @@
   </svg>
 </a>
 
+<aside class="admin-stats" id="adminStatsPanel" style="display:none;">
+  <strong>Admin Analytics</strong>
+  <div class="admin-stats-row">
+    <span>Total Page Views</span>
+    <b id="adminViewsCount">...</b>
+  </div>
+  <div class="admin-stats-note" id="adminStatsNote">Loading view metrics...</div>
+</aside>
+
 <script>
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
   }
+
+  async function initAdminAnalytics() {
+    const panel = document.getElementById('adminStatsPanel');
+    const countEl = document.getElementById('adminViewsCount');
+    const noteEl = document.getElementById('adminStatsNote');
+    if (!panel || !countEl || !noteEl) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const adminEnabled = params.get('admin') === '1' || localStorage.getItem('cycom_admin_mode') === '1';
+
+    if (params.get('admin') === '1') {
+      localStorage.setItem('cycom_admin_mode', '1');
+    }
+
+    if (!adminEnabled) return;
+
+    panel.style.display = 'block';
+
+    try {
+      const namespace = 'cycom-africa';
+      const key = 'landing-page-views';
+      const sessionKey = 'cycom_page_view_counted';
+      const hasCounted = sessionStorage.getItem(sessionKey) === '1';
+      const endpoint = hasCounted
+        ? `https://api.countapi.xyz/get/${namespace}/${key}`
+        : `https://api.countapi.xyz/hit/${namespace}/${key}`;
+
+      const response = await fetch(endpoint, { cache: 'no-store' });
+      const data = await response.json();
+      const totalViews = typeof data.value === 'number' ? data.value : 0;
+
+      if (!hasCounted) {
+        sessionStorage.setItem(sessionKey, '1');
+      }
+
+      countEl.textContent = totalViews.toLocaleString();
+      noteEl.textContent = 'Admin mode active (?admin=1).';
+    } catch (error) {
+      countEl.textContent = 'N/A';
+      noteEl.textContent = 'Unable to load analytics right now.';
+    }
+  }
+
+  initAdminAnalytics();
 
   function submitEnquiry() {
     const fname = document.getElementById('cf-fname').value.trim();
