@@ -456,7 +456,7 @@
       background-size: cover, 76% auto, 0 0, 44% auto;
       background-position: center, left -52% bottom 8%, right top, right -12% bottom -4%;
     }
-    section { padding: 64px 5%; }
+    section { padding: 56px 5%; }
     #features {
       background-size: cover, 56% auto, 0 0;
       background-position: center, right -34% top -8%, left top;
@@ -469,18 +469,61 @@
       background-size: cover, 56% auto;
       background-position: center, left -48% center;
     }
-    .lead-strip-inner { min-height: 38px; padding: 6px 5%; }
+    .lead-strip-inner { min-height: 38px; padding: 6px 5%; flex-wrap: wrap; justify-content: center; }
     .lead-strip-text { font-size: 12px; }
     .lead-strip-cta { font-size: 11px; padding: 5px 10px; }
-    nav { padding: 0 5%; top: 38px; }
+    nav { padding: 0 5%; top: 38px; height: 62px; }
+    .nav-logo-text { font-size: 18px; }
     .nav-links { display: none; }
     .hamburger { display: block; }
-    .mobile-menu { top: 106px; }
+    .mobile-menu { top: 100px; }
+    .hero { min-height: auto; padding: 48px 5% 44px; }
+    .hero-inner { gap: 30px; }
+    .hero h1 { font-size: clamp(30px, 10vw, 40px); margin-bottom: 14px; letter-spacing: -1px; }
+    .hero p { font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
+    .hero-actions { gap: 10px; }
+    .hero-actions .btn-primary,
+    .hero-actions .btn-outline { width: 100%; justify-content: center; padding: 12px 16px; }
+    .hero-stats { gap: 16px; margin-top: 26px; }
+    .hero-stat { min-width: calc(50% - 8px); }
+    .hero-stat-num { font-size: 24px; }
+    .hero-card-stack { padding: 8px; }
+    .speed-card { padding: 20px 18px; }
+    .speed-card-value { font-size: 38px; }
+    .speed-card-value span { font-size: 16px; }
+    .floating-card { display: none; }
+    .section-title { font-size: clamp(24px, 7vw, 32px); }
+    .section-sub { font-size: 15px; margin-bottom: 34px; }
+    .feature-card,
+    .testimonial-card,
+    .plan-card { padding: 24px 20px; }
+    .plan-price-amount { font-size: 42px; }
+    .plan-speed { font-size: 24px; margin-bottom: 16px; }
+    .guarantee-block { padding: 16px; gap: 12px; }
+    .guarantee-action { width: 100%; text-align: center; }
+    .cta-banner { padding: 34px 20px; border-radius: 18px; }
+    .cta-banner-actions { width: 100%; }
+    .cta-banner-actions a { width: 100%; justify-content: center; }
+    .contact-grid { gap: 28px; }
+    .contact-form { padding: 24px 18px; }
+    .contact-channel { padding: 12px 14px; }
     .footer-top { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
-    .cta-banner { padding: 40px 28px; }
-    .hero { padding: 60px 5%; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .wa-float { width: 52px; height: 52px; right: 12px; bottom: 12px; }
+    .wa-float svg { width: 24px; height: 24px; }
     .wa-float-label { display: none; }
+  }
+
+  @media (max-width: 420px) {
+    .lead-strip-text { text-align: center; }
+    .hero h1 { font-size: 29px; }
+    .hero-stat { min-width: 100%; }
+    .hero-badge { font-size: 12px; padding: 6px 10px; }
+    .plan-price-amount { font-size: 36px; }
+    .plan-speed { font-size: 21px; }
+    .contact-form h3 { font-size: 18px; }
+    .wa-float { bottom: 10px; }
   }
 </style>
 </head>
