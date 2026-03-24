@@ -1,8 +1,7 @@
-const CACHE_NAME = "cycom-billing-v1";
+const CACHE_NAME = "cycom-landing-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./wifi-billing.html",
   "./manifest.webmanifest",
   "./icons/icon.svg"
 ];
@@ -42,7 +41,7 @@ self.addEventListener("fetch", event => {
           caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match("./wifi-billing.html"));
+        .catch(() => caches.match("./index.html"));
     })
   );
 });
