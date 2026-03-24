@@ -31,9 +31,44 @@
   html { scroll-behavior: smooth; }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
 
+  /* LEAD STRIP */
+  .lead-strip {
+    position: sticky;
+    top: 0;
+    z-index: 120;
+    background: linear-gradient(90deg, #0f1724 0%, #1f3a5c 100%);
+    color: rgba(255,255,255,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .lead-strip-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    min-height: 42px;
+    padding: 8px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .lead-strip-text {
+    font-size: 13px;
+    letter-spacing: 0.15px;
+  }
+  .lead-strip-text b { color: #ffffff; }
+  .lead-strip-cta {
+    color: #062f30;
+    background: var(--aqua);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
   /* NAV */
   nav {
-    position: sticky; top: 0; z-index: 100;
+    position: sticky; top: 42px; z-index: 100;
     background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
@@ -60,7 +95,7 @@
   .nav-cta:hover { background: var(--aqua-dark) !important; }
   .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
   .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; border-radius: 2px; transition: all 0.3s; }
-  .mobile-menu { display: none; position: fixed; inset: 0; top: 68px; background: white; z-index: 99; padding: 24px 5%; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); }
+  .mobile-menu { display: none; position: fixed; inset: 0; top: 110px; background: white; z-index: 99; padding: 24px 5%; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); }
   .mobile-menu a { font-size: 16px; font-weight: 500; color: var(--text2); text-decoration: none; padding: 12px 16px; border-radius: 10px; display: block; }
   .mobile-menu a:hover { background: var(--aqua-light); color: var(--text); }
   .mobile-menu.open { display: flex; }
@@ -191,6 +226,81 @@
   .plan-cta.primary:hover { background: var(--aqua-dark); }
   .plan-cta.secondary { background: #f5f5f5; color: var(--text); }
   .plan-cta.secondary:hover { background: var(--aqua-light); color: var(--aqua-dark); }
+  .guarantee-block {
+    margin: 30px auto 0;
+    max-width: 920px;
+    background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 45%, #eff6ff 100%);
+    border: 1px solid #bbf7d0;
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .guarantee-text {
+    color: #065f46;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .guarantee-text b {
+    display: block;
+    color: #064e3b;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .guarantee-action {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f1724;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    padding: 8px 14px;
+    white-space: nowrap;
+  }
+
+  /* WHATSAPP FLOAT */
+  .wa-float {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 130;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 0;
+    background: #22c55e;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 16px 30px rgba(34,197,94,0.36);
+    text-decoration: none;
+    animation: waPulse 2.2s infinite;
+  }
+  .wa-float svg { width: 28px; height: 28px; fill: currentColor; }
+  .wa-float-label {
+    position: fixed;
+    right: 86px;
+    bottom: 31px;
+    z-index: 129;
+    background: #0f1724;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    padding: 8px 11px;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+  }
+  @keyframes waPulse {
+    0% { box-shadow: 0 16px 30px rgba(34,197,94,0.36), 0 0 0 0 rgba(34,197,94,0.45); }
+    70% { box-shadow: 0 16px 30px rgba(34,197,94,0.36), 0 0 0 16px rgba(34,197,94,0); }
+    100% { box-shadow: 0 16px 30px rgba(34,197,94,0.36), 0 0 0 0 rgba(34,197,94,0); }
+  }
 
   /* HOW IT WORKS */
   #how { background: white; }
@@ -284,17 +394,29 @@
   }
   @media (max-width: 640px) {
     section { padding: 64px 5%; }
-    nav { padding: 0 5%; }
+    .lead-strip-inner { min-height: 38px; padding: 6px 5%; }
+    .lead-strip-text { font-size: 12px; }
+    .lead-strip-cta { font-size: 11px; padding: 5px 10px; }
+    nav { padding: 0 5%; top: 38px; }
     .nav-links { display: none; }
     .hamburger { display: block; }
+    .mobile-menu { top: 106px; }
     .footer-top { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
     .cta-banner { padding: 40px 28px; }
     .hero { padding: 60px 5%; }
+    .wa-float-label { display: none; }
   }
 </style>
 </head>
 <body>
+
+<div class="lead-strip">
+  <div class="lead-strip-inner">
+    <div class="lead-strip-text"><b>Limited install slots this week.</b> Book now and get priority setup.</div>
+    <a class="lead-strip-cta" href="#contact">Reserve Slot</a>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -496,6 +618,13 @@
         </ul>
         <a href="#contact" class="plan-cta secondary">Get Started</a>
       </div>
+    </div>
+    <div class="guarantee-block">
+      <div class="guarantee-text">
+        <b>7-Day Speed & Service Guarantee</b>
+        If your installed service does not meet agreed performance expectations in the first week, we fix it fast or review your package at no extra cost.
+      </div>
+      <a class="guarantee-action" href="#contact">Claim Priority Support</a>
     </div>
     <p style="text-align:center;margin-top:28px;font-size:14px;color:var(--text3);">Need a tailored solution for your estate, school, or office? <a href="#contact" style="color:var(--aqua-dark);font-weight:600;text-decoration:none;">Request a custom proposal →</a></p>
   </div>
@@ -710,6 +839,13 @@
     </div>
   </div>
 </footer>
+
+<span class="wa-float-label">Chat on WhatsApp</span>
+<a class="wa-float" href="https://wa.me/254700000000?text=Hi%20CyCom%2C%20I%20want%20to%20get%20connected." aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">
+  <svg viewBox="0 0 32 32" aria-hidden="true">
+    <path d="M19.11 17.22c-.27-.13-1.58-.78-1.82-.87-.24-.09-.42-.13-.6.14-.18.27-.69.87-.85 1.05-.16.18-.31.2-.58.07-.27-.13-1.13-.42-2.15-1.34-.8-.71-1.34-1.58-1.49-1.85-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.6-1.45-.82-1.98-.22-.53-.44-.46-.6-.47l-.51-.01c-.18 0-.47.07-.71.34-.24.27-.93.91-.93 2.22s.96 2.58 1.1 2.76c.13.18 1.88 2.87 4.56 4.03.64.28 1.14.45 1.53.58.64.2 1.23.17 1.69.1.52-.08 1.58-.65 1.8-1.27.22-.62.22-1.16.16-1.27-.07-.11-.24-.18-.51-.31zM16.02 4.8c-6.2 0-11.22 5.02-11.22 11.22 0 1.98.52 3.91 1.5 5.62L4.7 27.2l5.72-1.5c1.66.91 3.53 1.39 5.43 1.39h.01c6.2 0 11.22-5.02 11.22-11.22 0-3-1.17-5.82-3.29-7.94-2.12-2.12-4.94-3.29-7.94-3.29zm-.17 20.39h-.01c-1.68 0-3.33-.45-4.77-1.31l-.34-.2-3.39.89.91-3.3-.22-.34a9.28 9.28 0 01-1.42-4.93c0-5.14 4.18-9.32 9.33-9.32 2.49 0 4.84.97 6.6 2.73 1.76 1.76 2.73 4.1 2.73 6.6 0 5.14-4.19 9.32-9.32 9.32z"/>
+  </svg>
+</a>
 
 <script>
   function toggleMenu() {
