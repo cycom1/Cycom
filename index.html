@@ -645,6 +645,34 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 72px;
   }
+  .pv-thumbs {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .pv-thumb {
+    border: 1px solid #dbe6f0;
+    background: #ffffff;
+    border-radius: 10px;
+    height: 62px;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+  }
+  .pv-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .pv-thumb.is-active {
+    border-color: var(--aqua-dark);
+    box-shadow: 0 0 0 2px rgba(20,184,166,0.2);
+  }
+  @media(max-width:640px) {
+    .pv-thumbs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
   .pv-info { padding: 0 0 0 28px; display: flex; flex-direction: column; gap: 14px; }
   @media(max-width:640px) { .pv-info { padding: 20px 0 0; } }
   .pv-tag-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -1989,7 +2017,10 @@
       </button>
     </div>
     <div class="pv-body">
-      <div class="pv-img-wrap" id="pvImgWrap"></div>
+      <div>
+        <div class="pv-img-wrap" id="pvImgWrap"></div>
+        <div class="pv-thumbs" id="pvThumbs"></div>
+      </div>
       <div class="pv-info">
         <div class="pv-name" id="pvName"></div>
         <div class="pv-price" id="pvPrice"></div>
@@ -2098,7 +2129,15 @@
       name: 'TP-Link Omada Outdoor PoE Switch (SG2005P-PD)',
       price: 6999,
       media: '🛰️',
-      image: 'images/sg2005p-pd.jpg',
+      image: 'images/sg2005p-pd-01.jpg',
+      images: [
+        'images/sg2005p-pd-01.jpg',
+        'images/sg2005p-pd-02.jpg',
+        'images/sg2005p-pd-03.jpg',
+        'images/sg2005p-pd-04.jpg',
+        'images/sg2005p-pd-05.jpg',
+        'images/sg2005p-pd-06.jpg'
+      ],
       stock: 'in',
       qty: 8,
       description: 'TP-Link Omada 5-Port Gigabit Smart Switch with 1-Port PoE++ In and 4-Port PoE+ Out. IP55 weatherproof outdoor enclosure with 200m PoE range and cloud management.',
@@ -2196,8 +2235,21 @@
           const merged = saved ? { ...product, ...saved } : { ...product };
 
           // Keep older saved catalogs from breaking TP-Link image visibility.
-          if (merged.id === 'outdoor-cpe' && (!merged.image || String(merged.image).includes('static.tp-link.com'))) {
-            merged.image = 'images/sg2005p-pd.jpg';
+          if (merged.id === 'outdoor-cpe') {
+            const defaultGallery = [
+              'images/sg2005p-pd-01.jpg',
+              'images/sg2005p-pd-02.jpg',
+              'images/sg2005p-pd-03.jpg',
+              'images/sg2005p-pd-04.jpg',
+              'images/sg2005p-pd-05.jpg',
+              'images/sg2005p-pd-06.jpg'
+            ];
+            if (!merged.image || String(merged.image).includes('static.tp-link.com')) {
+              merged.image = 'images/sg2005p-pd-01.jpg';
+            }
+            if (!Array.isArray(merged.images) || !merged.images.length) {
+              merged.images = defaultGallery;
+            }
           }
 
           return merged;
@@ -2326,12 +2378,41 @@
       '<span class="shop-stock ' + stockMeta.className + '">' + stockMeta.label + '</span>' +
       (product.bestValue ? '<span class="shop-best-value" style="position:static">Best Value</span>' : '');
 
-    // image
+    // image gallery
     const imgWrap = document.getElementById('pvImgWrap');
-    if (product.image) {
-      imgWrap.innerHTML = '<img src="' + product.image + '" alt="' + product.name + '">';
+    const thumbsWrap = document.getElementById('pvThumbs');
+    const gallery = Array.isArray(product.images) && product.images.length
+      ? product.images
+      : (product.image ? [product.image] : []);
+    if (gallery.length) {
+      let activeIndex = 0;
+      const renderMain = function(index) {
+        activeIndex = index;
+        imgWrap.innerHTML = '<img src="' + gallery[index] + '" alt="' + product.name + '">';
+        if (thumbsWrap) {
+          Array.from(thumbsWrap.querySelectorAll('.pv-thumb')).forEach((btn, i) => {
+            btn.classList.toggle('is-active', i === index);
+          });
+        }
+      };
+
+      if (thumbsWrap) {
+        thumbsWrap.innerHTML = gallery.map((src, index) =>
+          '<button type="button" class="pv-thumb' + (index === 0 ? ' is-active' : '') + '" data-index="' + index + '" aria-label="Product image ' + (index + 1) + '">' +
+            '<img src="' + src + '" alt="' + product.name + ' thumbnail ' + (index + 1) + '">' +
+          '</button>'
+        ).join('');
+        thumbsWrap.querySelectorAll('.pv-thumb').forEach((btn) => {
+          btn.onclick = function() {
+            const index = Number(btn.getAttribute('data-index') || '0');
+            if (!Number.isNaN(index) && gallery[index]) renderMain(index);
+          };
+        });
+      }
+      renderMain(activeIndex);
     } else {
       imgWrap.innerHTML = '<div class="pv-img-placeholder">' + (product.media || '📦') + '</div>';
+      if (thumbsWrap) thumbsWrap.innerHTML = '';
     }
 
     document.getElementById('pvName').textContent = product.name;
