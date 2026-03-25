@@ -453,6 +453,25 @@
     justify-content: space-between;
     gap: 10px;
   }
+  .shop-stock {
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 5px 10px;
+    letter-spacing: 0.2px;
+  }
+  .shop-stock.in-stock {
+    color: #166534;
+    background: #dcfce7;
+  }
+  .shop-stock.low-stock {
+    color: #92400e;
+    background: #fef3c7;
+  }
+  .shop-stock.out-stock {
+    color: #991b1b;
+    background: #fee2e2;
+  }
   .shop-tag {
     font-size: 11px;
     font-weight: 700;
@@ -521,6 +540,11 @@
     margin-top: auto;
   }
   .shop-card-actions .plan-cta { padding: 11px 10px; font-size: 13px; }
+  .plan-cta.is-disabled {
+    opacity: 0.55;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
   .shop-cart {
     margin-top: 22px;
     background: #ffffff;
@@ -578,7 +602,7 @@
   .shop-cart-total b { font-size: 18px; color: var(--text); margin-left: 6px; }
   .shop-checkout {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   .shop-checkout input,
@@ -593,7 +617,7 @@
   }
   .shop-checkout input:focus,
   .shop-checkout select:focus { border-color: var(--aqua); }
-  .shop-checkout button { grid-column: span 3; }
+  .shop-checkout button { grid-column: span 2; }
 
   /* PLANS */
   #plans {
@@ -1207,116 +1231,7 @@
       <button class="shop-filter" data-filter="cctv">CCTV</button>
       <button class="shop-filter" data-filter="network">Network</button>
     </div>
-    <div class="shop-grid">
-      <div class="shop-card" data-category="wifi" data-id="router-dual" data-name="Dual-Band WiFi Router" data-price="3499">
-        <div class="shop-top">
-          <span class="shop-tag">Hot Seller</span>
-          <div class="shop-price">KSh 3,499</div>
-        </div>
-        <div class="shop-media" aria-hidden="true">📶</div>
-        <h3>Dual-Band WiFi Router</h3>
-        <p>Stable home and office router with strong coverage and easy app setup.</p>
-        <ul class="shop-list">
-          <li>2.4GHz + 5GHz bands</li>
-          <li>Up to 1200 Mbps support</li>
-          <li>Includes power adapter</li>
-        </ul>
-        <div class="shop-card-actions">
-          <button type="button" class="plan-cta primary shop-add-btn">Add to Cart</button>
-          <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20want%20to%20buy%20the%20Dual-Band%20WiFi%20Router%20%28KSh%203%2C499%29." class="plan-cta secondary" target="_blank" rel="noopener noreferrer">Buy Now</a>
-        </div>
-      </div>
-      <div class="shop-card" data-category="wifi" data-id="wifi-extender" data-name="WiFi Range Extender" data-price="2499">
-        <div class="shop-top">
-          <span class="shop-tag">Coverage</span>
-          <div class="shop-price">KSh 2,499</div>
-        </div>
-        <div class="shop-media" aria-hidden="true">📡</div>
-        <h3>WiFi Range Extender</h3>
-        <p>Eliminate dead zones and extend your WiFi signal to more rooms.</p>
-        <ul class="shop-list">
-          <li>One-touch WPS pairing</li>
-          <li>Wall-plug compact design</li>
-          <li>Ideal for apartments and homes</li>
-        </ul>
-        <div class="shop-card-actions">
-          <button type="button" class="plan-cta primary shop-add-btn">Add to Cart</button>
-          <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20want%20to%20buy%20the%20WiFi%20Range%20Extender%20%28KSh%202%2C499%29." class="plan-cta secondary" target="_blank" rel="noopener noreferrer">Buy Now</a>
-        </div>
-      </div>
-      <div class="shop-card" data-category="wifi" data-id="outdoor-cpe" data-name="Outdoor CPE Kit" data-price="6999">
-        <div class="shop-top">
-          <span class="shop-tag">Outdoor</span>
-          <div class="shop-price">KSh 6,999</div>
-        </div>
-        <div class="shop-media" aria-hidden="true">🛰️</div>
-        <h3>Outdoor CPE Kit</h3>
-        <p>Long-range external WiFi device for compounds and larger properties.</p>
-        <ul class="shop-list">
-          <li>Weather-resistant housing</li>
-          <li>High-gain directional antenna</li>
-          <li>PoE injector included</li>
-        </ul>
-        <div class="shop-card-actions">
-          <button type="button" class="plan-cta primary shop-add-btn">Add to Cart</button>
-          <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20want%20to%20buy%20the%20Outdoor%20CPE%20Kit%20%28KSh%206%2C999%29." class="plan-cta secondary" target="_blank" rel="noopener noreferrer">Buy Now</a>
-        </div>
-      </div>
-      <div class="shop-card" data-category="network" data-id="poe-switch" data-name="8-Port PoE Switch" data-price="4999">
-        <div class="shop-top">
-          <span class="shop-tag">Network</span>
-          <div class="shop-price">KSh 4,999</div>
-        </div>
-        <div class="shop-media" aria-hidden="true">🔌</div>
-        <h3>8-Port PoE Switch</h3>
-        <p>Power and connect your cameras and access points from one switch.</p>
-        <ul class="shop-list">
-          <li>8 PoE-enabled ports</li>
-          <li>Plug-and-play setup</li>
-          <li>Ideal for CCTV deployments</li>
-        </ul>
-        <div class="shop-card-actions">
-          <button type="button" class="plan-cta primary shop-add-btn">Add to Cart</button>
-          <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20want%20to%20buy%20the%208-Port%20PoE%20Switch%20%28KSh%204%2C999%29." class="plan-cta secondary" target="_blank" rel="noopener noreferrer">Buy Now</a>
-        </div>
-      </div>
-      <div class="shop-card" data-category="cctv" data-id="camera-5mp" data-name="5MP IP CCTV Camera" data-price="3999">
-        <div class="shop-top">
-          <span class="shop-tag">Security</span>
-          <div class="shop-price">KSh 3,999</div>
-        </div>
-        <div class="shop-media" aria-hidden="true">📷</div>
-        <h3>5MP IP CCTV Camera</h3>
-        <p>High-clarity indoor/outdoor camera for homes, shops, and offices.</p>
-        <ul class="shop-list">
-          <li>5MP image quality</li>
-          <li>Night vision support</li>
-          <li>Metal weatherproof body</li>
-        </ul>
-        <div class="shop-card-actions">
-          <button type="button" class="plan-cta primary shop-add-btn">Add to Cart</button>
-          <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20want%20to%20buy%20the%205MP%20IP%20CCTV%20Camera%20%28KSh%203%2C999%29." class="plan-cta secondary" target="_blank" rel="noopener noreferrer">Buy Now</a>
-        </div>
-      </div>
-      <div class="shop-card" data-category="cctv" data-id="hdd-1tb" data-name="1TB Surveillance HDD" data-price="5499">
-        <div class="shop-top">
-          <span class="shop-tag">Storage</span>
-          <div class="shop-price">KSh 5,499</div>
-        </div>
-        <div class="shop-media" aria-hidden="true">💽</div>
-        <h3>1TB Surveillance HDD</h3>
-        <p>Reliable hard drive designed for continuous camera recording workloads.</p>
-        <ul class="shop-list">
-          <li>24/7 recording support</li>
-          <li>Optimized for DVR/NVR use</li>
-          <li>Low-noise operation</li>
-        </ul>
-        <div class="shop-card-actions">
-          <button type="button" class="plan-cta primary shop-add-btn">Add to Cart</button>
-          <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20want%20to%20buy%20the%201TB%20Surveillance%20HDD%20%28KSh%205%2C499%29." class="plan-cta secondary" target="_blank" rel="noopener noreferrer">Buy Now</a>
-        </div>
-      </div>
-    </div>
+    <div class="shop-grid" id="shopGrid"></div>
     <div class="shop-cart" id="shopCart">
       <div class="shop-cart-top">
         <h3>Your Cart (<span id="shopCartCount">0</span>)</h3>
@@ -1327,6 +1242,8 @@
       <ul class="shop-cart-items" id="shopCartItems"></ul>
       <div class="shop-cart-empty" id="shopCartEmpty">Your cart is empty. Add products above.</div>
       <div class="shop-cart-total">Subtotal: <b id="shopCartTotal">KSh 0</b></div>
+      <div class="shop-cart-total">Delivery Fee: <b id="shopDeliveryFee">KSh 0</b></div>
+      <div class="shop-cart-total">Grand Total: <b id="shopGrandTotal">KSh 0</b></div>
       <div class="shop-checkout">
         <input type="text" id="shopBuyerName" placeholder="Your name">
         <input type="tel" id="shopBuyerPhone" placeholder="Phone / WhatsApp">
@@ -1336,6 +1253,15 @@
           <option>Card</option>
           <option>Cash on Delivery</option>
           <option>Bank Transfer</option>
+        </select>
+        <select id="shopDeliveryArea">
+          <option value="">Delivery area...</option>
+          <option>Nairobi CBD</option>
+          <option>Westlands / Kilimani</option>
+          <option>Embakasi / Donholm</option>
+          <option>Kasarani / Roysambu</option>
+          <option>Kiambu / Thika Road</option>
+          <option>Outside Nairobi</option>
         </select>
         <button type="button" class="btn-primary" id="shopCheckoutBtn" style="justify-content:center;">Checkout on WhatsApp →</button>
       </div>
@@ -1715,8 +1641,88 @@
 
   initAdminAnalytics();
 
+  // Admin-editable product catalog: update prices, stock, categories, and labels here.
+  const SHOP_PRODUCTS = [
+    {
+      id: 'router-dual',
+      category: 'wifi',
+      tag: 'Hot Seller',
+      name: 'Dual-Band WiFi Router',
+      price: 3499,
+      media: '📶',
+      stock: 'in',
+      description: 'Stable home and office router with strong coverage and easy app setup.',
+      features: ['2.4GHz + 5GHz bands', 'Up to 1200 Mbps support', 'Includes power adapter']
+    },
+    {
+      id: 'wifi-extender',
+      category: 'wifi',
+      tag: 'Coverage',
+      name: 'WiFi Range Extender',
+      price: 2499,
+      media: '📡',
+      stock: 'low',
+      description: 'Eliminate dead zones and extend your WiFi signal to more rooms.',
+      features: ['One-touch WPS pairing', 'Wall-plug compact design', 'Ideal for apartments and homes']
+    },
+    {
+      id: 'outdoor-cpe',
+      category: 'wifi',
+      tag: 'Outdoor',
+      name: 'Outdoor CPE Kit',
+      price: 6999,
+      media: '🛰️',
+      stock: 'in',
+      description: 'Long-range external WiFi device for compounds and larger properties.',
+      features: ['Weather-resistant housing', 'High-gain directional antenna', 'PoE injector included']
+    },
+    {
+      id: 'poe-switch',
+      category: 'network',
+      tag: 'Network',
+      name: '8-Port PoE Switch',
+      price: 4999,
+      media: '🔌',
+      stock: 'in',
+      description: 'Power and connect your cameras and access points from one switch.',
+      features: ['8 PoE-enabled ports', 'Plug-and-play setup', 'Ideal for CCTV deployments']
+    },
+    {
+      id: 'camera-5mp',
+      category: 'cctv',
+      tag: 'Security',
+      name: '5MP IP CCTV Camera',
+      price: 3999,
+      media: '📷',
+      stock: 'low',
+      description: 'High-clarity indoor/outdoor camera for homes, shops, and offices.',
+      features: ['5MP image quality', 'Night vision support', 'Metal weatherproof body']
+    },
+    {
+      id: 'hdd-1tb',
+      category: 'cctv',
+      tag: 'Storage',
+      name: '1TB Surveillance HDD',
+      price: 5499,
+      media: '💽',
+      stock: 'out',
+      description: 'Reliable hard drive designed for continuous camera recording workloads.',
+      features: ['24/7 recording support', 'Optimized for DVR/NVR use', 'Low-noise operation']
+    }
+  ];
+
+  const DELIVERY_FEES = {
+    'Nairobi CBD': 0,
+    'Westlands / Kilimani': 200,
+    'Embakasi / Donholm': 250,
+    'Kasarani / Roysambu': 300,
+    'Kiambu / Thika Road': 350,
+    'Outside Nairobi': 700
+  };
+
   const SHOP_CART_KEY = 'cycom_shop_cart';
   let shopCart = [];
+  let activeShopFilter = 'all';
 
   function formatKsh(value) {
     return `KSh ${Number(value).toLocaleString()}`;
@@ -1736,12 +1742,71 @@
     localStorage.setItem(SHOP_CART_KEY, JSON.stringify(shopCart));
   }
 
+  function getDeliveryFee() {
+    const area = (document.getElementById('shopDeliveryArea') || {}).value || '';
+    return DELIVERY_FEES[area] || 0;
+  }
+
+  function getStockMeta(stock) {
+    if (stock === 'out') return { label: 'Out of Stock', className: 'out-stock' };
+    if (stock === 'low') return { label: 'Low Stock', className: 'low-stock' };
+    return { label: 'In Stock', className: 'in-stock' };
+  }
+
+  function renderShopProducts() {
+    const grid = document.getElementById('shopGrid');
+    if (!grid) return;
+
+    const filtered = SHOP_PRODUCTS.filter((product) => activeShopFilter === 'all' || product.category === activeShopFilter);
+    grid.innerHTML = filtered.map((product) => {
+      const stockMeta = getStockMeta(product.stock);
+      const outOfStock = product.stock === 'out';
+      const buyMsg = encodeURIComponent(`Hi CyCom, I want to buy the ${product.name} (${formatKsh(product.price)}).`);
+
+      return `
+        <div class="shop-card" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-stock="${product.stock}">
+          <div class="shop-top">
+            <span class="shop-tag">${product.tag}</span>
+            <div class="shop-price">${formatKsh(product.price)}</div>
+          </div>
+          <div class="shop-media" aria-hidden="true">${product.media}</div>
+          <span class="shop-stock ${stockMeta.className}">${stockMeta.label}</span>
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <ul class="shop-list">
+            ${product.features.map((feature) => `<li>${feature}</li>`).join('')}
+          </ul>
+          <div class="shop-card-actions">
+            <button type="button" class="plan-cta primary shop-add-btn ${outOfStock ? 'is-disabled' : ''}" ${outOfStock ? 'disabled' : ''}>${outOfStock ? 'Unavailable' : 'Add to Cart'}</button>
+            <a href="https://wa.me/254710504940?text=${buyMsg}" class="plan-cta secondary ${outOfStock ? 'is-disabled' : ''}" target="_blank" rel="noopener noreferrer">Buy Now</a>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    Array.from(grid.querySelectorAll('.shop-card')).forEach((card) => {
+      const addBtn = card.querySelector('.shop-add-btn');
+      if (!addBtn || addBtn.disabled) return;
+
+      addBtn.onclick = function() {
+        const id = card.getAttribute('data-id') || '';
+        const name = card.getAttribute('data-name') || 'Shop Item';
+        const price = Number(card.getAttribute('data-price') || '0');
+        const stock = card.getAttribute('data-stock') || 'in';
+        if (stock === 'out') return;
+        addToShopCart({ id, name, price });
+      };
+    });
+  }
+
   function renderShopCart() {
     const itemsEl = document.getElementById('shopCartItems');
     const emptyEl = document.getElementById('shopCartEmpty');
     const totalEl = document.getElementById('shopCartTotal');
+    const deliveryEl = document.getElementById('shopDeliveryFee');
+    const grandEl = document.getElementById('shopGrandTotal');
     const countEl = document.getElementById('shopCartCount');
-    if (!itemsEl || !emptyEl || !totalEl || !countEl) return;
+    if (!itemsEl || !emptyEl || !totalEl || !deliveryEl || !grandEl || !countEl) return;
 
     itemsEl.innerHTML = '';
 
@@ -1760,6 +1825,9 @@
     emptyEl.style.display = itemCount ? 'none' : 'block';
     countEl.textContent = String(itemCount);
     totalEl.textContent = formatKsh(subtotal);
+    const deliveryFee = getDeliveryFee();
+    deliveryEl.textContent = formatKsh(deliveryFee);
+    grandEl.textContent = formatKsh(subtotal + deliveryFee);
 
     itemsEl.querySelectorAll('[data-remove-index]').forEach((btn) => {
       btn.onclick = function() {
@@ -1784,30 +1852,14 @@
   }
 
   function initShop() {
-    const cards = Array.from(document.querySelectorAll('.shop-card'));
     const filterBtns = Array.from(document.querySelectorAll('.shop-filter'));
 
     filterBtns.forEach((btn) => {
       btn.onclick = function() {
-        const filter = this.getAttribute('data-filter') || 'all';
+        activeShopFilter = this.getAttribute('data-filter') || 'all';
         filterBtns.forEach((b) => b.classList.remove('active'));
         this.classList.add('active');
-
-        cards.forEach((card) => {
-          const category = card.getAttribute('data-category');
-          card.style.display = filter === 'all' || category === filter ? '' : 'none';
-        });
-      };
-    });
-
-    cards.forEach((card) => {
-      const addBtn = card.querySelector('.shop-add-btn');
-      if (!addBtn) return;
-      addBtn.onclick = function() {
-        const id = card.getAttribute('data-id') || '';
-        const name = card.getAttribute('data-name') || 'Shop Item';
-        const price = Number(card.getAttribute('data-price') || '0');
-        addToShopCart({ id, name, price });
+        renderShopProducts();
       };
     });
 
@@ -1820,32 +1872,43 @@
       };
     }
 
+    const areaSelect = document.getElementById('shopDeliveryArea');
+    if (areaSelect) {
+      areaSelect.onchange = function() {
+        renderShopCart();
+      };
+    }
+
     const checkoutBtn = document.getElementById('shopCheckoutBtn');
     if (checkoutBtn) {
       checkoutBtn.onclick = function() {
         const buyerName = (document.getElementById('shopBuyerName') || {}).value?.trim() || '';
         const buyerPhone = (document.getElementById('shopBuyerPhone') || {}).value?.trim() || '';
         const payment = (document.getElementById('shopPaymentMethod') || {}).value || '';
+        const area = (document.getElementById('shopDeliveryArea') || {}).value || '';
 
         if (!shopCart.length) {
           alert('Your cart is empty. Please add items first.');
           return;
         }
-        if (!buyerName || !buyerPhone || !payment) {
-          alert('Please fill in your name, phone number, and payment method.');
+        if (!buyerName || !buyerPhone || !payment || !area) {
+          alert('Please fill in your name, phone number, payment method, and delivery area.');
           return;
         }
 
         const lines = shopCart.map((item) => `- ${item.name} x${item.qty} (${formatKsh(item.price * item.qty)})`);
         const subtotal = shopCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const deliveryFee = getDeliveryFee();
+        const grandTotal = subtotal + deliveryFee;
         const message = encodeURIComponent(
-          `Hi CyCom, I'd like to place a shop order.\n\nName: ${buyerName}\nPhone: ${buyerPhone}\nPayment Method: ${payment}\n\nItems:\n${lines.join('\n')}\n\nSubtotal: ${formatKsh(subtotal)}\n\nPlease confirm availability and delivery options.`
+          `Hi CyCom, I'd like to place a shop order.\n\nName: ${buyerName}\nPhone: ${buyerPhone}\nPayment Method: ${payment}\nDelivery Area: ${area}\n\nItems:\n${lines.join('\n')}\n\nSubtotal: ${formatKsh(subtotal)}\nDelivery Fee: ${formatKsh(deliveryFee)}\nGrand Total: ${formatKsh(grandTotal)}\n\nPlease confirm availability and delivery options.`
         );
 
         window.open(`https://wa.me/254710504940?text=${message}`, '_blank');
       };
     }
 
+    renderShopProducts();
     loadShopCart();
     renderShopCart();
   }
