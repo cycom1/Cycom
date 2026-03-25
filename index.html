@@ -955,6 +955,37 @@
   .admin-shop-actions button:hover {
     background: rgba(255,255,255,0.16);
   }
+  .admin-shop-upload {
+    margin-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.16);
+    padding-top: 10px;
+  }
+  .admin-shop-upload h4 {
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #a7f3d0;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .admin-shop-upload .admin-shop-grid {
+    margin-bottom: 8px;
+  }
+  .admin-shop-upload input[type="file"] {
+    width: 100%;
+    border: 1px dashed rgba(255,255,255,0.26);
+    background: rgba(255,255,255,0.05);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+  .admin-shop-upload small {
+    display: block;
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: -2px;
+    margin-bottom: 8px;
+  }
   @keyframes waPulse {
     0% { box-shadow: 0 16px 30px rgba(34,197,94,0.36), 0 0 0 0 rgba(34,197,94,0.45); }
     70% { box-shadow: 0 16px 30px rgba(34,197,94,0.36), 0 0 0 16px rgba(34,197,94,0); }
@@ -1821,6 +1852,35 @@
     <button type="button" id="adminShopSaveBtn">Save Shop Changes</button>
     <button type="button" id="adminShopResetBtn">Reset Defaults</button>
   </div>
+  <div class="admin-shop-upload">
+    <h4>Upload New Product</h4>
+    <div class="admin-shop-grid">
+      <input type="text" id="adminNewProductName" placeholder="Product name">
+      <input type="number" id="adminNewProductPrice" min="0" step="1" placeholder="Price (KSh)">
+      <select id="adminNewProductCategory">
+        <option value="wifi">WiFi</option>
+        <option value="cctv">CCTV</option>
+        <option value="network">Network</option>
+      </select>
+      <select id="adminNewProductStock">
+        <option value="in">In Stock</option>
+        <option value="low">Low Stock</option>
+        <option value="out">Out of Stock</option>
+      </select>
+      <input type="number" id="adminNewProductQty" min="0" step="1" placeholder="Quantity">
+      <input type="text" id="adminNewProductTag" placeholder="Tag (e.g. New Arrival)">
+    </div>
+    <div class="admin-shop-grid">
+      <input type="text" id="adminNewProductDesc" placeholder="Short description">
+      <input type="text" id="adminNewProductFeatures" placeholder="Features (comma separated)">
+      <input type="text" id="adminNewProductImageUrl" placeholder="Image URL (optional)">
+      <input type="file" id="adminNewProductImageFile" accept="image/*">
+    </div>
+    <small>Tip: Use image upload OR image URL. Upload is saved locally in your browser.</small>
+    <div class="admin-shop-actions">
+      <button type="button" id="adminAddProductBtn">Add Product</button>
+    </div>
+  </div>
 </aside>
 
 <button type="button" class="mobile-cart-stick" id="mobileCartStick" style="display:none;">Cart <b id="mobileCartCount">0</b> • <span id="mobileCartTotal">KSh 0</span></button>
@@ -2029,6 +2089,25 @@
     localStorage.setItem(SHOP_PRODUCTS_KEY, JSON.stringify(shopProducts));
   }
 
+  function slugifyProductName(name) {
+    return String(name || '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ''));
+      reader.onerror = () => reject(new Error('File read failed'));
+      reader.readAsDataURL(file);
+    });
+  }
+
   function getDeliveryFee() {
     const area = (document.getElementById('shopDeliveryArea') || {}).value || '';
     return DELIVERY_FEES[area] || 0;
@@ -2068,7 +2147,7 @@
             <span class="shop-tag">${product.tag}</span>
             <div class="shop-price">${formatKsh(product.price)}</div>
           </div>
-          <div class="shop-media" style="background-image:url('${getProductMedia(product.id)}');" aria-hidden="true">
+          <div class="shop-media" style="background-image:url('${product.image || getProductMedia(product.id)}');" aria-hidden="true">
             <span class="shop-media-chip">${product.category}</span>
             ${product.bestValue ? '<span class="shop-best-value">Best Value</span>' : ''}
           </div>
@@ -2276,12 +2355,14 @@
             <option value="low" ${product.stock === 'low' ? 'selected' : ''}>Low Stock</option>
             <option value="out" ${product.stock === 'out' ? 'selected' : ''}>Out of Stock</option>
           </select>
+          <input type="number" min="0" step="1" data-field="qty" value="${Number(product.qty || 0)}" aria-label="${product.name} quantity">
         </div>
       </div>
     `).join('');
 
     const saveBtn = document.getElementById('adminShopSaveBtn');
     const resetBtn = document.getElementById('adminShopResetBtn');
+    const addBtn = document.getElementById('adminAddProductBtn');
 
     if (saveBtn) {
       saveBtn.onclick = function() {
@@ -2289,12 +2370,15 @@
           const id = row.getAttribute('data-id');
           const priceInput = row.querySelector('[data-field="price"]');
           const stockSelect = row.querySelector('[data-field="stock"]');
+          const qtyInput = row.querySelector('[data-field="qty"]');
           const product = shopProducts.find((p) => p.id === id);
           if (!product) return;
 
           const nextPrice = Number(priceInput?.value || product.price);
           product.price = Number.isFinite(nextPrice) && nextPrice >= 0 ? Math.round(nextPrice) : product.price;
           product.stock = ['in', 'low', 'out'].includes(stockSelect?.value || '') ? stockSelect.value : product.stock;
+          const nextQty = Number(qtyInput?.value || product.qty || 0);
+          product.qty = Number.isFinite(nextQty) && nextQty >= 0 ? Math.round(nextQty) : (product.qty || 0);
         });
 
         saveShopProducts();
@@ -2311,6 +2395,71 @@
         renderAdminShopEditor();
         renderShopProducts();
         renderShopCart();
+      };
+    }
+
+    if (addBtn) {
+      addBtn.onclick = async function() {
+        const nameEl = document.getElementById('adminNewProductName');
+        const priceEl = document.getElementById('adminNewProductPrice');
+        const categoryEl = document.getElementById('adminNewProductCategory');
+        const stockEl = document.getElementById('adminNewProductStock');
+        const qtyEl = document.getElementById('adminNewProductQty');
+        const tagEl = document.getElementById('adminNewProductTag');
+        const descEl = document.getElementById('adminNewProductDesc');
+        const featuresEl = document.getElementById('adminNewProductFeatures');
+        const imageUrlEl = document.getElementById('adminNewProductImageUrl');
+        const imageFileEl = document.getElementById('adminNewProductImageFile');
+
+        const name = nameEl?.value.trim() || '';
+        const price = Number(priceEl?.value || '0');
+        const category = categoryEl?.value || 'wifi';
+        const stock = stockEl?.value || 'in';
+        const qty = Math.max(0, Number(qtyEl?.value || '0'));
+        const tag = tagEl?.value.trim() || 'New';
+        const description = descEl?.value.trim() || 'Newly uploaded product.';
+        const features = (featuresEl?.value || '')
+          .split(',')
+          .map((item) => item.trim())
+          .filter(Boolean);
+
+        if (!name || !Number.isFinite(price) || price <= 0) {
+          alert('Please provide a valid product name and price.');
+          return;
+        }
+
+        const productId = `${slugifyProductName(name) || 'product'}-${Date.now()}`;
+
+        let image = imageUrlEl?.value.trim() || '';
+        const file = imageFileEl?.files && imageFileEl.files[0] ? imageFileEl.files[0] : null;
+        if (file) {
+          try {
+            image = await readFileAsDataURL(file);
+          } catch (error) {
+            alert('Could not read uploaded image. Try again with a smaller file.');
+            return;
+          }
+        }
+
+        shopProducts.unshift({
+          id: productId,
+          category,
+          tag,
+          name,
+          price: Math.round(price),
+          media: '🛍️',
+          stock: ['in', 'low', 'out'].includes(stock) ? stock : 'in',
+          qty: Math.round(qty),
+          description,
+          features: features.length ? features : ['Details available on request'],
+          image
+        });
+
+        saveShopProducts();
+        renderAdminShopEditor();
+        renderShopProducts();
+        renderShopCart();
+        alert('Product uploaded successfully.');
       };
     }
   }
