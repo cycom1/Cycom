@@ -2101,14 +2101,23 @@
     {
       id: 'router-dual',
       category: 'wifi',
-      tag: 'Hot Seller',
-      name: 'Dual-Band WiFi Router',
-      price: 3499,
+      tag: 'Wi-Fi 6E',
+      name: 'TP-Link Archer AXE300 (AXE16000)',
+      price: 34999,
       media: '📶',
+      image: 'images/archer-axe300-01.jpg',
+      images: [
+        'images/archer-axe300-01.jpg',
+        'images/archer-axe300-02.jpg',
+        'images/archer-axe300-03.jpg',
+        'images/archer-axe300-04.jpg',
+        'images/archer-axe300-05.jpg',
+        'images/archer-axe300-06.jpg'
+      ],
       stock: 'in',
       qty: 12,
-      description: 'Stable home and office router with strong coverage and easy app setup.',
-      features: ['2.4GHz + 5GHz bands', 'Up to 1200 Mbps support', 'Includes power adapter']
+      description: 'AXE16000 Quad-Band 16-Stream Wi-Fi 6E router with ultra-fast throughput and multi-gig connectivity for premium homes and offices.',
+      features: ['Up to 15.6 Gbps quad-band Wi-Fi performance', '2× 10G WAN/LAN ports (RJ45 + RJ45/SFP+ combo)', '1× 2.5G WAN/LAN + 4× Gigabit LAN', 'Dedicated 6 GHz Wi-Fi 6E band for low-latency traffic', 'USB 3.0 port for high-speed file sharing', 'TP-Link HomeShield security suite', 'VPN client/server support for secure remote access']
     },
     {
       id: 'wifi-extender',
@@ -2252,6 +2261,23 @@
             }
           }
 
+          if (merged.id === 'router-dual') {
+            const defaultGallery = [
+              'images/archer-axe300-01.jpg',
+              'images/archer-axe300-02.jpg',
+              'images/archer-axe300-03.jpg',
+              'images/archer-axe300-04.jpg',
+              'images/archer-axe300-05.jpg',
+              'images/archer-axe300-06.jpg'
+            ];
+            if (!merged.image || String(merged.image).includes('static.tp-link.com') || String(merged.image).includes('hero-network-team')) {
+              merged.image = 'images/archer-axe300-01.jpg';
+            }
+            if (!Array.isArray(merged.images) || !merged.images.length) {
+              merged.images = defaultGallery;
+            }
+          }
+
           return merged;
         });
       } else {
@@ -2298,7 +2324,7 @@
 
   function getProductMedia(id) {
     const mediaMap = {
-      'router-dual': 'images/bg/hero-network-team.jpg',
+      'router-dual': 'images/archer-axe300-01.jpg',
       'wifi-extender': 'images/bg/hero-students-group.jpg',
       'outdoor-cpe': 'images/sg2005p-pd.jpg',
       'poe-switch': 'images/bg/contact-tech-setup.jpg',
