@@ -642,9 +642,25 @@
   .pv-img-wrap img {
     width: 100%; height: 100%; object-fit: contain; display: block;
     padding: 20px;
-    transition: transform 0.35s ease;
+    transition: transform 0.25s ease;
   }
-  .pv-img-wrap:hover img { transform: scale(1.08); }
+  .pv-img-wrap img.pv-main-image {
+    cursor: zoom-in;
+    user-select: none;
+  }
+  .pv-zoom-lens {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.9);
+    box-shadow: 0 8px 20px rgba(2,6,23,0.25);
+    pointer-events: none;
+    display: none;
+    z-index: 3;
+    background-repeat: no-repeat;
+    background-color: #fff;
+  }
   .pv-img-placeholder {
     width: 100%; height: 100%; min-height: 260px;
     display: flex; align-items: center; justify-content: center;
@@ -770,6 +786,64 @@
     font-size: 11px;
     color: var(--text3);
     margin-top: -2px;
+  }
+  /* PRODUCT LIGHTBOX */
+  .plb-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.9);
+    z-index: 520;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .plb-overlay.open { display: flex; }
+  .plb-wrap {
+    width: min(1100px, 100%);
+    height: min(86vh, 760px);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .plb-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 12px;
+  }
+  .plb-close,
+  .plb-nav {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(15, 23, 42, 0.6);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .plb-close { top: 12px; right: 12px; }
+  .plb-nav-prev { left: 12px; }
+  .plb-nav-next { right: 12px; }
+  .plb-count {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(15,23,42,0.6);
+    border: 1px solid rgba(255,255,255,0.25);
   }
   @keyframes pvModalIn {
     from { opacity: 0; transform: translateY(24px) scale(0.96); }
@@ -2123,6 +2197,16 @@
   </div>
 </div>
 
+<div class="plb-overlay" id="productLightboxOverlay" onclick="if(event.target===this)closeProductLightbox()">
+  <div class="plb-wrap" id="productLightboxWrap">
+    <button type="button" class="plb-close" aria-label="Close image viewer" onclick="closeProductLightbox()">✕</button>
+    <button type="button" class="plb-nav plb-nav-prev" aria-label="Previous image" onclick="stepProductLightbox(-1)">&#10094;</button>
+    <img id="productLightboxImage" class="plb-image" alt="Product image">
+    <button type="button" class="plb-nav plb-nav-next" aria-label="Next image" onclick="stepProductLightbox(1)">&#10095;</button>
+    <div id="productLightboxCount" class="plb-count">1 / 1</div>
+  </div>
+</div>
+
 <script>
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
@@ -2428,12 +2512,54 @@
   }
 
   let productViewAutoTimer = null;
+  let productLightboxGallery = [];
+  let productLightboxIndex = 0;
+  let productSwipeStartX = 0;
+  let productSwipeDeltaX = 0;
 
   function clearProductViewAuto() {
     if (productViewAutoTimer) {
       window.clearInterval(productViewAutoTimer);
       productViewAutoTimer = null;
     }
+  }
+
+  function renderProductLightbox() {
+    const imageEl = document.getElementById('productLightboxImage');
+    const countEl = document.getElementById('productLightboxCount');
+    const prevBtn = document.querySelector('.plb-nav-prev');
+    const nextBtn = document.querySelector('.plb-nav-next');
+    if (!imageEl || !countEl) return;
+    if (!productLightboxGallery.length) {
+      imageEl.removeAttribute('src');
+      countEl.textContent = '0 / 0';
+      return;
+    }
+    productLightboxIndex = (productLightboxIndex + productLightboxGallery.length) % productLightboxGallery.length;
+    imageEl.src = productLightboxGallery[productLightboxIndex];
+    countEl.textContent = (productLightboxIndex + 1) + ' / ' + productLightboxGallery.length;
+    const multi = productLightboxGallery.length > 1;
+    if (prevBtn) prevBtn.style.display = multi ? 'flex' : 'none';
+    if (nextBtn) nextBtn.style.display = multi ? 'flex' : 'none';
+  }
+
+  function openProductLightbox(gallery, index) {
+    productLightboxGallery = Array.isArray(gallery) ? gallery.slice() : [];
+    productLightboxIndex = Number(index || 0);
+    renderProductLightbox();
+    const overlay = document.getElementById('productLightboxOverlay');
+    if (overlay) overlay.classList.add('open');
+  }
+
+  function closeProductLightbox() {
+    const overlay = document.getElementById('productLightboxOverlay');
+    if (overlay) overlay.classList.remove('open');
+  }
+
+  function stepProductLightbox(step) {
+    if (!productLightboxGallery.length) return;
+    productLightboxIndex += step;
+    renderProductLightbox();
   }
 
   function getDeliveryFee() {
@@ -2559,10 +2685,12 @@
         const galleryCount = gallery.length > 1
           ? '<div class="pv-gallery-count">' + (activeIndex + 1) + ' / ' + gallery.length + '</div>'
           : '';
-        imgWrap.innerHTML = navButtons + '<img src="' + gallery[activeIndex] + '" alt="' + product.name + '">' + galleryCount;
+        imgWrap.innerHTML = navButtons + '<img class="pv-main-image" src="' + gallery[activeIndex] + '" alt="' + product.name + '"><div class="pv-zoom-lens"></div>' + galleryCount;
 
         const prevBtn = imgWrap.querySelector('.pv-nav-prev');
         const nextBtn = imgWrap.querySelector('.pv-nav-next');
+        const mainImage = imgWrap.querySelector('.pv-main-image');
+        const zoomLens = imgWrap.querySelector('.pv-zoom-lens');
         if (prevBtn) {
           prevBtn.onclick = function() {
             renderMain(activeIndex - 1);
@@ -2576,8 +2704,60 @@
           };
         }
 
+        if (mainImage) {
+          mainImage.onclick = function() {
+            openProductLightbox(gallery, activeIndex);
+          };
+        }
+
+        if (zoomLens && mainImage) {
+          imgWrap.onmousemove = function(event) {
+            if (window.matchMedia('(hover: hover)').matches === false) return;
+            const rect = mainImage.getBoundingClientRect();
+            const lensSize = 120;
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+              zoomLens.style.display = 'none';
+              return;
+            }
+            const lx = Math.max(lensSize / 2, Math.min(rect.width - lensSize / 2, x));
+            const ly = Math.max(lensSize / 2, Math.min(rect.height - lensSize / 2, y));
+            const bx = (lx / rect.width) * 100;
+            const by = (ly / rect.height) * 100;
+            zoomLens.style.display = 'block';
+            zoomLens.style.left = (lx - lensSize / 2) + 'px';
+            zoomLens.style.top = (ly - lensSize / 2) + 'px';
+            zoomLens.style.backgroundImage = 'url("' + gallery[activeIndex] + '")';
+            zoomLens.style.backgroundSize = '260% 260%';
+            zoomLens.style.backgroundPosition = bx + '% ' + by + '%';
+          };
+        }
+
         imgWrap.onmouseenter = pauseAuto;
-        imgWrap.onmouseleave = startAuto;
+        imgWrap.onmouseleave = function() {
+          const lens = imgWrap.querySelector('.pv-zoom-lens');
+          if (lens) lens.style.display = 'none';
+          startAuto();
+        };
+        imgWrap.ontouchstart = function(event) {
+          if (!event.touches || !event.touches.length) return;
+          pauseAuto();
+          productSwipeStartX = event.touches[0].clientX;
+          productSwipeDeltaX = 0;
+        };
+        imgWrap.ontouchmove = function(event) {
+          if (!event.touches || !event.touches.length) return;
+          productSwipeDeltaX = event.touches[0].clientX - productSwipeStartX;
+        };
+        imgWrap.ontouchend = function() {
+          if (Math.abs(productSwipeDeltaX) > 40) {
+            renderMain(productSwipeDeltaX < 0 ? activeIndex + 1 : activeIndex - 1);
+          }
+          productSwipeStartX = 0;
+          productSwipeDeltaX = 0;
+          startAuto();
+        };
 
         if (thumbsWrap) {
           Array.from(thumbsWrap.querySelectorAll('.pv-thumb')).forEach((btn, i) => {
@@ -2638,9 +2818,18 @@
 
   function closeProductView() {
     clearProductViewAuto();
+    closeProductLightbox();
     document.getElementById('productViewOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
+
+  document.addEventListener('keydown', function(event) {
+    const lightboxOpen = document.getElementById('productLightboxOverlay')?.classList.contains('open');
+    if (!lightboxOpen) return;
+    if (event.key === 'Escape') closeProductLightbox();
+    if (event.key === 'ArrowLeft') stepProductLightbox(-1);
+    if (event.key === 'ArrowRight') stepProductLightbox(1);
+  });
 
   function renderShopCart() {
     const itemsEl = document.getElementById('shopCartItems');
