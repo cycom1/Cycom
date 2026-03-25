@@ -534,6 +534,30 @@
     border-radius: 999px;
     padding: 4px 8px;
   }
+  .shop-best-value {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 1;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #052e2b;
+    background: #a7f3d0;
+    border-radius: 999px;
+    padding: 4px 8px;
+    border: 1px solid rgba(5,46,43,0.14);
+  }
+  .shop-urgency {
+    font-size: 12px;
+    font-weight: 700;
+    color: #b45309;
+    background: #ffedd5;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 6px 9px;
+  }
   .shop-list {
     list-style: none;
     display: grid;
@@ -655,6 +679,29 @@
   .shop-checkout input:focus,
   .shop-checkout select:focus { border-color: var(--aqua); }
   .shop-checkout button { grid-column: span 2; }
+  .mobile-cart-stick {
+    display: none;
+    position: fixed;
+    left: 12px;
+    right: 76px;
+    bottom: 12px;
+    z-index: 131;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0f1724 0%, #1e3a5f 100%);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15px;
+    padding: 12px 14px;
+    box-shadow: 0 14px 26px rgba(15,23,36,0.35);
+    text-align: left;
+    cursor: pointer;
+  }
+  .mobile-cart-stick b {
+    color: #a7f3d0;
+    margin-left: 4px;
+  }
 
   /* ADS */
   .ad-wrap {
@@ -1114,9 +1161,10 @@
     .wa-float { width: 52px; height: 52px; right: 12px; bottom: 12px; }
     .wa-float svg { width: 24px; height: 24px; }
     .wa-float-label { display: none; }
+    .mobile-cart-stick { display: block; }
     .admin-stats {
       top: auto;
-      bottom: 74px;
+      bottom: 134px;
       right: 12px;
       min-width: 172px;
       padding: 10px 11px;
@@ -1775,6 +1823,8 @@
   </div>
 </aside>
 
+<button type="button" class="mobile-cart-stick" id="mobileCartStick" style="display:none;">Cart <b id="mobileCartCount">0</b> • <span id="mobileCartTotal">KSh 0</span></button>
+
 <script>
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
@@ -1848,6 +1898,7 @@
       price: 3499,
       media: '📶',
       stock: 'in',
+      qty: 12,
       description: 'Stable home and office router with strong coverage and easy app setup.',
       features: ['2.4GHz + 5GHz bands', 'Up to 1200 Mbps support', 'Includes power adapter']
     },
@@ -1859,6 +1910,7 @@
       price: 2499,
       media: '📡',
       stock: 'low',
+      qty: 3,
       description: 'Eliminate dead zones and extend your WiFi signal to more rooms.',
       features: ['One-touch WPS pairing', 'Wall-plug compact design', 'Ideal for apartments and homes']
     },
@@ -1870,6 +1922,7 @@
       price: 6999,
       media: '🛰️',
       stock: 'in',
+      qty: 8,
       description: 'Long-range external WiFi device for compounds and larger properties.',
       features: ['Weather-resistant housing', 'High-gain directional antenna', 'PoE injector included']
     },
@@ -1881,6 +1934,8 @@
       price: 4999,
       media: '🔌',
       stock: 'in',
+      qty: 9,
+      bestValue: true,
       description: 'Power and connect your cameras and access points from one switch.',
       features: ['8 PoE-enabled ports', 'Plug-and-play setup', 'Ideal for CCTV deployments']
     },
@@ -1892,6 +1947,7 @@
       price: 3999,
       media: '📷',
       stock: 'low',
+      qty: 2,
       description: 'High-clarity indoor/outdoor camera for homes, shops, and offices.',
       features: ['5MP image quality', 'Night vision support', 'Metal weatherproof body']
     },
@@ -1903,6 +1959,7 @@
       price: 5499,
       media: '💽',
       stock: 'out',
+      qty: 0,
       description: 'Reliable hard drive designed for continuous camera recording workloads.',
       features: ['24/7 recording support', 'Optimized for DVR/NVR use', 'Low-noise operation']
     }
@@ -1956,7 +2013,10 @@
       const raw = localStorage.getItem(SHOP_PRODUCTS_KEY);
       const parsed = raw ? JSON.parse(raw) : null;
       if (Array.isArray(parsed) && parsed.length) {
-        shopProducts = parsed;
+        shopProducts = SHOP_PRODUCTS_DEFAULT.map((product) => {
+          const saved = parsed.find((p) => p.id === product.id);
+          return saved ? { ...product, ...saved } : { ...product };
+        });
       } else {
         shopProducts = JSON.parse(JSON.stringify(SHOP_PRODUCTS_DEFAULT));
       }
@@ -2008,8 +2068,12 @@
             <span class="shop-tag">${product.tag}</span>
             <div class="shop-price">${formatKsh(product.price)}</div>
           </div>
-          <div class="shop-media" style="background-image:url('${getProductMedia(product.id)}');" aria-hidden="true"><span class="shop-media-chip">${product.category}</span></div>
+          <div class="shop-media" style="background-image:url('${getProductMedia(product.id)}');" aria-hidden="true">
+            <span class="shop-media-chip">${product.category}</span>
+            ${product.bestValue ? '<span class="shop-best-value">Best Value</span>' : ''}
+          </div>
           <span class="shop-stock ${stockMeta.className}">${stockMeta.label}</span>
+          ${product.stock === 'low' ? `<span class="shop-urgency">Only ${Math.max(1, Number(product.qty || 0))} left in stock</span>` : ''}
           <h3>${product.name}</h3>
           <p>${product.description}</p>
           <ul class="shop-list">
@@ -2045,6 +2109,9 @@
     const deliveryEl = document.getElementById('shopDeliveryFee');
     const grandEl = document.getElementById('shopGrandTotal');
     const countEl = document.getElementById('shopCartCount');
+    const mobileCountEl = document.getElementById('mobileCartCount');
+    const mobileTotalEl = document.getElementById('mobileCartTotal');
+    const mobileStick = document.getElementById('mobileCartStick');
     if (!itemsEl || !emptyEl || !totalEl || !deliveryEl || !grandEl || !countEl) return;
 
     itemsEl.innerHTML = '';
@@ -2067,6 +2134,10 @@
     const deliveryFee = getDeliveryFee();
     deliveryEl.textContent = formatKsh(deliveryFee);
     grandEl.textContent = formatKsh(subtotal + deliveryFee);
+
+    if (mobileCountEl) mobileCountEl.textContent = String(itemCount);
+    if (mobileTotalEl) mobileTotalEl.textContent = formatKsh(subtotal + deliveryFee);
+    if (mobileStick) mobileStick.style.display = itemCount > 0 ? 'block' : 'none';
 
     itemsEl.querySelectorAll('[data-remove-index]').forEach((btn) => {
       btn.onclick = function() {
@@ -2144,6 +2215,16 @@
         );
 
         window.open(`https://wa.me/254710504940?text=${message}`, '_blank');
+      };
+    }
+
+    const mobileStick = document.getElementById('mobileCartStick');
+    if (mobileStick) {
+      mobileStick.onclick = function() {
+        const cart = document.getElementById('shopCart');
+        if (cart) {
+          cart.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       };
     }
 
