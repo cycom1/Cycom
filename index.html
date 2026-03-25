@@ -606,6 +606,72 @@
     pointer-events: none;
     cursor: not-allowed;
   }
+  /* PRODUCT VIEW MODAL */
+  .pv-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(10,15,30,0.55);
+    z-index: 400; align-items: center; justify-content: center; padding: 16px;
+  }
+  .pv-overlay.open { display: flex; }
+  .pv-modal {
+    background: #fff; border-radius: 20px; width: 100%; max-width: 820px;
+    max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(10,15,30,0.22);
+    display: flex; flex-direction: column;
+  }
+  .pv-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px 0; gap: 12px;
+  }
+  .pv-close {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e2e8f0;
+    background: #f8fafc; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0;
+  }
+  .pv-close:hover { background: #fee2e2; border-color: #fca5a5; }
+  .pv-body {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    padding: 20px 24px 28px;
+  }
+  @media(max-width:640px) { .pv-body { grid-template-columns: 1fr; } }
+  .pv-img-wrap {
+    border-radius: 14px; overflow: hidden; background: #f0f4f8;
+    min-height: 260px; max-height: 360px; position: relative;
+  }
+  .pv-img-wrap img {
+    width: 100%; height: 100%; object-fit: contain; display: block;
+    padding: 20px;
+  }
+  .pv-img-placeholder {
+    width: 100%; height: 100%; min-height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 72px;
+  }
+  .pv-info { padding: 0 0 0 28px; display: flex; flex-direction: column; gap: 14px; }
+  @media(max-width:640px) { .pv-info { padding: 20px 0 0; } }
+  .pv-tag-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .pv-name { font-size: 22px; font-weight: 700; line-height: 1.3; letter-spacing: -0.4px; }
+  .pv-price { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; color: var(--text); }
+  .pv-desc { font-size: 14px; color: var(--text2); line-height: 1.65; }
+  .pv-features-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); }
+  .pv-features {
+    list-style: none; display: flex; flex-direction: column; gap: 8px;
+  }
+  .pv-features li {
+    font-size: 13.5px; color: var(--text); display: flex; align-items: flex-start; gap: 9px;
+  }
+  .pv-features li::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--aqua-dark); flex-shrink: 0; margin-top: 5px;
+  }
+  .pv-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; padding-top: 8px;
+  }
+  .shop-view-btn {
+    width: 100%; padding: 9px; font-size: 13px; font-weight: 600;
+    border-radius: 10px; border: 1px solid var(--aqua-dark);
+    background: transparent; color: var(--aqua-dark); cursor: pointer;
+    font-family: inherit; transition: background 0.15s;
+  }
+  .shop-view-btn:hover { background: rgba(20,184,166,0.08); }
   .shop-cart {
     margin-top: 22px;
     background: #ffffff;
@@ -1913,6 +1979,29 @@
 
 <button type="button" class="mobile-cart-stick" id="mobileCartStick" style="display:none;">Cart <b id="mobileCartCount">0</b> • <span id="mobileCartTotal">KSh 0</span></button>
 
+<!-- PRODUCT VIEW MODAL -->
+<div class="pv-overlay" id="productViewOverlay" onclick="if(event.target===this)closeProductView()">
+  <div class="pv-modal" id="productViewModal">
+    <div class="pv-header">
+      <div id="pvTagRow" class="pv-tag-row"></div>
+      <button class="pv-close" onclick="closeProductView()" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="pv-body">
+      <div class="pv-img-wrap" id="pvImgWrap"></div>
+      <div class="pv-info">
+        <div class="pv-name" id="pvName"></div>
+        <div class="pv-price" id="pvPrice"></div>
+        <div class="pv-desc" id="pvDesc"></div>
+        <div class="pv-features-title">What's included</div>
+        <ul class="pv-features" id="pvFeatures"></ul>
+        <div class="pv-actions" id="pvActions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
@@ -2187,6 +2276,7 @@
           <ul class="shop-list">
             ${product.features.map((feature) => `<li>${feature}</li>`).join('')}
           </ul>
+          <button type="button" class="shop-view-btn" data-view-id="${product.id}">&#128269; View Details</button>
           <div class="shop-card-actions">
             <button type="button" class="plan-cta primary shop-add-btn ${outOfStock ? 'is-disabled' : ''}" ${outOfStock ? 'disabled' : ''}>${outOfStock ? 'Unavailable' : 'Add to Cart'}</button>
             <a href="https://wa.me/254710504940?text=${buyMsg}" class="plan-cta secondary ${outOfStock ? 'is-disabled' : ''}" target="_blank" rel="noopener noreferrer">Buy Now</a>
@@ -2197,17 +2287,70 @@
 
     Array.from(grid.querySelectorAll('.shop-card')).forEach((card) => {
       const addBtn = card.querySelector('.shop-add-btn');
-      if (!addBtn || addBtn.disabled) return;
-
-      addBtn.onclick = function() {
-        const id = card.getAttribute('data-id') || '';
-        const name = card.getAttribute('data-name') || 'Shop Item';
-        const price = Number(card.getAttribute('data-price') || '0');
-        const stock = card.getAttribute('data-stock') || 'in';
-        if (stock === 'out') return;
-        addToShopCart({ id, name, price });
-      };
+      if (addBtn && !addBtn.disabled) {
+        addBtn.onclick = function() {
+          const id = card.getAttribute('data-id') || '';
+          const name = card.getAttribute('data-name') || 'Shop Item';
+          const price = Number(card.getAttribute('data-price') || '0');
+          const stock = card.getAttribute('data-stock') || 'in';
+          if (stock === 'out') return;
+          addToShopCart({ id, name, price });
+        };
+      }
+      const viewBtn = card.querySelector('.shop-view-btn');
+      if (viewBtn) {
+        viewBtn.onclick = function() {
+          openProductView(viewBtn.getAttribute('data-view-id'));
+        };
+      }
     });
+  }
+
+  function openProductView(productId) {
+    const product = shopProducts.find(p => p.id === productId);
+    if (!product) return;
+    const stockMeta = getStockMeta(product.stock);
+    const outOfStock = product.stock === 'out';
+    const buyMsg = encodeURIComponent('Hi CyCom, I want to buy the ' + product.name + ' (' + formatKsh(product.price) + ').');
+
+    // tag row
+    document.getElementById('pvTagRow').innerHTML =
+      '<span class="shop-tag">' + product.tag + '</span>' +
+      '<span class="shop-stock ' + stockMeta.className + '">' + stockMeta.label + '</span>' +
+      (product.bestValue ? '<span class="shop-best-value" style="position:static">Best Value</span>' : '');
+
+    // image
+    const imgWrap = document.getElementById('pvImgWrap');
+    if (product.image) {
+      imgWrap.innerHTML = '<img src="' + product.image + '" alt="' + product.name + '">';
+    } else {
+      imgWrap.innerHTML = '<div class="pv-img-placeholder">' + (product.media || '📦') + '</div>';
+    }
+
+    document.getElementById('pvName').textContent = product.name;
+    document.getElementById('pvPrice').textContent = formatKsh(product.price);
+    document.getElementById('pvDesc').textContent = product.description;
+    document.getElementById('pvFeatures').innerHTML = product.features.map(f => '<li>' + f + '</li>').join('');
+
+    document.getElementById('pvActions').innerHTML =
+      '<button type="button" class="plan-cta primary' + (outOfStock ? ' is-disabled' : '') + '" id="pvAddBtn" ' + (outOfStock ? 'disabled' : '') + '>' + (outOfStock ? 'Unavailable' : 'Add to Cart') + '</button>' +
+      '<a href="https://wa.me/254710504940?text=' + buyMsg + '" class="plan-cta secondary' + (outOfStock ? ' is-disabled' : '') + '" target="_blank" rel="noopener noreferrer">Buy Now</a>';
+
+    const pvAddBtn = document.getElementById('pvAddBtn');
+    if (pvAddBtn && !pvAddBtn.disabled) {
+      pvAddBtn.onclick = function() {
+        addToShopCart({ id: product.id, name: product.name, price: product.price });
+        closeProductView();
+      };
+    }
+
+    document.getElementById('productViewOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProductView() {
+    document.getElementById('productViewOverlay').classList.remove('open');
+    document.body.style.overflow = '';
   }
 
   function renderShopCart() {
