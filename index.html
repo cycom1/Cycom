@@ -2122,14 +2122,23 @@
     {
       id: 'wifi-extender',
       category: 'wifi',
-      tag: 'Coverage',
-      name: 'WiFi Range Extender',
-      price: 2499,
+      tag: 'Outdoor AP',
+      name: 'TP-Link Omada EAP113-Outdoor',
+      price: 5999,
       media: '📡',
+      image: 'images/eap113-outdoor-01.png',
+      images: [
+        'images/eap113-outdoor-01.png',
+        'images/eap113-outdoor-02.jpg',
+        'images/eap113-outdoor-03.jpg',
+        'images/eap113-outdoor-04.png',
+        'images/eap113-outdoor-05.jpg',
+        'images/eap113-outdoor-06.jpg'
+      ],
       stock: 'low',
       qty: 3,
-      description: 'Eliminate dead zones and extend your WiFi signal to more rooms.',
-      features: ['One-touch WPS pairing', 'Wall-plug compact design', 'Ideal for apartments and homes']
+      description: '300Mbps Wireless N Outdoor Access Point designed for stable outdoor Wi-Fi with weatherproof construction and centralized Omada management.',
+      features: ['IP65 weatherproof enclosure for outdoor deployments', 'Up to 300Mbps Wi-Fi with 2×2 MIMO', 'Long-range coverage with high-power amplifier and professional antennas', 'Integrated into Omada SDN for centralized cloud management', 'Supports both 802.3af PoE and 48V Passive PoE', 'Secure guest network with portal and multiple authentication options']
     },
     {
       id: 'outdoor-cpe',
@@ -2278,6 +2287,23 @@
             }
           }
 
+          if (merged.id === 'wifi-extender') {
+            const defaultGallery = [
+              'images/eap113-outdoor-01.png',
+              'images/eap113-outdoor-02.jpg',
+              'images/eap113-outdoor-03.jpg',
+              'images/eap113-outdoor-04.png',
+              'images/eap113-outdoor-05.jpg',
+              'images/eap113-outdoor-06.jpg'
+            ];
+            if (!merged.image || String(merged.image).includes('static.tp-link.com') || String(merged.image).includes('hero-students-group')) {
+              merged.image = 'images/eap113-outdoor-01.png';
+            }
+            if (!Array.isArray(merged.images) || !merged.images.length) {
+              merged.images = defaultGallery;
+            }
+          }
+
           return merged;
         });
       } else {
@@ -2325,7 +2351,7 @@
   function getProductMedia(id) {
     const mediaMap = {
       'router-dual': 'images/archer-axe300-01.jpg',
-      'wifi-extender': 'images/bg/hero-students-group.jpg',
+      'wifi-extender': 'images/eap113-outdoor-01.png',
       'outdoor-cpe': 'images/sg2005p-pd.jpg',
       'poe-switch': 'images/bg/contact-tech-setup.jpg',
       'camera-5mp': 'images/bg/contact-tech-setup.jpg',
