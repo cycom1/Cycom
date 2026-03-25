@@ -2098,7 +2098,7 @@
       name: 'TP-Link Omada Outdoor PoE Switch (SG2005P-PD)',
       price: 6999,
       media: '🛰️',
-      image: 'https://static.tp-link.com/upload/image-line/TL-SG2005P-PD_UN_1.0_overview_01_thumb_20250126025131c.jpg',
+      image: 'images/sg2005p-pd.jpg',
       stock: 'in',
       qty: 8,
       description: 'TP-Link Omada 5-Port Gigabit Smart Switch with 1-Port PoE++ In and 4-Port PoE+ Out. IP55 weatherproof outdoor enclosure with 200m PoE range and cloud management.',
@@ -2193,7 +2193,14 @@
       if (Array.isArray(parsed) && parsed.length) {
         shopProducts = SHOP_PRODUCTS_DEFAULT.map((product) => {
           const saved = parsed.find((p) => p.id === product.id);
-          return saved ? { ...product, ...saved } : { ...product };
+          const merged = saved ? { ...product, ...saved } : { ...product };
+
+          // Keep older saved catalogs from breaking TP-Link image visibility.
+          if (merged.id === 'outdoor-cpe' && (!merged.image || String(merged.image).includes('static.tp-link.com'))) {
+            merged.image = 'images/sg2005p-pd.jpg';
+          }
+
+          return merged;
         });
       } else {
         shopProducts = JSON.parse(JSON.stringify(SHOP_PRODUCTS_DEFAULT));
@@ -2241,7 +2248,7 @@
     const mediaMap = {
       'router-dual': 'images/bg/hero-network-team.jpg',
       'wifi-extender': 'images/bg/hero-students-group.jpg',
-      'outdoor-cpe': 'images/bg/features-radio-tower.jpg',
+      'outdoor-cpe': 'images/sg2005p-pd.jpg',
       'poe-switch': 'images/bg/contact-tech-setup.jpg',
       'camera-5mp': 'images/bg/contact-tech-setup.jpg',
       'hdd-1tb': 'images/bg/hero-college-collage.jpg'
