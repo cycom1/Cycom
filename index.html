@@ -619,6 +619,33 @@
   .shop-checkout select:focus { border-color: var(--aqua); }
   .shop-checkout button { grid-column: span 2; }
 
+  /* ADS */
+  .ad-wrap {
+    padding: 18px 5% 8px;
+    background: transparent;
+  }
+  .ad-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+  .ad-slot {
+    border: 1px dashed #cbd5e1;
+    background: #f8fafc;
+    border-radius: 14px;
+    min-height: 112px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ad-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
   /* PLANS */
   #plans {
     background-image:
@@ -1173,6 +1200,14 @@
   </div>
 </section>
 
+<div class="ad-wrap" aria-label="Sponsored content area">
+  <div class="ad-inner">
+    <div class="ad-slot" data-ad-key="betweenHeroFeatures">
+      <span class="ad-label">Advertisement</span>
+    </div>
+  </div>
+</div>
+
 <section class="cctv-mini-strip" aria-label="CCTV quick pricing">
   <div class="cctv-mini-inner">
     <div>
@@ -1360,6 +1395,14 @@
   </div>
 </section>
 
+<div class="ad-wrap" aria-label="Sponsored content area">
+  <div class="ad-inner">
+    <div class="ad-slot" data-ad-key="betweenShopPlans">
+      <span class="ad-label">Advertisement</span>
+    </div>
+  </div>
+</div>
+
 <!-- PLANS -->
 <section id="plans">
   <div class="section-inner">
@@ -1519,6 +1562,14 @@
     </div>
   </div>
 </section>
+
+<div class="ad-wrap" aria-label="Sponsored content area">
+  <div class="ad-inner">
+    <div class="ad-slot" data-ad-key="beforeContact">
+      <span class="ad-label">Advertisement</span>
+    </div>
+  </div>
+</div>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -1822,6 +1873,16 @@
     'Outside Nairobi': 700
   };
 
+  // To enable ads:
+  // 1) Set ADSENSE_CLIENT to your publisher ID (example: ca-pub-1234567890123456)
+  // 2) Set each ad slot ID below using your AdSense ad unit IDs
+  const ADSENSE_CLIENT = '';
+  const AD_SLOT_IDS = {
+    betweenHeroFeatures: '',
+    betweenShopPlans: '',
+    beforeContact: ''
+  };
+
   const SHOP_CART_KEY = 'cycom_shop_cart';
   const SHOP_PRODUCTS_KEY = 'cycom_shop_catalog';
   let shopCart = [];
@@ -2035,6 +2096,35 @@
     renderShopCart();
   }
 
+  function initAds() {
+    const adContainers = Array.from(document.querySelectorAll('.ad-slot'));
+    if (!adContainers.length) return;
+
+    const hasClient = typeof ADSENSE_CLIENT === 'string' && ADSENSE_CLIENT.trim().length > 0;
+    if (!hasClient) return;
+
+    const adScript = document.createElement('script');
+    adScript.async = true;
+    adScript.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ADSENSE_CLIENT)}`;
+    adScript.crossOrigin = 'anonymous';
+    document.head.appendChild(adScript);
+
+    adScript.onload = function() {
+      adContainers.forEach((container) => {
+        const adKey = container.getAttribute('data-ad-key') || '';
+        const slotId = AD_SLOT_IDS[adKey] || '';
+        if (!slotId) return;
+
+        container.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;min-height:90px;" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${slotId}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (error) {
+          container.innerHTML = '<span class="ad-label">Ad failed to load</span>';
+        }
+      });
+    };
+  }
+
   function renderAdminShopEditor() {
     const panel = document.getElementById('adminShopEditor');
     const listEl = document.getElementById('adminShopEditorList');
@@ -2097,6 +2187,7 @@
 
   loadShopProducts();
   initShop();
+  initAds();
   renderAdminShopEditor();
 
   function submitEnquiry() {
