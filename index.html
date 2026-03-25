@@ -430,8 +430,9 @@
   }
   .shop-filter.active {
     border-color: var(--aqua);
-    color: #08373a;
-    background: #d9fbfb;
+    color: #052f31;
+    background: #bff7f8;
+    box-shadow: 0 6px 16px rgba(52,215,216,0.2);
   }
   .shop-card {
     background: #ffffff;
@@ -499,13 +500,39 @@
     line-height: 1.6;
   }
   .shop-media {
-    height: 88px;
+    height: 108px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #ecfeff 0%, #e0f2fe 100%);
+    background: linear-gradient(135deg, rgba(236,254,255,0.5) 0%, rgba(224,242,254,0.25) 100%);
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #e2e8f0;
+    box-shadow: inset 0 -32px 50px rgba(15,23,36,0.16);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 34px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 8px 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .shop-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15,23,36,0.05) 10%, rgba(15,23,36,0.36) 100%);
+    pointer-events: none;
+  }
+  .shop-media-chip {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: rgba(15,23,36,0.55);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 999px;
+    padding: 4px 8px;
   }
   .shop-list {
     list-style: none;
@@ -541,6 +568,15 @@
     margin-top: auto;
   }
   .shop-card-actions .plan-cta { padding: 11px 10px; font-size: 13px; }
+  .shop-card-actions .plan-cta.secondary {
+    background: #edf2ff;
+    color: #1e3a8a;
+    border: 1px solid #c7d2fe;
+  }
+  .shop-card-actions .plan-cta.secondary:hover {
+    background: #dbeafe;
+    color: #1e40af;
+  }
   .plan-cta.is-disabled {
     opacity: 0.55;
     pointer-events: none;
@@ -622,7 +658,7 @@
 
   /* ADS */
   .ad-wrap {
-    padding: 18px 5% 8px;
+    padding: 14px 5% 12px;
     background: transparent;
   }
   .ad-inner {
@@ -633,11 +669,18 @@
     border: 1px dashed #cbd5e1;
     background: #f8fafc;
     border-radius: 14px;
-    min-height: 112px;
+    min-height: 96px;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .ad-slot.ad-live {
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    min-height: auto;
+    padding: 0;
   }
   .ad-label {
     font-size: 11px;
@@ -1937,6 +1980,18 @@
     return { label: 'In Stock', className: 'in-stock' };
   }
 
+  function getProductMedia(id) {
+    const mediaMap = {
+      'router-dual': 'images/bg/hero-network-team.jpg',
+      'wifi-extender': 'images/bg/hero-students-group.jpg',
+      'outdoor-cpe': 'images/bg/features-radio-tower.jpg',
+      'poe-switch': 'images/bg/contact-tech-setup.jpg',
+      'camera-5mp': 'images/bg/contact-tech-setup.jpg',
+      'hdd-1tb': 'images/bg/hero-college-collage.jpg'
+    };
+    return mediaMap[id] || 'images/bg/hero-network-team.jpg';
+  }
+
   function renderShopProducts() {
     const grid = document.getElementById('shopGrid');
     if (!grid) return;
@@ -1953,7 +2008,7 @@
             <span class="shop-tag">${product.tag}</span>
             <div class="shop-price">${formatKsh(product.price)}</div>
           </div>
-          <div class="shop-media" aria-hidden="true">${product.media}</div>
+          <div class="shop-media" style="background-image:url('${getProductMedia(product.id)}');" aria-hidden="true"><span class="shop-media-chip">${product.category}</span></div>
           <span class="shop-stock ${stockMeta.className}">${stockMeta.label}</span>
           <h3>${product.name}</h3>
           <p>${product.description}</p>
@@ -2109,6 +2164,7 @@
       const slotId = AD_SLOT_IDS[adKey] || '';
       if (!slotId) return;
 
+      container.classList.add('ad-live');
       container.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;min-height:90px;" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${slotId}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
