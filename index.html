@@ -16,6 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CyCom Internet — Fast WiFi & CCTV Services">
 <meta name="twitter:description" content="Reliable internet and security services. Check out our affordable plans today!">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6662163998857192" crossorigin="anonymous"></script>
 <link rel="canonical" href="https://cycom.africa/">
 <script type="application/ld+json">
 {
@@ -2103,26 +2104,18 @@
     const hasClient = typeof ADSENSE_CLIENT === 'string' && ADSENSE_CLIENT.trim().length > 0;
     if (!hasClient) return;
 
-    const adScript = document.createElement('script');
-    adScript.async = true;
-    adScript.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ADSENSE_CLIENT)}`;
-    adScript.crossOrigin = 'anonymous';
-    document.head.appendChild(adScript);
+    adContainers.forEach((container) => {
+      const adKey = container.getAttribute('data-ad-key') || '';
+      const slotId = AD_SLOT_IDS[adKey] || '';
+      if (!slotId) return;
 
-    adScript.onload = function() {
-      adContainers.forEach((container) => {
-        const adKey = container.getAttribute('data-ad-key') || '';
-        const slotId = AD_SLOT_IDS[adKey] || '';
-        if (!slotId) return;
-
-        container.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;min-height:90px;" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${slotId}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
-        try {
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (error) {
-          container.innerHTML = '<span class="ad-label">Ad failed to load</span>';
-        }
-      });
-    };
+      container.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;min-height:90px;" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${slotId}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        container.innerHTML = '<span class="ad-label">Ad failed to load</span>';
+      }
+    });
   }
 
   function renderAdminShopEditor() {
