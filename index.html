@@ -642,11 +642,51 @@
   .pv-img-wrap img {
     width: 100%; height: 100%; object-fit: contain; display: block;
     padding: 20px;
+    transition: transform 0.35s ease;
   }
+  .pv-img-wrap:hover img { transform: scale(1.08); }
   .pv-img-placeholder {
     width: 100%; height: 100%; min-height: 260px;
     display: flex; align-items: center; justify-content: center;
     font-size: 72px;
+  }
+  .pv-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(15,23,42,0.55);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    transition: transform 0.18s ease, background 0.18s ease;
+  }
+  .pv-nav:hover {
+    background: rgba(15,23,42,0.8);
+    transform: translateY(-50%) scale(1.06);
+  }
+  .pv-nav-prev { left: 12px; }
+  .pv-nav-next { right: 12px; }
+  .pv-gallery-count {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    background: rgba(15,23,42,0.62);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
   }
   .pv-thumbs {
     margin-top: 10px;
@@ -725,6 +765,11 @@
   }
   .pv-actions {
     display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; padding-top: 8px;
+  }
+  .pv-autoplay-note {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: -2px;
   }
   @keyframes pvModalIn {
     from { opacity: 0; transform: translateY(24px) scale(0.96); }
@@ -2382,6 +2427,15 @@
     });
   }
 
+  let productViewAutoTimer = null;
+
+  function clearProductViewAuto() {
+    if (productViewAutoTimer) {
+      window.clearInterval(productViewAutoTimer);
+      productViewAutoTimer = null;
+    }
+  }
+
   function getDeliveryFee() {
     const area = (document.getElementById('shopDeliveryArea') || {}).value || '';
     return DELIVERY_FEES[area] || 0;
@@ -2465,6 +2519,7 @@
   function openProductView(productId) {
     const product = shopProducts.find(p => p.id === productId);
     if (!product) return;
+    clearProductViewAuto();
     const stockMeta = getStockMeta(product.stock);
     const outOfStock = product.stock === 'out';
     const buyMsg = encodeURIComponent('Hi CyCom, I want to buy the ' + product.name + ' (' + formatKsh(product.price) + ').');
@@ -2483,12 +2538,50 @@
       : (product.image ? [product.image] : []);
     if (gallery.length) {
       let activeIndex = 0;
+      const startAuto = function() {
+        clearProductViewAuto();
+        if (gallery.length <= 1) return;
+        productViewAutoTimer = window.setInterval(function() {
+          renderMain(activeIndex + 1);
+        }, 3200);
+      };
+
+      const pauseAuto = function() {
+        clearProductViewAuto();
+      };
+
       const renderMain = function(index) {
-        activeIndex = index;
-        imgWrap.innerHTML = '<img src="' + gallery[index] + '" alt="' + product.name + '">';
+        activeIndex = (index + gallery.length) % gallery.length;
+        const navButtons = gallery.length > 1
+          ? '<button type="button" class="pv-nav pv-nav-prev" aria-label="Previous image">&#10094;</button>' +
+            '<button type="button" class="pv-nav pv-nav-next" aria-label="Next image">&#10095;</button>'
+          : '';
+        const galleryCount = gallery.length > 1
+          ? '<div class="pv-gallery-count">' + (activeIndex + 1) + ' / ' + gallery.length + '</div>'
+          : '';
+        imgWrap.innerHTML = navButtons + '<img src="' + gallery[activeIndex] + '" alt="' + product.name + '">' + galleryCount;
+
+        const prevBtn = imgWrap.querySelector('.pv-nav-prev');
+        const nextBtn = imgWrap.querySelector('.pv-nav-next');
+        if (prevBtn) {
+          prevBtn.onclick = function() {
+            renderMain(activeIndex - 1);
+            startAuto();
+          };
+        }
+        if (nextBtn) {
+          nextBtn.onclick = function() {
+            renderMain(activeIndex + 1);
+            startAuto();
+          };
+        }
+
+        imgWrap.onmouseenter = pauseAuto;
+        imgWrap.onmouseleave = startAuto;
+
         if (thumbsWrap) {
           Array.from(thumbsWrap.querySelectorAll('.pv-thumb')).forEach((btn, i) => {
-            btn.classList.toggle('is-active', i === index);
+            btn.classList.toggle('is-active', i === activeIndex);
           });
         }
       };
@@ -2502,11 +2595,17 @@
         thumbsWrap.querySelectorAll('.pv-thumb').forEach((btn) => {
           btn.onclick = function() {
             const index = Number(btn.getAttribute('data-index') || '0');
-            if (!Number.isNaN(index) && gallery[index]) renderMain(index);
+            if (!Number.isNaN(index) && gallery[index]) {
+              renderMain(index);
+              startAuto();
+            }
           };
         });
+        thumbsWrap.onmouseenter = pauseAuto;
+        thumbsWrap.onmouseleave = startAuto;
       }
       renderMain(activeIndex);
+      startAuto();
     } else {
       imgWrap.innerHTML = '<div class="pv-img-placeholder">' + (product.media || '📦') + '</div>';
       if (thumbsWrap) thumbsWrap.innerHTML = '';
@@ -2516,6 +2615,10 @@
     document.getElementById('pvPrice').textContent = formatKsh(product.price);
     document.getElementById('pvDesc').textContent = product.description;
     document.getElementById('pvFeatures').innerHTML = product.features.map((feature, index) => '<li style="--delay:' + ((index * 0.06) + 0.08) + 's">' + feature + '</li>').join('');
+    const featureTitle = document.getElementById('pvFeatures').previousElementSibling;
+    if (featureTitle && featureTitle.classList.contains('pv-features-title')) {
+      featureTitle.innerHTML = 'What\'s included<div class="pv-autoplay-note">Gallery auto-slides every 3.2 seconds. Hover to pause.</div>';
+    }
 
     document.getElementById('pvActions').innerHTML =
       '<button type="button" class="plan-cta primary' + (outOfStock ? ' is-disabled' : '') + '" id="pvAddBtn" ' + (outOfStock ? 'disabled' : '') + '>' + (outOfStock ? 'Unavailable' : 'Add to Cart') + '</button>' +
@@ -2534,6 +2637,7 @@
   }
 
   function closeProductView() {
+    clearProductViewAuto();
     document.getElementById('productViewOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
