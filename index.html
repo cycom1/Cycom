@@ -306,6 +306,140 @@
   .feature-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
   .feature-card p { font-size: 14.5px; color: var(--text2); line-height: 1.6; }
 
+  /* SMS GATEWAYS */
+  #sms {
+    position: relative;
+    background:
+      linear-gradient(135deg, rgba(245,250,255,0.97) 0%, rgba(237,247,255,0.96) 100%),
+      url('images/bg/hero-network-team.jpg');
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, 34% auto;
+    background-position: center, right -10% bottom 8%;
+  }
+  #sms .section-inner { position: relative; z-index: 1; }
+  .sms-shell {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 26px;
+    align-items: start;
+  }
+  .sms-main,
+  .sms-side {
+    background: rgba(255,255,255,0.88);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+  }
+  .sms-main { padding: 28px; }
+  .sms-side { padding: 24px; }
+  .sms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+  }
+  .sms-card {
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid #dbe8f5;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .sms-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 34px rgba(2, 6, 23, 0.08);
+  }
+  .sms-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8f6ff 0%, #d9efff 100%);
+    margin-bottom: 14px;
+  }
+  .sms-icon svg { width: 22px; height: 22px; stroke: #00699d; }
+  .sms-card h3 { font-size: 16px; margin-bottom: 8px; }
+  .sms-card p { font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .sms-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin: 18px 0 22px;
+  }
+  .sms-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text2);
+  }
+  .sms-list li::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--aqua-dark);
+    box-shadow: 0 0 0 4px rgba(0,160,233,0.12);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .sms-stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .sms-stat {
+    padding: 14px 12px;
+    border-radius: 14px;
+    background: #f4faff;
+    border: 1px solid #d8ebfa;
+  }
+  .sms-stat strong {
+    display: block;
+    font-size: 20px;
+    color: #0d3b66;
+    margin-bottom: 4px;
+  }
+  .sms-stat span {
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .sms-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #005f95;
+    background: #edf8ff;
+    border: 1px solid #ccecff;
+    border-radius: 999px;
+    padding: 6px 12px;
+    margin-bottom: 18px;
+  }
+  .sms-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #16a34a;
+    box-shadow: 0 0 0 5px rgba(22,163,74,0.12);
+  }
+  .sms-side h3 { font-size: 20px; margin-bottom: 10px; }
+  .sms-side p { font-size: 14px; color: var(--text2); line-height: 1.65; }
+  .sms-side .btn-primary,
+  .sms-side .btn-outline { width: 100%; justify-content: center; margin-top: 12px; }
+  .sms-side-note {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #dbe8f5;
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.6;
+  }
+
   /* CCTV SERVICES */
   #cctv {
     background-image:
@@ -1379,6 +1513,11 @@
       background-size: cover, 40% auto, 44% auto;
       background-position: center, right -22% top -6%, left -26% bottom -10%;
     }
+    #sms {
+      background-size: cover, 0 0;
+      background-position: center, right center;
+    }
+    .sms-shell { grid-template-columns: 1fr; }
     #cctv {
       background-size: cover, 52% auto;
       background-position: center, right -24% center;
@@ -1407,6 +1546,10 @@
       background-size: cover, 56% auto, 0 0;
       background-position: center, right -34% top -8%, left top;
     }
+    .sms-main,
+    .sms-side { padding: 20px; }
+    .sms-grid,
+    .sms-stat-row { grid-template-columns: 1fr; }
     #cctv {
       background-size: cover, 0 0;
       background-position: center, right center;
@@ -1749,6 +1892,7 @@
   </a>
   <div class="nav-links">
     <a href="#features">Why CyCom</a>
+    <a href="#sms">SMS Gateways</a>
     <a href="#cctv">CCTV</a>
     <a href="#shop">Shop</a>
     <a href="#plans">Plans</a>
@@ -1762,6 +1906,7 @@
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#features" onclick="toggleMenu()">Why CyCom</a>
+  <a href="#sms" onclick="toggleMenu()">SMS Gateways</a>
   <a href="#cctv" onclick="toggleMenu()">CCTV Services</a>
   <a href="#shop" onclick="toggleMenu()">CyCom Shop</a>
   <a href="#plans" onclick="toggleMenu()">Plans</a>
@@ -1902,6 +2047,68 @@
         </div>
         <h3>Wide Area Coverage</h3>
         <p>Expanding coverage across the region. Enter your address to check availability — new zones added regularly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SMS GATEWAYS -->
+<section id="sms">
+  <div class="section-inner">
+    <span class="section-tag">Messaging Infrastructure</span>
+    <h2 class="section-title">SMS Gateways for OTPs, Alerts, and Bulk Messaging</h2>
+    <p class="section-sub">Launch branded transactional SMS, delivery alerts, login OTPs, marketing campaigns, and customer reminders through CyCom-managed SMS gateway services built for Kenyan businesses.</p>
+    <div class="sms-shell">
+      <div class="sms-main">
+        <div class="sms-badge"><span class="sms-badge-dot"></span> API-ready delivery for web apps, CRMs, SACCOs, schools, and retail systems</div>
+        <div class="sms-grid">
+          <div class="sms-card">
+            <div class="sms-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>Bulk SMS Campaigns</h3>
+            <p>Send promotions, payment reminders, school updates, event notices, and customer broadcasts from one dashboard or integrated system.</p>
+          </div>
+          <div class="sms-card">
+            <div class="sms-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>OTP & Authentication</h3>
+            <p>Deliver one-time passwords, login verification codes, and account activation messages with fast routing for critical workflows.</p>
+          </div>
+          <div class="sms-card">
+            <div class="sms-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3>Billing & Payment Alerts</h3>
+            <p>Automate invoices due, payment confirmations, subscription renewals, debt reminders, and account status notifications.</p>
+          </div>
+          <div class="sms-card">
+            <div class="sms-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 2 4-5"/></svg>
+            </div>
+            <h3>Delivery Reports & Routing</h3>
+            <p>Track sent status, delivery confirmation, sender IDs, route performance, and campaign output for better message accountability.</p>
+          </div>
+        </div>
+        <ul class="sms-list">
+          <li>HTTP API integration support for websites, apps, POS systems, and CRMs</li>
+          <li>Branded sender ID assistance where applicable</li>
+          <li>Transactional and promotional messaging setup</li>
+          <li>Support for schools, SACCOs, clinics, logistics, e-commerce, and utility billing</li>
+        </ul>
+        <div class="sms-stat-row">
+          <div class="sms-stat"><strong>OTP</strong><span>Login, 2FA, and verification flows</span></div>
+          <div class="sms-stat"><strong>Alerts</strong><span>Payments, outages, renewals, and notices</span></div>
+          <div class="sms-stat"><strong>Bulk</strong><span>Broadcast campaigns and segmented messaging</span></div>
+        </div>
+      </div>
+      <div class="sms-side">
+        <h3>Need an SMS Gateway Quote?</h3>
+        <p>We can help with API connectivity, sender ID setup guidance, delivery workflows, and message automation for your business systems.</p>
+        <a href="#contact" class="btn-primary">Request SMS Gateway Setup</a>
+        <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20need%20an%20SMS%20gateway%20for%20my%20business." class="btn-outline" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+        <div class="sms-side-note">Best for billing alerts, school communication, order updates, OTP login flows, SACCO/member notices, and promotional campaigns.</div>
       </div>
     </div>
   </div>
@@ -2262,6 +2469,8 @@
             <option>CCTV Home Installation</option>
             <option>CCTV Business Installation</option>
             <option>CCTV Maintenance / Upgrade</option>
+            <option>SMS Gateway Setup / Bulk SMS</option>
+            <option>OTP / Transactional SMS API</option>
             <option>Buy Router / WiFi Equipment</option>
             <option>Buy CCTV Camera / Accessories</option>
             <option>Request CyCom Shop Catalog</option>
@@ -2296,6 +2505,7 @@
         <ul>
           <li><a href="#plans">Home Internet</a></li>
           <li><a href="#plans">Business Internet</a></li>
+          <li><a href="#sms">SMS Gateways</a></li>
           <li><a href="#cctv">CCTV Installation</a></li>
           <li><a href="#shop">CyCom Shop</a></li>
           <li><a href="#plans">Enterprise / Custom</a></li>
@@ -2315,6 +2525,7 @@
         <h4>Resources</h4>
         <ul>
           <li><a href="#contact">Talk to Our Team</a></li>
+          <li><a href="#sms">SMS Solutions</a></li>
           <li><a href="#contact">Coverage Check</a></li>
           <li><a href="#shop">Shop Hardware</a></li>
           <li><a href="#plans">Compare Packages</a></li>
