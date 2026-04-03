@@ -1890,21 +1890,20 @@
   .nav-links a:hover { background: #edf7ff; color: #0b4f90; }
 
   .hero {
-    background: linear-gradient(135deg, rgba(239,247,255,0.92) 0%, rgba(248,251,255,0.88) 45%, rgba(238,248,255,0.90) 100%);
+    background: transparent;
     min-height: calc(94vh - 68px);
-    backdrop-filter: blur(5px);
     border-bottom: 1px solid rgba(125, 211, 252, 0.16);
   }
 
   .hero::before {
     width: 700px;
     height: 700px;
-    background: radial-gradient(circle, rgba(0,160,233,0.2) 0%, transparent 64%);
+    background: radial-gradient(circle, rgba(0,160,233,0.12) 0%, transparent 62%);
   }
 
   .hero::after {
     background-image:
-      linear-gradient(120deg, rgba(245,251,255,0.82) 8%, rgba(239,247,255,0.78) 46%, rgba(236,247,255,0.78) 100%),
+      linear-gradient(120deg, rgba(4,18,36,0.10) 8%, rgba(4,18,36,0.04) 46%, rgba(4,18,36,0.10) 100%),
       url('images/bg/hero-network-team.jpg'),
       url('images/bg/hero-students-group.jpg'),
       url('images/bg/hero-college-collage.jpg');
@@ -1919,10 +1918,10 @@
     position: relative;
     padding: clamp(24px, 3vw, 34px);
     border-radius: 28px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.50) 100%);
-    border: 1px solid rgba(125,211,252,0.32);
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%);
+    border: 1px solid rgba(125,211,252,0.24);
     backdrop-filter: blur(16px) saturate(135%);
-    box-shadow: 0 24px 60px rgba(6,23,48,0.12), inset 0 1px 0 rgba(255,255,255,0.55);
+    box-shadow: 0 24px 60px rgba(6,23,48,0.16), inset 0 1px 0 rgba(255,255,255,0.24);
     overflow: hidden;
   }
 
@@ -1931,7 +1930,7 @@
     position: absolute;
     inset: 1px;
     border-radius: inherit;
-    background: linear-gradient(120deg, rgba(255,255,255,0.34), transparent 45%, rgba(0,180,255,0.08));
+    background: linear-gradient(120deg, rgba(255,255,255,0.12), transparent 45%, rgba(0,180,255,0.05));
     pointer-events: none;
   }
 
@@ -1941,14 +1940,14 @@
   }
 
   .hero-badge {
-    background: #ecf8ff;
-    color: #005f95;
-    border: 1px solid #ccecff;
-    box-shadow: inset 0 0 0 1px rgba(0,160,233,0.06), 0 10px 26px rgba(0, 160, 233, 0.08);
+    background: rgba(236,248,255,0.20);
+    color: #0c4f7d;
+    border: 1px solid rgba(125,211,252,0.26);
+    box-shadow: inset 0 0 0 1px rgba(0,160,233,0.04), 0 10px 26px rgba(0, 160, 233, 0.05);
   }
 
   .hero p {
-    color: #294765;
+    color: #203a56;
     max-width: 560px;
   }
 
@@ -1961,10 +1960,10 @@
     padding: 12px 14px;
     min-width: 120px;
     border-radius: 16px;
-    background: rgba(255,255,255,0.48);
-    border: 1px solid rgba(125,211,252,0.24);
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(125,211,252,0.20);
     backdrop-filter: blur(10px);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.20);
   }
 
   .hero-visual {
@@ -2004,12 +2003,12 @@
   }
 
   .speed-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.94) 0%, rgba(238,247,255,0.82) 100%);
-    border: 1px solid rgba(124,211,252,0.38);
+    background: linear-gradient(135deg, rgba(255,255,255,0.20) 0%, rgba(238,247,255,0.08) 100%);
+    border: 1px solid rgba(124,211,252,0.26);
     backdrop-filter: blur(14px);
     transform: rotateY(-10deg) rotateX(5deg);
     transform-style: preserve-3d;
-    box-shadow: 0 30px 60px rgba(8,23,48,0.18), inset 0 1px 0 rgba(255,255,255,0.7);
+    box-shadow: 0 30px 60px rgba(8,23,48,0.18), inset 0 1px 0 rgba(255,255,255,0.24);
     overflow: hidden;
   }
 
@@ -2018,7 +2017,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(120deg, rgba(255,255,255,0.42), transparent 42%, rgba(0,160,233,0.10));
+    background: linear-gradient(120deg, rgba(255,255,255,0.14), transparent 42%, rgba(0,160,233,0.06));
     pointer-events: none;
   }
 
@@ -2103,10 +2102,10 @@
   .contact-card,
   .mini-card,
   .speed-card {
-    border: 1px solid rgba(125, 211, 252, 0.22);
-    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255,255,255,0.28);
+    border: 1px solid rgba(125, 211, 252, 0.18);
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255,255,255,0.18);
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.18) 100%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%);
     backdrop-filter: blur(14px) saturate(135%);
   }
 
