@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cycom.africa/sitemap.xml
+Sitemap: https://www.cycom.africa/sitemap.xml
