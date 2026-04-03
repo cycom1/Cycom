@@ -122,12 +122,19 @@
   }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .nav-logo-icon {
-    width: 38px; height: 38px; background: #ffffff;
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, #ffffff 0%, #eef8ff 100%);
+    border: 1px solid rgba(0,160,233,0.24);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
     overflow: hidden; flex-shrink: 0; position: relative;
+    box-shadow: 0 10px 24px rgba(0,160,233,0.14);
   }
-  .nav-logo-icon svg { width: 22px; height: 22px; fill: white; }
-  .nav-logo-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
+  .nav-logo-icon svg { width: 26px; height: 26px; fill: none; }
+  .nav-logo-icon svg path { stroke: #0b84c6; }
+  .nav-logo-icon img {
+    position: absolute; inset: 4px; width: calc(100% - 8px); height: calc(100% - 8px);
+    object-fit: contain; border-radius: 10px; display: block;
+  }
   .nav-logo-text { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
   .nav-logo-text span { color: var(--aqua-dark); }
   .nav-links { display: flex; align-items: center; gap: 6px; }
@@ -2235,7 +2242,7 @@
   <a class="nav-logo" href="#">
     <div class="nav-logo-icon">
       <svg id="logoSvg" viewBox="0 0 24 24"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.56 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-      <img src="logo.png" alt="CyCom Logo" onload="document.getElementById('logoSvg').style.display='none'" onerror="this.style.display='none'">
+      <img src="icons/icon-192.png" alt="CyCom Logo" width="192" height="192" loading="eager" decoding="async" onload="document.getElementById('logoSvg').style.display='none'" onerror="this.style.display='none';document.getElementById('logoSvg').style.display='block'">
     </div>
     <span class="nav-logo-text">Cy<span>Com</span></span>
   </a>
