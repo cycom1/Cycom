@@ -256,6 +256,53 @@
   }
   .hero-inner { max-width: 1160px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 60px; position: relative; z-index: 1; }
   .hero-content { flex: 1; min-width: 0; }
+  .hero-top-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(52,215,216,0.28);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+    backdrop-filter: blur(8px);
+  }
+  .hero-top-logo-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #eaf8ff 100%);
+    border: 1px solid rgba(0,160,233,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-top-logo-icon img {
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    object-fit: contain;
+    display: block;
+  }
+  .hero-top-logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+  .hero-top-logo-text strong {
+    font-size: 18px;
+    color: #0f172a;
+    letter-spacing: -0.4px;
+  }
+  .hero-top-logo-text span {
+    font-size: 12px;
+    color: #0b84c6;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 7px;
     background: var(--aqua-light); color: var(--aqua-dark);
@@ -2432,6 +2479,15 @@
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-content">
+      <div class="hero-top-logo" aria-label="CyCom Internet brand">
+        <div class="hero-top-logo-icon">
+          <img src="icons/icon-192.png" alt="CyCom Internet logo" width="192" height="192" loading="eager" decoding="async">
+        </div>
+        <div class="hero-top-logo-text">
+          <strong>CyCom Internet</strong>
+          <span>Fast • Local • Reliable</span>
+        </div>
+      </div>
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
         Fibre-ready coverage now expanding
