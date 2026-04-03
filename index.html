@@ -200,6 +200,13 @@
     text-decoration: none; padding: 7px 14px; border-radius: 8px; transition: all 0.15s;
   }
   .nav-links a:hover { color: var(--text); background: var(--aqua-light); }
+  .nav-packages {
+    background: rgba(0,160,233,0.10);
+    color: #0b4f90 !important;
+    font-weight: 700 !important;
+    border: 1px solid rgba(0,160,233,0.18);
+  }
+  .nav-packages:hover { background: rgba(0,160,233,0.18) !important; }
   .nav-cta {
     background: var(--aqua); color: #073536 !important; font-weight: 600 !important;
     padding: 8px 20px !important; border-radius: 10px !important;
@@ -2365,6 +2372,7 @@
     <a href="#plans">Plans</a>
     <a href="#how">How It Works</a>
     <a href="#contact">Contact</a>
+    <a href="#plans" class="nav-packages">View Packages</a>
     <a href="#contact" class="nav-cta">Get Connected →</a>
   </div>
   <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
@@ -2379,6 +2387,7 @@
   <a href="#plans" onclick="toggleMenu()">Plans</a>
   <a href="#how" onclick="toggleMenu()">How It Works</a>
   <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="#plans" style="background:rgba(0,160,233,0.12);color:#0b4f90;font-weight:700;border:1px solid rgba(0,160,233,0.18);" onclick="toggleMenu()">View Packages</a>
   <a href="#contact" style="background:var(--aqua);color:#073536;font-weight:700;" onclick="toggleMenu()">Get Connected →</a>
 </div>
 
