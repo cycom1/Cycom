@@ -2075,39 +2075,40 @@
   }
 
   .lead-strip {
-    background: linear-gradient(100deg, #042d4f 0%, #055c8e 58%, #00a0e9 100%);
-    border-bottom: 1px solid rgba(255,255,255,0.14);
+    background: linear-gradient(96deg, #021a32 0%, #064a74 46%, #00a0e9 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 12px 26px rgba(2, 26, 50, 0.18);
   }
 
   nav {
-    background: rgba(255,255,255,0.82);
-    border-bottom: 1px solid rgba(115, 198, 255, 0.28);
-    box-shadow: 0 8px 24px rgba(15,23,42,0.08);
-    backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(255,255,255,0.78);
+    border-bottom: 1px solid rgba(115, 198, 255, 0.24);
+    box-shadow: 0 10px 28px rgba(15,23,42,0.10);
+    backdrop-filter: blur(18px) saturate(160%);
   }
 
   .nav-logo-text { color: #0f172a; font-weight: 800; }
-  .nav-links a { font-weight: 600; }
-  .nav-links a:hover { background: #edf7ff; color: #0b4f90; }
+  .nav-links a { font-weight: 600; letter-spacing: 0.01em; }
+  .nav-links a:hover { background: rgba(0,160,233,0.10); color: #0b4f90; }
 
   .hero {
-    background: transparent;
+    background: linear-gradient(180deg, rgba(3,12,24,0.03) 0%, rgba(3,12,24,0.10) 100%);
     min-height: calc(94vh - 68px);
     border-bottom: 1px solid rgba(125, 211, 252, 0.16);
   }
 
   .hero::before {
-    width: 760px;
-    height: 760px;
-    background: radial-gradient(circle, rgba(72, 183, 255, 0.16) 0%, transparent 64%);
+    width: 820px;
+    height: 820px;
+    background: radial-gradient(circle, rgba(72, 183, 255, 0.18) 0%, transparent 66%);
   }
 
   .hero::after {
     background:
-      linear-gradient(120deg, rgba(2,8,18,0.56) 0%, rgba(2,8,18,0.22) 46%, rgba(2,8,18,0.48) 100%),
+      linear-gradient(118deg, rgba(2,8,18,0.68) 0%, rgba(2,8,18,0.28) 44%, rgba(2,8,18,0.58) 100%),
       url('https://www.nasa.gov/wp-content/uploads/2022/11/main_image.png') right bottom / cover no-repeat;
-    background-position: center, 80% 88%;
-    opacity: 0.92;
+    background-position: center, 82% 90%;
+    opacity: 0.97;
   }
 
   .hero-inner {
@@ -2275,25 +2276,28 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #00a0e9 0%, #0078b0 100%);
+    background: linear-gradient(135deg, #00b2ff 0%, #0078b0 100%);
     color: #ffffff;
-    box-shadow: 0 12px 26px rgba(0,120,176,0.3);
+    box-shadow: 0 14px 30px rgba(0,120,176,0.34);
   }
 
   .btn-primary:hover {
-    background: linear-gradient(135deg, #0090d3 0%, #006f9f 100%);
+    background: linear-gradient(135deg, #1499db 0%, #006b98 100%);
     color: #ffffff;
+    transform: translateY(-2px);
   }
 
   .btn-outline {
-    background: #ffffff;
-    border-color: #cfe0ee;
+    background: rgba(255,255,255,0.82);
+    border-color: rgba(207,224,238,0.82);
+    backdrop-filter: blur(8px);
   }
 
   .section-tag {
-    background: #edf7ff;
+    background: rgba(237,247,255,0.82);
     color: #01679f;
     border: 1px solid #cfeaff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
   }
 
   .feature-card,
@@ -2303,19 +2307,21 @@
   .contact-card,
   .mini-card,
   .speed-card {
-    border: 1px solid rgba(125, 211, 252, 0.12);
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.07), inset 0 1px 0 rgba(255,255,255,0.10);
-    border-radius: 18px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-    backdrop-filter: blur(10px) saturate(118%);
+    border: 1px solid rgba(125, 211, 252, 0.14);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255,255,255,0.12);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(12px) saturate(122%);
+    position: relative;
+    overflow: hidden;
   }
 
   .feature-card:hover,
   .plan-card:hover,
   .shop-card:hover,
   .testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 18px 36px rgba(2, 6, 23, 0.12);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 22px 40px rgba(2, 6, 23, 0.14);
   }
 
   .feature-icon,
@@ -2326,16 +2332,20 @@
   }
 
   #features {
-    background: linear-gradient(180deg, #f5fbff 0%, #f8fcff 100%);
+    background:
+      radial-gradient(circle at top left, rgba(52,215,216,0.08), transparent 34%),
+      linear-gradient(180deg, #f3faff 0%, #f8fcff 100%);
   }
 
   #plans {
-    background: linear-gradient(135deg, #f6fbff 0%, #eef6ff 100%);
+    background:
+      radial-gradient(circle at top right, rgba(0,160,233,0.07), transparent 32%),
+      linear-gradient(135deg, #f7fbff 0%, #eef6ff 100%);
   }
 
   .plan-card.popular {
     border-color: #72cfff;
-    box-shadow: 0 22px 44px rgba(0,160,233,0.18);
+    box-shadow: 0 22px 44px rgba(0,160,233,0.16);
   }
 
   .plan-badge {
@@ -2401,11 +2411,14 @@
   }
 
   #testimonials {
-    background: linear-gradient(180deg, #f4f9ff 0%, #f9fcff 100%);
+    background:
+      radial-gradient(circle at left center, rgba(52,215,216,0.07), transparent 28%),
+      linear-gradient(180deg, #f4f9ff 0%, #f9fcff 100%);
   }
 
   footer {
-    background: linear-gradient(145deg, #061a31 0%, #0b325b 60%, #0d4679 100%);
+    background: linear-gradient(145deg, #041425 0%, #0b325b 58%, #0d4679 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
   }
 
   .footer-brand-text,
