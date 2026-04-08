@@ -1234,6 +1234,10 @@
     padding: 14px 5% 12px;
     background: transparent;
   }
+  .ad-wrap-banner {
+    padding-top: 12px;
+    padding-bottom: 14px;
+  }
   .ad-inner {
     max-width: 1160px;
     margin: 0 auto;
@@ -1248,12 +1252,24 @@
     align-items: center;
     justify-content: center;
   }
+  .ad-slot-banner {
+    min-height: 120px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.72) 0%, rgba(237,247,255,0.56) 100%);
+    border: 1px dashed rgba(0,160,233,0.28);
+    box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+  }
   .ad-slot.ad-live {
     border: 0;
     background: transparent;
     border-radius: 0;
     min-height: auto;
     padding: 0;
+  }
+  .ad-slot-banner.ad-live {
+    min-height: 120px;
+    border-radius: 18px;
+    overflow: hidden;
   }
   .ad-label {
     font-size: 11px;
@@ -2492,6 +2508,14 @@
   <a href="#contact" style="background:var(--aqua);color:#073536;font-weight:700;" onclick="toggleMenu()">Get Connected →</a>
 </div>
 
+<div class="ad-wrap ad-wrap-banner" aria-label="Top banner advertisement">
+  <div class="ad-inner">
+    <div class="ad-slot ad-slot-banner" data-ad-key="topBanner" data-ad-format="horizontal" data-ad-min-height="120">
+      <span class="ad-label">Sponsored Banner</span>
+    </div>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
@@ -2561,7 +2585,7 @@
 
 <div class="ad-wrap" aria-label="Sponsored content area">
   <div class="ad-inner">
-    <div class="ad-slot" data-ad-key="betweenHeroFeatures">
+    <div class="ad-slot ad-slot-banner" data-ad-key="betweenHeroFeatures" data-ad-format="horizontal" data-ad-min-height="120">
       <span class="ad-label">Advertisement</span>
     </div>
   </div>
@@ -2818,7 +2842,7 @@
 
 <div class="ad-wrap" aria-label="Sponsored content area">
   <div class="ad-inner">
-    <div class="ad-slot" data-ad-key="betweenShopPlans">
+    <div class="ad-slot ad-slot-banner" data-ad-key="betweenShopPlans" data-ad-format="horizontal" data-ad-min-height="120">
       <span class="ad-label">Advertisement</span>
     </div>
   </div>
@@ -3013,7 +3037,7 @@
 
 <div class="ad-wrap" aria-label="Sponsored content area">
   <div class="ad-inner">
-    <div class="ad-slot" data-ad-key="beforeContact">
+    <div class="ad-slot ad-slot-banner" data-ad-key="beforeContact" data-ad-format="horizontal" data-ad-min-height="120">
       <span class="ad-label">Advertisement</span>
     </div>
   </div>
@@ -3104,6 +3128,14 @@
     </div>
   </div>
 </section>
+
+<div class="ad-wrap ad-wrap-banner" aria-label="Footer banner advertisement">
+  <div class="ad-inner">
+    <div class="ad-slot ad-slot-banner" data-ad-key="footerBanner" data-ad-format="horizontal" data-ad-min-height="120">
+      <span class="ad-label">Sponsored Banner</span>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -3434,9 +3466,11 @@
   // 2) Set each ad slot ID below using your AdSense ad unit IDs
   const ADSENSE_CLIENT = 'ca-pub-6662163998857192';
   const AD_SLOT_IDS = {
+    topBanner: '4164373887',
     betweenHeroFeatures: '4164373887',
     betweenShopPlans: '6234201708',
-    beforeContact: '3960493204'
+    beforeContact: '3960493204',
+    footerBanner: '3960493204'
   };
 
   const SHOP_CART_KEY = 'cycom_shop_cart';
@@ -4018,10 +4052,12 @@
     adContainers.forEach((container) => {
       const adKey = container.getAttribute('data-ad-key') || '';
       const slotId = AD_SLOT_IDS[adKey] || '';
+      const adFormat = container.getAttribute('data-ad-format') || 'auto';
+      const minHeight = container.getAttribute('data-ad-min-height') || (container.classList.contains('ad-slot-banner') ? '120' : '90');
       if (!slotId) return;
 
       container.classList.add('ad-live');
-      container.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;min-height:90px;" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${slotId}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+      container.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;min-height:${minHeight}px;" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${slotId}" data-ad-format="${adFormat}" data-full-width-responsive="true"></ins>`;
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (error) {
