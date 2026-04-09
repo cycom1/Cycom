@@ -1831,7 +1831,70 @@
     line-height: 1.6;
   }
 
+  /* INSTALL GALLERY */
+  #gallery {
+    background:
+      radial-gradient(circle at top left, rgba(52,215,216,0.08), transparent 28%),
+      linear-gradient(180deg, rgba(248,252,255,0.98) 0%, rgba(244,249,255,0.98) 100%);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .gallery-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(125,211,252,0.18);
+    background: linear-gradient(135deg, rgba(255,255,255,0.86) 0%, rgba(245,250,255,0.72) 100%);
+    box-shadow: 0 18px 34px rgba(15,23,42,0.08);
+  }
+  .gallery-visual {
+    min-height: 180px;
+    padding: 18px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .gallery-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5,15,28,0.08) 0%, rgba(5,15,28,0.54) 100%);
+  }
+  .gallery-visual span {
+    position: relative;
+    z-index: 1;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(5,15,28,0.46);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .gallery-card-body {
+    padding: 16px 16px 18px;
+  }
+  .gallery-card-body h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  .gallery-card-body p {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.65;
+  }
+
   @media (max-width: 900px) {
+     .gallery-grid {
+      grid-template-columns: 1fr;
+    }
     .coverage-shell,
     .speedtest-shell {
       grid-template-columns: 1fr;
@@ -3311,6 +3374,38 @@
         <div class="speedtest-side-note">Tip: If your current speed test is much lower than what you need, talk to CyCom for the right package recommendation and faster installation support.</div>
         <a href="#contact" class="btn-primary">Request Better Internet →</a>
       </aside>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL GALLERY -->
+<section id="gallery">
+  <div class="section-inner">
+    <span class="section-tag">Install Gallery</span>
+    <h2 class="section-title">Recent Customer Install Examples</h2>
+    <p class="section-sub">Show visitors the kind of setup quality, neat cabling, router placement, and business-ready installations CyCom delivers for real homes and offices.</p>
+    <div class="gallery-grid">
+      <article class="gallery-card">
+        <div class="gallery-visual" style="background-image:linear-gradient(135deg, rgba(0,160,233,0.30), rgba(15,23,42,0.40)), url('images/bg/hero-network-team.jpg');"><span>Home WiFi</span></div>
+        <div class="gallery-card-body">
+          <h3>Clean home router setup</h3>
+          <p>Strong indoor coverage with smart router placement, neat cable runs, and a quick handover for everyday streaming and work.</p>
+        </div>
+      </article>
+      <article class="gallery-card">
+        <div class="gallery-visual" style="background-image:linear-gradient(135deg, rgba(16,185,129,0.24), rgba(15,23,42,0.44)), url('images/bg/contact-tech-setup.jpg');"><span>Business Link</span></div>
+        <div class="gallery-card-body">
+          <h3>Office and shop connections</h3>
+          <p>Stable business internet, organized device setup, and reliable network support for teams, tills, cameras, and daily operations.</p>
+        </div>
+      </article>
+      <article class="gallery-card">
+        <div class="gallery-visual" style="background-image:linear-gradient(135deg, rgba(245,158,11,0.22), rgba(15,23,42,0.46)), url('images/bg/features-radio-tower.jpg');"><span>Outdoor Coverage</span></div>
+        <div class="gallery-card-body">
+          <h3>Extended signal and outdoor reach</h3>
+          <p>Coverage improvements for compounds, apartments, estates, and growing locations that need dependable signal strength.</p>
+        </div>
+      </article>
     </div>
   </div>
 </section>
