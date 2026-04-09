@@ -1713,6 +1713,140 @@
     margin-top: 10px;
   }
 
+  /* SPEED TEST */
+  #speedtest {
+    background:
+      radial-gradient(circle at top right, rgba(52,215,216,0.08), transparent 28%),
+      linear-gradient(180deg, rgba(247,251,255,0.96) 0%, rgba(240,247,255,0.98) 100%);
+  }
+  .speedtest-shell {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .speedtest-main,
+  .speedtest-side {
+    border-radius: 20px;
+    border: 1px solid rgba(125,211,252,0.18);
+    background: linear-gradient(135deg, rgba(255,255,255,0.80) 0%, rgba(246,250,255,0.70) 100%);
+    box-shadow: 0 18px 36px rgba(15,23,42,0.08);
+    padding: 24px;
+  }
+  .speedtest-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #065f46;
+    background: rgba(16,185,129,0.10);
+    border: 1px solid rgba(16,185,129,0.22);
+    margin-bottom: 14px;
+  }
+  .speedtest-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 4px rgba(16,185,129,0.12);
+  }
+  .speedtest-main h3,
+  .speedtest-side h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .speedtest-main p,
+  .speedtest-side p {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.65;
+  }
+  .speedtest-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+  .speedtest-metric {
+    border-radius: 16px;
+    padding: 14px 12px;
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(125,211,252,0.18);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+  .speedtest-metric strong {
+    display: block;
+    font-size: 24px;
+    color: #0d3b66;
+    margin-bottom: 2px;
+  }
+  .speedtest-metric span {
+    font-size: 12px;
+    color: var(--text3);
+    font-weight: 700;
+  }
+  .speedtest-bars {
+    display: grid;
+    gap: 12px;
+    margin: 16px 0 18px;
+  }
+  .speedtest-bar-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .speedtest-track {
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(15,23,42,0.08);
+    overflow: hidden;
+  }
+  .speedtest-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #00b2ff 0%, #0078b0 100%);
+  }
+  .speedtest-fill.download { width: 82%; }
+  .speedtest-fill.upload { width: 58%; }
+  .speedtest-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .speedtest-side-note {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(0,160,233,0.08);
+    border: 1px solid rgba(0,160,233,0.16);
+    font-size: 13px;
+    color: #11457a;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .coverage-shell,
+    .speedtest-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .coverage-form,
+    .speedtest-metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .coverage-check-btn {
+      grid-column: span 1;
+    }
+  }
+
   /* HOW IT WORKS */
   #how { background: white; }
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; }
@@ -3130,6 +3264,52 @@
         </ul>
         <a id="coverageWhatsAppBtn" href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20want%20to%20check%20coverage%20in%20my%20area." class="btn-primary" target="_blank" rel="noopener noreferrer">Check on WhatsApp</a>
         <a href="#contact" class="btn-outline">Request a Callback</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- SPEED TEST -->
+<section id="speedtest">
+  <div class="section-inner">
+    <span class="section-tag">Speed Test</span>
+    <h2 class="section-title">Run a Quick Speed Test and Compare Your Experience</h2>
+    <p class="section-sub">Use a fast online speed test and see the kind of stable performance CyCom targets for homes, businesses, CCTV backhaul, and day-to-day streaming or work.</p>
+    <div class="speedtest-shell">
+      <div class="speedtest-main">
+        <div class="speedtest-status"><span class="speedtest-status-dot"></span>Network status: Online</div>
+        <h3>Quick internet speed check</h3>
+        <p>Measure your current connection and compare it with CyCom package options for smoother browsing, streaming, video calls, and business uptime.</p>
+        <div class="speedtest-metrics">
+          <div class="speedtest-metric"><strong>24 Mbps</strong><span>Sample Download</span></div>
+          <div class="speedtest-metric"><strong>12 Mbps</strong><span>Sample Upload</span></div>
+          <div class="speedtest-metric"><strong>8 ms</strong><span>Sample Ping</span></div>
+        </div>
+        <div class="speedtest-bars">
+          <div>
+            <div class="speedtest-bar-label"><span>Download capacity</span><b>82%</b></div>
+            <div class="speedtest-track"><div class="speedtest-fill download"></div></div>
+          </div>
+          <div>
+            <div class="speedtest-bar-label"><span>Upload stability</span><b>58%</b></div>
+            <div class="speedtest-track"><div class="speedtest-fill upload"></div></div>
+          </div>
+        </div>
+        <div class="speedtest-actions">
+          <a href="https://fast.com" class="btn-primary" target="_blank" rel="noopener noreferrer">Run Internet Speed Test</a>
+          <a href="#plans" class="btn-outline">Compare Packages</a>
+        </div>
+      </div>
+      <aside class="speedtest-side">
+        <h3>What better internet should feel like</h3>
+        <p>CyCom packages are designed to reduce buffering, keep work calls stable, improve gaming response, and support more devices in busy homes and offices.</p>
+        <ul class="coverage-points">
+          <li>Better support for streaming, Zoom, and school/work traffic</li>
+          <li>Cleaner performance for CCTV remote viewing and uploads</li>
+          <li>Reliable options for homes, offices, estates, and growing businesses</li>
+        </ul>
+        <div class="speedtest-side-note">Tip: If your current speed test is much lower than what you need, talk to CyCom for the right package recommendation and faster installation support.</div>
+        <a href="#contact" class="btn-primary">Request Better Internet →</a>
       </aside>
     </div>
   </div>
