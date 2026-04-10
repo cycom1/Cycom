@@ -13,9 +13,12 @@ In the Vercel project settings, add:
 ```env
 PAYSTACK_SECRET_KEY=your_real_paystack_secret_key
 ALLOWED_ORIGIN=https://www.cycom.africa
+ACTIVATION_WEBHOOK_URL=https://your-isp-system.example.com/api/activate-plan
+ACTIVATION_WEBHOOK_BEARER_TOKEN=your_backend_token_if_needed
 ```
 
 > Do **not** put the secret key in `index.html`. It must stay only in Vercel environment variables.
+> `ACTIVATION_WEBHOOK_URL` should point to the real CyCom backend, CRM, MikroTik/RADIUS bridge, or billing system endpoint that actually enables the customer package after payment.
 
 ## 3) Deploy
 After saving the environment variables, redeploy the project.
@@ -29,9 +32,10 @@ Once the site is served by Vercel, the frontend will use:
 
 ```text
 /api/paystack/verify
+/api/subscriptions/activate
 ```
 
-and the secure verification will work on the same domain.
+and the secure verification plus automatic package activation will work on the same domain once your backend webhook is connected.
 
 ## 5) Test the API
 After deployment, check:
