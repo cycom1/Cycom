@@ -39,6 +39,7 @@
     enable_page_level_ads: true
   });
 </script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
 <link rel="canonical" href="https://www.cycom.africa/">
 <link rel="sitemap" type="application/xml" title="Sitemap" href="https://www.cycom.africa/sitemap.xml">
 <script type="application/ld+json">
@@ -1205,6 +1206,23 @@
   .shop-checkout input:focus,
   .shop-checkout select:focus { border-color: var(--aqua); }
   .shop-checkout button { grid-column: span 2; }
+  .shop-pay-actions {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .shop-pay-actions button { grid-column: span 1; }
+  .shop-paystack-note {
+    grid-column: span 2;
+    font-size: 12px;
+    color: var(--text3);
+    background: rgba(20,184,166,0.08);
+    border: 1px solid rgba(20,184,166,0.16);
+    border-radius: 10px;
+    padding: 10px 12px;
+    line-height: 1.55;
+  }
   .mobile-cart-stick {
     display: none;
     position: fixed;
@@ -2130,6 +2148,7 @@
     .shop-card-actions { grid-template-columns: 1fr; }
     .shop-checkout { grid-template-columns: 1fr; }
     .shop-checkout button { grid-column: span 1; }
+    .shop-pay-actions { grid-template-columns: 1fr; }
     .plan-price-amount { font-size: 42px; }
     .plan-speed { font-size: 24px; margin-bottom: 16px; }
     .guarantee-block { padding: 16px; gap: 12px; }
@@ -3139,7 +3158,7 @@
   <div class="section-inner">
     <span class="section-tag">CyCom Shop</span>
     <h2 class="section-title">Buy Routers, CCTV Gear, and Network Accessories</h2>
-    <p class="section-sub">Get genuine hardware supplied by CyCom with setup support available. Order via WhatsApp and choose pickup or delivery options in your area.</p>
+    <p class="section-sub">Get genuine hardware supplied by CyCom with setup support available. Order via WhatsApp or pay securely online with Paystack and choose pickup or delivery options in your area.</p>
     <div class="shop-controls" aria-label="Filter shop categories">
       <button class="shop-filter active" data-filter="all">All Items</button>
       <button class="shop-filter" data-filter="wifi">WiFi</button>
@@ -3162,8 +3181,10 @@
       <div class="shop-checkout">
         <input type="text" id="shopBuyerName" placeholder="Your name">
         <input type="tel" id="shopBuyerPhone" placeholder="Phone / WhatsApp">
+        <input type="email" id="shopBuyerEmail" placeholder="Email for Paystack receipt">
         <select id="shopPaymentMethod">
           <option value="">Payment method...</option>
+          <option>Paystack</option>
           <option>M-Pesa</option>
           <option>Card</option>
           <option>Cash on Delivery</option>
@@ -3178,7 +3199,11 @@
           <option>Kiambu / Thika Road</option>
           <option>Outside Nairobi</option>
         </select>
-        <button type="button" class="btn-primary" id="shopCheckoutBtn" style="justify-content:center;">Checkout on WhatsApp →</button>
+        <div class="shop-pay-actions">
+          <button type="button" class="btn-primary" id="shopPaystackBtn" style="justify-content:center;">Pay with Paystack</button>
+          <button type="button" class="btn-outline" id="shopCheckoutBtn" style="justify-content:center;">Checkout on WhatsApp</button>
+        </div>
+        <div class="shop-paystack-note" id="shopPaystackStatus" aria-live="polite">Secure Paystack checkout is ready for card and supported mobile money payments. Add your email to receive a receipt after payment.</div>
       </div>
     </div>
     <div class="shop-cta-row">
@@ -4001,6 +4026,8 @@
     beforeContact: '3960493204',
     footerBanner: '3960493204'
   };
+  const PAYSTACK_PUBLIC_KEY = 'pk_test_replace_with_your_key';
+  const PAYSTACK_CURRENCY = 'KES';
 
   const SHOP_CART_KEY = 'cycom_shop_cart';
   const SHOP_PRODUCTS_KEY = 'cycom_shop_catalog';
@@ -4174,6 +4201,151 @@
   function getDeliveryFee() {
     const area = (document.getElementById('shopDeliveryArea') || {}).value || '';
     return DELIVERY_FEES[area] || 0;
+  }
+
+  function updatePaystackStatus(message, isError = false) {
+    const statusEl = document.getElementById('shopPaystackStatus');
+    if (!statusEl) return;
+
+    statusEl.textContent = message;
+    statusEl.style.color = isError ? '#b91c1c' : 'var(--text3)';
+    statusEl.style.background = isError ? 'rgba(185, 28, 28, 0.05)' : 'rgba(20,184,166,0.08)';
+    statusEl.style.borderColor = isError ? 'rgba(185, 28, 28, 0.16)' : 'rgba(20,184,166,0.16)';
+  }
+
+  function isPaystackReady() {
+    return !!PAYSTACK_PUBLIC_KEY && !PAYSTACK_PUBLIC_KEY.includes('replace_with_your_key');
+  }
+
+  function buildShopOrderDetails(forcedPaymentMethod = '') {
+    const buyerNameEl = document.getElementById('shopBuyerName');
+    const buyerPhoneEl = document.getElementById('shopBuyerPhone');
+    const buyerEmailEl = document.getElementById('shopBuyerEmail');
+    const paymentEl = document.getElementById('shopPaymentMethod');
+    const areaEl = document.getElementById('shopDeliveryArea');
+
+    const buyerName = buyerNameEl ? buyerNameEl.value.trim() : '';
+    const buyerPhone = buyerPhoneEl ? buyerPhoneEl.value.trim() : '';
+    const buyerEmail = buyerEmailEl ? buyerEmailEl.value.trim() : '';
+    const payment = forcedPaymentMethod || (paymentEl ? paymentEl.value : '');
+    const area = areaEl ? areaEl.value : '';
+
+    if (!shopCart.length) {
+      alert('Your cart is empty. Please add items first.');
+      return null;
+    }
+
+    if (!buyerName || !buyerPhone || !area) {
+      alert('Please fill in your name, phone number, and delivery area.');
+      return null;
+    }
+
+    if (!payment) {
+      alert('Please choose a payment method.');
+      return null;
+    }
+
+    const lines = shopCart.map((item) => `- ${item.name} x${item.qty} (${formatKsh(item.price * item.qty)})`);
+    const subtotal = shopCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const deliveryFee = getDeliveryFee();
+    const grandTotal = subtotal + deliveryFee;
+    const summaryText = `Name: ${buyerName}\nPhone: ${buyerPhone}\n${buyerEmail ? `Email: ${buyerEmail}\n` : ''}Payment Method: ${payment}\nDelivery Area: ${area}\n\nItems:\n${lines.join('\n')}\n\nSubtotal: ${formatKsh(subtotal)}\nDelivery Fee: ${formatKsh(deliveryFee)}\nGrand Total: ${formatKsh(grandTotal)}`;
+
+    return {
+      buyerName,
+      buyerPhone,
+      buyerEmail,
+      payment,
+      area,
+      lines,
+      subtotal,
+      deliveryFee,
+      grandTotal,
+      summaryText
+    };
+  }
+
+  function openShopWhatsAppCheckout() {
+    const order = buildShopOrderDetails();
+    if (!order) return;
+
+    const message = encodeURIComponent(
+      `Hi CyCom, I'd like to place a shop order.\n\n${order.summaryText}\n\nPlease confirm availability and delivery options.`
+    );
+
+    window.open(`https://wa.me/254710504940?text=${message}`, '_blank');
+  }
+
+  function startPaystackCheckout() {
+    const paymentEl = document.getElementById('shopPaymentMethod');
+    if (paymentEl) paymentEl.value = 'Paystack';
+
+    const order = buildShopOrderDetails('Paystack');
+    if (!order) return;
+
+    if (!order.buyerEmail) {
+      updatePaystackStatus('Add an email address so Paystack can send the customer receipt.', true);
+      alert('Please enter your email address to receive the Paystack receipt.');
+      return;
+    }
+
+    if (!window.PaystackPop) {
+      updatePaystackStatus('Paystack could not load on this page. Please refresh and try again.', true);
+      alert('Paystack could not load. Please refresh the page and try again.');
+      return;
+    }
+
+    if (!isPaystackReady()) {
+      updatePaystackStatus('Add your real Paystack public key in PAYSTACK_PUBLIC_KEY to activate live payments.', true);
+      alert('Paystack has been added, but the public key still needs to be set before it can accept payments.');
+      return;
+    }
+
+    updatePaystackStatus(`Opening secure Paystack checkout for ${formatKsh(order.grandTotal)}...`);
+
+    const handler = window.PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: order.buyerEmail,
+      amount: Math.round(order.grandTotal * 100),
+      currency: PAYSTACK_CURRENCY,
+      ref: `CYCOM-${Date.now()}`,
+      metadata: {
+        custom_fields: [
+          {
+            display_name: 'Customer Name',
+            variable_name: 'customer_name',
+            value: order.buyerName
+          },
+          {
+            display_name: 'Customer Phone',
+            variable_name: 'customer_phone',
+            value: order.buyerPhone
+          },
+          {
+            display_name: 'Delivery Area',
+            variable_name: 'delivery_area',
+            value: order.area
+          }
+        ]
+      },
+      callback: function(response) {
+        updatePaystackStatus(`Payment received successfully. Reference: ${response.reference}`);
+
+        const paidMessage = encodeURIComponent(
+          `Hi CyCom, I have completed my Paystack payment.\n\n${order.summaryText}\nPayment Reference: ${response.reference}\n\nPlease confirm my order and delivery timeline.`
+        );
+
+        shopCart = [];
+        saveShopCart();
+        renderShopCart();
+        window.open(`https://wa.me/254710504940?text=${paidMessage}`, '_blank');
+      },
+      onClose: function() {
+        updatePaystackStatus('Payment window was closed before completion. You can try again or use WhatsApp checkout.', true);
+      }
+    });
+
+    handler.openIframe();
   }
 
   function getStockMeta(stock) {
@@ -4529,32 +4701,19 @@
 
     const checkoutBtn = document.getElementById('shopCheckoutBtn');
     if (checkoutBtn) {
-      checkoutBtn.onclick = function() {
-        const buyerName = (document.getElementById('shopBuyerName') || {}).value?.trim() || '';
-        const buyerPhone = (document.getElementById('shopBuyerPhone') || {}).value?.trim() || '';
-        const payment = (document.getElementById('shopPaymentMethod') || {}).value || '';
-        const area = (document.getElementById('shopDeliveryArea') || {}).value || '';
-
-        if (!shopCart.length) {
-          alert('Your cart is empty. Please add items first.');
-          return;
-        }
-        if (!buyerName || !buyerPhone || !payment || !area) {
-          alert('Please fill in your name, phone number, payment method, and delivery area.');
-          return;
-        }
-
-        const lines = shopCart.map((item) => `- ${item.name} x${item.qty} (${formatKsh(item.price * item.qty)})`);
-        const subtotal = shopCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        const deliveryFee = getDeliveryFee();
-        const grandTotal = subtotal + deliveryFee;
-        const message = encodeURIComponent(
-          `Hi CyCom, I'd like to place a shop order.\n\nName: ${buyerName}\nPhone: ${buyerPhone}\nPayment Method: ${payment}\nDelivery Area: ${area}\n\nItems:\n${lines.join('\n')}\n\nSubtotal: ${formatKsh(subtotal)}\nDelivery Fee: ${formatKsh(deliveryFee)}\nGrand Total: ${formatKsh(grandTotal)}\n\nPlease confirm availability and delivery options.`
-        );
-
-        window.open(`https://wa.me/254710504940?text=${message}`, '_blank');
-      };
+      checkoutBtn.onclick = openShopWhatsAppCheckout;
     }
+
+    const paystackBtn = document.getElementById('shopPaystackBtn');
+    if (paystackBtn) {
+      paystackBtn.onclick = startPaystackCheckout;
+    }
+
+    updatePaystackStatus(
+      isPaystackReady()
+        ? 'Paystack is active for secure online payments. Customers can pay and then automatically send the order confirmation to WhatsApp.'
+        : 'Paystack checkout has been added. Replace PAYSTACK_PUBLIC_KEY with your real public key to start receiving live payments.'
+    );
 
     const mobileStick = document.getElementById('mobileCartStick');
     if (mobileStick) {
