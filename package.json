@@ -1,0 +1,13 @@
+{
+  "name": "cycom-africa-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CyCom Africa landing page with Paystack verification endpoint",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  }
+}
