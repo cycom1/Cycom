@@ -16,6 +16,12 @@ const PRODUCT_PRICES = {
   'hdd-1tb': 5499
 };
 
+const PLAN_PRICES = {
+  'basic-home': 999,
+  'standard-home': 1999,
+  'business-pro': 4499
+};
+
 function setCorsHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || 'https://www.cycom.africa');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -40,6 +46,10 @@ function calculateExpectedTotal(cart, deliveryArea) {
   }, 0);
 
   return subtotal + (DELIVERY_FEES[deliveryArea] || 0);
+}
+
+function calculateExpectedPlanTotal(planCode) {
+  return PLAN_PRICES[String(planCode || '').trim()] || 0;
 }
 
 module.exports = async function handler(req, res) {
@@ -69,9 +79,11 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    const paymentType = String(body.paymentType || 'shop').trim().toLowerCase();
     const reference = String(body.reference || '').trim();
-    const deliveryArea = String(body.deliveryArea || '').trim();
+    const deliveryArea = String(body.deliveryArea || body.area || '').trim();
     const cart = Array.isArray(body.cart) ? body.cart : [];
+    const planCode = String(body.planCode || '').trim();
 
     if (!reference) {
       sendJson(res, 400, {
@@ -81,11 +93,14 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    const expectedTotal = calculateExpectedTotal(cart, deliveryArea);
+    const expectedTotal = paymentType === 'plan'
+      ? calculateExpectedPlanTotal(planCode)
+      : calculateExpectedTotal(cart, deliveryArea);
+
     if (!expectedTotal) {
       sendJson(res, 400, {
         verified: false,
-        message: 'Unable to calculate the expected order total for verification.'
+        message: 'Unable to calculate the expected payment total for verification.'
       });
       return;
     }
@@ -116,6 +131,7 @@ module.exports = async function handler(req, res) {
 
     sendJson(res, isVerified ? 200 : 400, {
       verified: isVerified,
+      paymentType,
       reference: transaction.reference,
       transactionStatus: transaction.status,
       paidAt: transaction.paid_at || null,
@@ -125,7 +141,7 @@ module.exports = async function handler(req, res) {
       currency: paidCurrency,
       message: isVerified
         ? 'Payment verified successfully.'
-        : 'Payment was found, but the amount or currency did not match the expected order total.'
+        : 'Payment was found, but the amount or currency did not match the expected total.'
     });
   } catch (error) {
     sendJson(res, 500, {

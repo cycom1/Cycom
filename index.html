@@ -1334,6 +1334,152 @@
   .plan-cta.primary:hover { background: var(--aqua-dark); }
   .plan-cta.secondary { background: #f5f5f5; color: var(--text); }
   .plan-cta.secondary:hover { background: var(--aqua-light); color: var(--aqua-dark); }
+  .plan-pay-note {
+    max-width: 860px;
+    margin: 0 auto 18px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(20,184,166,0.18);
+    background: rgba(20,184,166,0.08);
+    color: var(--text2);
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: center;
+  }
+  .plan-activation-banner {
+    max-width: 860px;
+    margin: 0 auto 22px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(15,23,42,0.08);
+    background: rgba(255,255,255,0.82);
+    color: var(--text2);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .plan-activation-banner.active {
+    border-color: rgba(22,163,74,0.2);
+    background: linear-gradient(135deg, rgba(240,253,244,0.95), rgba(236,253,245,0.9));
+  }
+  .plan-activation-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .plan-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 160;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    background: rgba(2, 8, 23, 0.62);
+    backdrop-filter: blur(7px);
+  }
+  .plan-modal-overlay.open { display: flex; }
+  .plan-modal {
+    width: min(560px, 100%);
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid rgba(15,23,42,0.08);
+    box-shadow: 0 28px 70px rgba(15,23,42,0.28);
+    padding: 18px;
+    animation: pvModalIn 0.24s ease;
+  }
+  .plan-modal-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .plan-modal-kicker {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 800;
+    color: var(--aqua-dark);
+    margin-bottom: 4px;
+  }
+  .plan-modal-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .plan-modal-sub {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.55;
+  }
+  .plan-modal-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .plan-modal-summary {
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(20,184,166,0.08));
+    border: 1px solid rgba(20,184,166,0.18);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .plan-modal-summary strong {
+    display: block;
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .plan-modal-summary span {
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .plan-modal-grid {
+    display: grid;
+    gap: 10px;
+  }
+  .plan-modal-grid input,
+  .plan-modal-grid select,
+  .plan-modal-grid textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    background: #fff;
+    outline: none;
+  }
+  .plan-modal-grid textarea {
+    resize: vertical;
+    min-height: 82px;
+  }
+  .plan-modal-grid input:focus,
+  .plan-modal-grid select:focus,
+  .plan-modal-grid textarea:focus {
+    border-color: var(--aqua);
+  }
+  .plan-modal-status {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(20,184,166,0.16);
+    background: rgba(20,184,166,0.08);
+    color: var(--text3);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .plan-modal-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
   .guarantee-block {
     margin: 30px auto 0;
     max-width: 920px;
@@ -2149,6 +2295,7 @@
     .shop-checkout { grid-template-columns: 1fr; }
     .shop-checkout button { grid-column: span 1; }
     .shop-pay-actions { grid-template-columns: 1fr; }
+    .plan-modal-actions { grid-template-columns: 1fr; }
     .plan-price-amount { font-size: 42px; }
     .plan-speed { font-size: 24px; margin-bottom: 16px; }
     .guarantee-block { padding: 16px; gap: 12px; }
@@ -3227,6 +3374,11 @@
     <span class="section-tag">Packages</span>
     <h2 class="section-title">Packages Designed for Real Life</h2>
     <p class="section-sub">Choose the speed profile that fits your needs today, then scale up when your usage grows. Clear pricing, clean installation, and dependable performance.</p>
+    <div class="plan-pay-note">Choose a WiFi plan, complete your Paystack payment, and CyCom will trigger automatic package activation after successful payment verification. Existing customer renewals can go live immediately, while new installs are auto-queued for setup.</div>
+    <div class="plan-activation-banner" id="planActivationBanner">
+      <div class="plan-activation-title">No active plan yet</div>
+      <span>Select a package below to subscribe and pay securely.</span>
+    </div>
     <div class="plans-grid">
       <!-- Basic -->
       <div class="plan-card">
@@ -3243,7 +3395,7 @@
           <li>Email & chat support</li>
           <li>99.5% uptime</li>
         </ul>
-        <a href="#contact" class="plan-cta secondary">Get Started</a>
+        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="basic-home">Subscribe & Pay</button>
       </div>
       <!-- Standard -->
       <div class="plan-card popular">
@@ -3262,7 +3414,7 @@
           <li>99.9% uptime</li>
           <li>Free installation</li>
         </ul>
-        <a href="#contact" class="plan-cta primary">Get Started</a>
+        <button type="button" class="plan-cta primary plan-subscribe-btn" data-plan-code="standard-home">Subscribe & Activate</button>
       </div>
       <!-- Business -->
       <div class="plan-card">
@@ -3281,7 +3433,7 @@
           <li>Free installation</li>
           <li>Static IP available</li>
         </ul>
-        <a href="#contact" class="plan-cta secondary">Get Started</a>
+        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="business-pro">Subscribe & Pay</button>
       </div>
     </div>
     <div class="guarantee-block">
@@ -3762,6 +3914,51 @@
 
 <button type="button" class="mobile-cart-stick" id="mobileCartStick" style="display:none;">Cart <b id="mobileCartCount">0</b> • <span id="mobileCartTotal">KSh 0</span></button>
 
+<div class="plan-modal-overlay" id="planActivationOverlay" onclick="if(event.target===this)closePlanActivationModal()">
+  <div class="plan-modal" role="dialog" aria-modal="true" aria-labelledby="planModalTitle">
+    <div class="plan-modal-top">
+      <div>
+        <div class="plan-modal-kicker">WiFi plan checkout</div>
+        <div class="plan-modal-title" id="planModalTitle">Activate Your Plan</div>
+        <div class="plan-modal-sub" id="planModalSubtitle">Pay securely with Paystack and submit your package for automatic activation.</div>
+      </div>
+      <button type="button" class="plan-modal-close" onclick="closePlanActivationModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="plan-modal-summary">
+      <strong id="planModalPlanName">Standard Home</strong>
+      <span id="planModalPlanMeta">20 Mbps • KSh 1,999 / month</span>
+    </div>
+    <div class="plan-modal-grid">
+      <input type="text" id="planCustomerName" placeholder="Full name">
+      <input type="tel" id="planCustomerPhone" placeholder="Phone / WhatsApp">
+      <input type="email" id="planCustomerEmail" placeholder="Email for Paystack receipt">
+      <select id="planCustomerType">
+        <option value="new-installation">New installation</option>
+        <option value="existing-customer">Existing customer renewal</option>
+      </select>
+      <select id="planCustomerArea">
+        <option value="">Coverage / delivery area...</option>
+        <option>Nairobi CBD</option>
+        <option>Westlands / Kilimani</option>
+        <option>Embakasi / Donholm</option>
+        <option>Kasarani / Roysambu</option>
+        <option>Kiambu / Thika Road</option>
+        <option>Kitale</option>
+        <option>Kisumu</option>
+        <option>Kakamega</option>
+        <option>Outside Nairobi</option>
+      </select>
+      <input type="text" id="planCustomerAccount" placeholder="Existing account number (optional)">
+      <textarea id="planCustomerAddress" placeholder="Installation address or landmark"></textarea>
+    </div>
+    <div class="plan-modal-status" id="planModalStatus">Pay securely with Paystack to activate this package.</div>
+    <div class="plan-modal-actions">
+      <button type="button" class="plan-cta primary" id="planPayNowBtn">Pay & Activate Now</button>
+      <button type="button" class="plan-cta secondary" onclick="closePlanActivationModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- PRODUCT VIEW MODAL -->
 <div class="pv-overlay" id="productViewOverlay" onclick="if(event.target===this)closeProductView()">
   <div class="pv-modal" id="productViewModal">
@@ -4033,6 +4230,14 @@
 
   const SHOP_CART_KEY = 'cycom_shop_cart';
   const SHOP_PRODUCTS_KEY = 'cycom_shop_catalog';
+  const PLAN_ACTIVATION_ENDPOINT = '/api/subscriptions/activate';
+  const ACTIVE_PLAN_STORAGE_KEY = 'cycom_active_plan';
+  const PLAN_CATALOG = {
+    'basic-home': { code: 'basic-home', name: 'Basic Home', price: 999, speed: '5 Mbps', audience: 'Home' },
+    'standard-home': { code: 'standard-home', name: 'Standard Home', price: 1999, speed: '20 Mbps', audience: 'Home' },
+    'business-pro': { code: 'business-pro', name: 'Business Pro', price: 4499, speed: '50 Mbps', audience: 'Business' }
+  };
+  let selectedPlanCode = '';
   let shopCart = [];
   let shopProducts = [];
   let activeShopFilter = 'all';
@@ -4412,6 +4617,345 @@
     handler.openIframe();
   }
 
+  function getCustomerTypeLabel(customerType) {
+    return customerType === 'existing-customer' ? 'Existing Customer Renewal' : 'New Installation';
+  }
+
+  function getSavedActivePlan() {
+    try {
+      const raw = localStorage.getItem(ACTIVE_PLAN_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      return parsed && parsed.planCode ? parsed : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveActivePlan(record) {
+    localStorage.setItem(ACTIVE_PLAN_STORAGE_KEY, JSON.stringify(record));
+  }
+
+  function updatePlanModalStatus(message, tone = 'default') {
+    const statusEl = document.getElementById('planModalStatus');
+    if (!statusEl) return;
+
+    statusEl.textContent = message;
+    const palette = {
+      default: {
+        color: 'var(--text3)',
+        background: 'rgba(20,184,166,0.08)',
+        borderColor: 'rgba(20,184,166,0.16)'
+      },
+      success: {
+        color: '#166534',
+        background: 'rgba(22,163,74,0.08)',
+        borderColor: 'rgba(22,163,74,0.16)'
+      },
+      error: {
+        color: '#b91c1c',
+        background: 'rgba(185,28,28,0.05)',
+        borderColor: 'rgba(185,28,28,0.16)'
+      }
+    };
+    const style = palette[tone] || palette.default;
+    statusEl.style.color = style.color;
+    statusEl.style.background = style.background;
+    statusEl.style.borderColor = style.borderColor;
+  }
+
+  function renderPlanActivationStatus() {
+    const banner = document.getElementById('planActivationBanner');
+    const activePlan = getSavedActivePlan();
+    if (banner) {
+      if (activePlan && PLAN_CATALOG[activePlan.planCode]) {
+        const stateLabel = activePlan.serviceState === 'live' ? 'Active' : 'Queued for installation';
+        const timeLabel = activePlan.activatedAt ? new Date(activePlan.activatedAt).toLocaleString() : 'just now';
+        banner.classList.add('active');
+        banner.innerHTML = `<div class="plan-activation-title">${activePlan.planName} — ${stateLabel}</div><span>Reference: ${activePlan.reference || 'Pending'}${activePlan.activationId ? ` • Activation ID: ${activePlan.activationId}` : ''} • Updated: ${timeLabel}</span>`;
+      } else {
+        banner.classList.remove('active');
+        banner.innerHTML = '<div class="plan-activation-title">No active plan yet</div><span>Select a package below to subscribe and pay securely.</span>';
+      }
+    }
+
+    document.querySelectorAll('.plan-subscribe-btn').forEach((btn) => {
+      const planCode = btn.getAttribute('data-plan-code') || '';
+      if (!btn.dataset.defaultLabel) {
+        btn.dataset.defaultLabel = btn.textContent.trim();
+      }
+
+      if (activePlan && activePlan.planCode === planCode) {
+        btn.textContent = activePlan.serviceState === 'live' ? 'Active on this device ✓' : 'Activation queued ✓';
+      } else {
+        btn.textContent = btn.dataset.defaultLabel;
+      }
+    });
+  }
+
+  function openPlanActivationModal(planCode) {
+    const plan = PLAN_CATALOG[planCode];
+    const overlay = document.getElementById('planActivationOverlay');
+    if (!plan || !overlay) return;
+
+    selectedPlanCode = planCode;
+    const nameEl = document.getElementById('planCustomerName');
+    const phoneEl = document.getElementById('planCustomerPhone');
+    const emailEl = document.getElementById('planCustomerEmail');
+    const areaEl = document.getElementById('planCustomerArea');
+    const shopNameEl = document.getElementById('shopBuyerName');
+    const shopPhoneEl = document.getElementById('shopBuyerPhone');
+    const shopEmailEl = document.getElementById('shopBuyerEmail');
+    const shopAreaEl = document.getElementById('shopDeliveryArea');
+
+    document.getElementById('planModalPlanName').textContent = plan.name;
+    document.getElementById('planModalPlanMeta').textContent = `${plan.speed} • ${formatKsh(plan.price)} / month`;
+    document.getElementById('planModalTitle').textContent = `Activate ${plan.name}`;
+    document.getElementById('planModalSubtitle').textContent = `Complete your payment for the ${plan.speed} ${plan.audience.toLowerCase()} package and trigger automatic activation.`;
+
+    if (nameEl && !nameEl.value && shopNameEl?.value) nameEl.value = shopNameEl.value;
+    if (phoneEl && !phoneEl.value && shopPhoneEl?.value) phoneEl.value = shopPhoneEl.value;
+    if (emailEl && !emailEl.value && shopEmailEl?.value) emailEl.value = shopEmailEl.value;
+    if (areaEl && !areaEl.value && shopAreaEl?.value) areaEl.value = shopAreaEl.value;
+
+    updatePlanModalStatus('Pay securely with Paystack to activate this package. Existing customer renewals go live faster after verification.');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePlanActivationModal() {
+    const overlay = document.getElementById('planActivationOverlay');
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function buildPlanSubscriptionDetails() {
+    const plan = PLAN_CATALOG[selectedPlanCode];
+    if (!plan) {
+      alert('Please choose a plan first.');
+      return null;
+    }
+
+    const fullName = (document.getElementById('planCustomerName') || {}).value?.trim() || '';
+    const phone = (document.getElementById('planCustomerPhone') || {}).value?.trim() || '';
+    const email = (document.getElementById('planCustomerEmail') || {}).value?.trim() || '';
+    const customerType = (document.getElementById('planCustomerType') || {}).value || 'new-installation';
+    const area = (document.getElementById('planCustomerArea') || {}).value || '';
+    const accountNumber = (document.getElementById('planCustomerAccount') || {}).value?.trim() || '';
+    const address = (document.getElementById('planCustomerAddress') || {}).value?.trim() || '';
+
+    if (!fullName || !phone || !email || !area || !address) {
+      alert('Please fill in your name, phone, email, area, and installation address.');
+      return null;
+    }
+
+    if (customerType === 'existing-customer' && !accountNumber) {
+      alert('Please provide your existing CyCom account number for instant renewal activation.');
+      return null;
+    }
+
+    const customerTypeLabel = getCustomerTypeLabel(customerType);
+    const summaryText = `Plan: ${plan.name}\nSpeed: ${plan.speed}\nPrice: ${formatKsh(plan.price)} / month\nCustomer Type: ${customerTypeLabel}\nName: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nArea: ${area}\nAddress: ${address}${accountNumber ? `\nAccount Number: ${accountNumber}` : ''}`;
+
+    return {
+      planCode: plan.code,
+      planName: plan.name,
+      speed: plan.speed,
+      amount: plan.price,
+      audience: plan.audience,
+      fullName,
+      phone,
+      email,
+      customerType,
+      customerTypeLabel,
+      area,
+      address,
+      accountNumber,
+      summaryText
+    };
+  }
+
+  async function verifyPlanSubscriptionPayment(reference, subscription) {
+    const response = await fetch(PAYSTACK_VERIFY_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        paymentType: 'plan',
+        reference,
+        planCode: subscription.planCode,
+        planAmount: subscription.amount,
+        area: subscription.area,
+        customerType: subscription.customerType
+      })
+    });
+
+    let result = null;
+    try {
+      result = await response.json();
+    } catch (error) {
+      result = null;
+    }
+
+    if (!response.ok || !result?.verified) {
+      throw new Error(result?.message || 'Payment verification could not be completed right now.');
+    }
+
+    return result;
+  }
+
+  async function activatePlanSubscription(subscription, verification) {
+    const response = await fetch(PLAN_ACTIVATION_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        reference: verification.reference,
+        planCode: subscription.planCode,
+        planName: subscription.planName,
+        speed: subscription.speed,
+        amount: subscription.amount,
+        fullName: subscription.fullName,
+        phone: subscription.phone,
+        email: subscription.email,
+        customerType: subscription.customerType,
+        accountNumber: subscription.accountNumber,
+        area: subscription.area,
+        address: subscription.address
+      })
+    });
+
+    let result = null;
+    try {
+      result = await response.json();
+    } catch (error) {
+      result = null;
+    }
+
+    if (!response.ok || !result?.activated) {
+      throw new Error(result?.message || 'The package payment was received, but automatic activation could not be completed yet.');
+    }
+
+    return result;
+  }
+
+  function initPlanCheckout() {
+    document.querySelectorAll('.plan-subscribe-btn').forEach((btn) => {
+      if (!btn.dataset.defaultLabel) {
+        btn.dataset.defaultLabel = btn.textContent.trim();
+      }
+      btn.onclick = function() {
+        openPlanActivationModal(this.getAttribute('data-plan-code') || '');
+      };
+    });
+
+    const payBtn = document.getElementById('planPayNowBtn');
+    if (payBtn) {
+      payBtn.onclick = startPlanSubscriptionCheckout;
+    }
+
+    renderPlanActivationStatus();
+  }
+
+  function startPlanSubscriptionCheckout() {
+    const plan = PLAN_CATALOG[selectedPlanCode];
+    if (!plan) {
+      alert('Please select a plan first.');
+      return;
+    }
+
+    if (!window.PaystackPop) {
+      updatePlanModalStatus('Paystack could not load on this page. Please refresh and try again.', 'error');
+      alert('Paystack could not load. Please refresh the page and try again.');
+      return;
+    }
+
+    if (!isPaystackReady()) {
+      updatePlanModalStatus('The Paystack public key is not active yet. Please update the key first.', 'error');
+      alert('Paystack is not fully configured yet.');
+      return;
+    }
+
+    const subscription = buildPlanSubscriptionDetails();
+    if (!subscription) return;
+
+    updatePlanModalStatus(`Opening Paystack checkout for ${subscription.planName} — ${formatKsh(subscription.amount)} / month...`);
+
+    const handler = window.PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: subscription.email,
+      amount: Math.round(subscription.amount * 100),
+      currency: PAYSTACK_CURRENCY,
+      ref: `CYPLAN-${subscription.planCode.toUpperCase()}-${Date.now()}`,
+      metadata: {
+        custom_fields: [
+          {
+            display_name: 'Plan Name',
+            variable_name: 'plan_name',
+            value: subscription.planName
+          },
+          {
+            display_name: 'Customer Type',
+            variable_name: 'customer_type',
+            value: subscription.customerTypeLabel
+          },
+          {
+            display_name: 'Coverage Area',
+            variable_name: 'coverage_area',
+            value: subscription.area
+          },
+          {
+            display_name: 'Customer Phone',
+            variable_name: 'customer_phone',
+            value: subscription.phone
+          }
+        ]
+      },
+      callback: async function(response) {
+        updatePlanModalStatus(`Payment received for ${subscription.planName}. Verifying securely...`);
+
+        try {
+          const verification = await verifyPlanSubscriptionPayment(response.reference, subscription);
+          const activation = await activatePlanSubscription(subscription, verification);
+          const activationRecord = {
+            planCode: subscription.planCode,
+            planName: subscription.planName,
+            speed: subscription.speed,
+            price: subscription.amount,
+            reference: verification.reference,
+            activationId: activation.activationId || '',
+            activatedAt: activation.activatedAt || new Date().toISOString(),
+            serviceState: activation.serviceState || (subscription.customerType === 'existing-customer' ? 'live' : 'pending-installation')
+          };
+
+          saveActivePlan(activationRecord);
+          renderPlanActivationStatus();
+          updatePlanModalStatus(activation.message || `${subscription.planName} has been activated successfully.`, 'success');
+
+          const activationMessage = encodeURIComponent(
+            `Hi CyCom, I have paid for the ${subscription.planName} plan and the activation flow completed successfully.\n\n${subscription.summaryText}\nPayment Reference: ${verification.reference}\nActivation ID: ${activation.activationId || 'Auto-generated'}\nService Status: ${activation.serviceState || 'active'}`
+          );
+          window.open(`https://wa.me/254710504940?text=${activationMessage}`, '_blank');
+          window.setTimeout(closePlanActivationModal, 1200);
+        } catch (error) {
+          const pendingMessage = encodeURIComponent(
+            `Hi CyCom, I paid for the ${subscription.planName} package but activation still needs manual confirmation.\n\n${subscription.summaryText}\nPayment Reference: ${response.reference}\n\nPlease confirm the payment and activate my package.`
+          );
+          updatePlanModalStatus(error.message || 'Payment was received, but automatic activation is still pending.', 'error');
+          alert(`Payment was received, but automatic activation is still pending. Please share this reference with CyCom: ${response.reference}`);
+          window.open(`https://wa.me/254710504940?text=${pendingMessage}`, '_blank');
+        }
+      },
+      onClose: function() {
+        updatePlanModalStatus('Payment window was closed before completion. You can try again whenever you are ready.', 'error');
+      }
+    });
+
+    handler.openIframe();
+  }
+
   function getStockMeta(stock) {
     if (stock === 'out') return { label: 'Out of Stock', className: 'out-stock' };
     if (stock === 'low') return { label: 'Low Stock', className: 'low-stock' };
@@ -4669,6 +5213,12 @@
   }
 
   document.addEventListener('keydown', function(event) {
+    const planModalOpen = document.getElementById('planActivationOverlay')?.classList.contains('open');
+    if (planModalOpen && event.key === 'Escape') {
+      closePlanActivationModal();
+      return;
+    }
+
     const lightboxOpen = document.getElementById('productLightboxOverlay')?.classList.contains('open');
     if (!lightboxOpen) return;
     if (event.key === 'Escape') closeProductLightbox();
@@ -4992,6 +5542,7 @@
 
   loadShopProducts();
   initShop();
+  initPlanCheckout();
   initAds();
   renderAdminShopEditor();
 

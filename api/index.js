@@ -4,6 +4,6 @@ module.exports = (req, res) => {
   res.end(JSON.stringify({
     ok: true,
     service: 'CyCom API',
-    endpoints: ['/api/paystack/verify']
+    endpoints: ['/api/paystack/verify', '/api/subscriptions/activate']
   }));
 };
