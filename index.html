@@ -4028,6 +4028,7 @@
   };
   const PAYSTACK_PUBLIC_KEY = 'pk_live_2ae809fce170bbd23bd1aabf92ace804422af70d';
   const PAYSTACK_CURRENCY = 'KES';
+  const PAYSTACK_VERIFY_ENDPOINT = '/api/paystack/verify';
   const CYCOM_BUILD_ID = '2026-04-10-paystack-live';
 
   const SHOP_CART_KEY = 'cycom_shop_cart';
@@ -4277,6 +4278,55 @@
     window.open(`https://wa.me/254710504940?text=${message}`, '_blank');
   }
 
+  async function verifyPaystackPayment(reference, order) {
+    const response = await fetch(PAYSTACK_VERIFY_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        reference,
+        deliveryArea: order.area,
+        cart: shopCart.map((item) => ({
+          id: item.id,
+          qty: item.qty
+        }))
+      })
+    });
+
+    let result = null;
+    try {
+      result = await response.json();
+    } catch (error) {
+      result = null;
+    }
+
+    if (!response.ok || !result?.verified) {
+      throw new Error(result?.message || 'Payment verification could not be completed right now.');
+    }
+
+    return result;
+  }
+
+  async function refreshPaystackStatus() {
+    if (!isPaystackReady()) {
+      updatePaystackStatus('Paystack checkout has been added. Replace PAYSTACK_PUBLIC_KEY with your real public key to start receiving live payments.');
+      return;
+    }
+
+    try {
+      const response = await fetch(PAYSTACK_VERIFY_ENDPOINT, { method: 'OPTIONS' });
+      if (response.ok || response.status === 204 || response.status === 405) {
+        updatePaystackStatus('Paystack checkout is active with secure server verification for paid orders.');
+        return;
+      }
+    } catch (error) {
+      // Fall through to the manual review notice below.
+    }
+
+    updatePaystackStatus('Paystack checkout is active. If secure server verification is not available yet, CyCom will confirm the payment manually from the Paystack dashboard.', true);
+  }
+
   function startPaystackCheckout() {
     const paymentEl = document.getElementById('shopPaymentMethod');
     if (paymentEl) paymentEl.value = 'Paystack';
@@ -4329,17 +4379,30 @@
           }
         ]
       },
-      callback: function(response) {
-        updatePaystackStatus(`Payment received successfully. Reference: ${response.reference}`);
+      callback: async function(response) {
+        updatePaystackStatus(`Payment received. Verifying securely for reference ${response.reference}...`);
 
-        const paidMessage = encodeURIComponent(
-          `Hi CyCom, I have completed my Paystack payment.\n\n${order.summaryText}\nPayment Reference: ${response.reference}\n\nPlease confirm my order and delivery timeline.`
-        );
+        try {
+          const verification = await verifyPaystackPayment(response.reference, order);
+          updatePaystackStatus(`Payment verified successfully. Reference: ${verification.reference}`);
 
-        shopCart = [];
-        saveShopCart();
-        renderShopCart();
-        window.open(`https://wa.me/254710504940?text=${paidMessage}`, '_blank');
+          const paidMessage = encodeURIComponent(
+            `Hi CyCom, I have completed and verified my Paystack payment.\n\n${order.summaryText}\nPayment Reference: ${verification.reference}\n\nPlease confirm my order and delivery timeline.`
+          );
+
+          shopCart = [];
+          saveShopCart();
+          renderShopCart();
+          window.open(`https://wa.me/254710504940?text=${paidMessage}`, '_blank');
+        } catch (error) {
+          const fallbackMessage = encodeURIComponent(
+            `Hi CyCom, I completed a Paystack payment but secure verification needs manual review.\n\n${order.summaryText}\nPayment Reference: ${response.reference}\n\nPlease confirm this payment from your Paystack dashboard and finalize my order.`
+          );
+
+          updatePaystackStatus(error.message || 'Secure verification is still pending. Please contact CyCom for manual confirmation.', true);
+          alert(`Payment was received, but secure verification is still pending. Please share this reference with CyCom: ${response.reference}`);
+          window.open(`https://wa.me/254710504940?text=${fallbackMessage}`, '_blank');
+        }
       },
       onClose: function() {
         updatePaystackStatus('Payment window was closed before completion. You can try again or use WhatsApp checkout.', true);
@@ -4710,11 +4773,7 @@
       paystackBtn.onclick = startPaystackCheckout;
     }
 
-    updatePaystackStatus(
-      isPaystackReady()
-        ? 'Paystack is active for secure online payments. Customers can pay and then automatically send the order confirmation to WhatsApp.'
-        : 'Paystack checkout has been added. Replace PAYSTACK_PUBLIC_KEY with your real public key to start receiving live payments.'
-    );
+    refreshPaystackStatus();
 
     const mobileStick = document.getElementById('mobileCartStick');
     if (mobileStick) {
