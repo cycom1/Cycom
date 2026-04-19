@@ -18,7 +18,7 @@ const PRODUCT_PRICES = {
 
 const PLAN_PRICES = {
   'basic-home': 999,
-  'standard-home': 1999,
+  'standard-home': 2299,
   'business-pro': 4499
 };
 
