@@ -46,15 +46,47 @@
 [
   {
     "@context": "https://schema.org",
-    "@type": "InternetServiceProvider",
+    "@type": ["InternetServiceProvider", "LocalBusiness"],
     "@id": "https://www.cycom.africa/#isp",
     "name": "CyCom Internet",
     "description": "CyCom Internet provides fast WiFi, broadband packages, CCTV installation, SMS gateway services, and networking equipment for homes and businesses in Kenya.",
     "url": "https://www.cycom.africa/",
     "telephone": "+254710504940",
+    "email": "support@cycom.africa",
     "image": "https://cycom.africa/icons/icon-192.png",
-    "logo": "https://cycom.africa/icons/icon-192.png",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cycom.africa/icons/icon-192.png"
+    },
     "priceRange": "KSh",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nairobi",
+      "addressRegion": "Nairobi County",
+      "addressCountry": "KE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -1.286389,
+      "longitude": 36.817223
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "08:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "09:00",
+        "closes": "14:00"
+      }
+    ],
+    "sameAs": [
+      "https://wa.me/254710504940"
+    ],
     "areaServed": {
       "@type": "Country",
       "name": "Kenya"
@@ -119,6 +151,7 @@
 </script>
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="./manifest.webmanifest">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -2190,6 +2223,16 @@
   .footer-bottom-links { display: flex; gap: 20px; }
   .footer-bottom-links a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; }
   .footer-bottom-links a:hover { color: var(--aqua); }
+  .footer-share { border-top: 1px solid rgba(255,255,255,0.1); padding: 28px 0 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .footer-share-label { font-size: 13px; color: rgba(255,255,255,0.65); white-space: nowrap; }
+  .footer-share-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .share-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: opacity 0.15s, transform 0.1s; }
+  .share-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .share-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .share-wa { background: #25D366; color: #fff; }
+  .share-fb { background: #1877F2; color: #fff; }
+  .share-x { background: #000; color: #fff; }
+  .share-li { background: #0A66C2; color: #fff; }
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
@@ -3380,12 +3423,12 @@
       <span>Select a package below to subscribe and pay securely.</span>
     </div>
     <div class="plans-grid">
-      <!-- Basic -->
+      <!-- 5 Mbps -->
       <div class="plan-card">
-        <div class="plan-name">Basic Home</div>
+        <div class="plan-name">Starter</div>
         <div class="plan-price">
           <span class="plan-price-currency">KSh</span>
-          <span class="plan-price-amount">999</span>
+          <span class="plan-price-amount">1,100</span>
           <span class="plan-price-period">/mo</span>
         </div>
         <div class="plan-speed">5 Mbps <span>download</span></div>
@@ -3395,15 +3438,32 @@
           <li>Email & chat support</li>
           <li>99.5% uptime</li>
         </ul>
-        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="basic-home">Subscribe & Pay</button>
+        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="starter-5">Subscribe & Pay</button>
       </div>
-      <!-- Standard -->
+      <!-- 15 Mbps -->
+      <div class="plan-card">
+        <div class="plan-name">Basic Home</div>
+        <div class="plan-price">
+          <span class="plan-price-currency">KSh</span>
+          <span class="plan-price-amount">1,500</span>
+          <span class="plan-price-period">/mo</span>
+        </div>
+        <div class="plan-speed">15 Mbps <span>download</span></div>
+        <ul class="plan-features">
+          <li>Unlimited data</li>
+          <li>Free router included</li>
+          <li>Email & chat support</li>
+          <li>99.5% uptime</li>
+        </ul>
+        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="basic-15">Subscribe & Pay</button>
+      </div>
+      <!-- 20 Mbps -->
       <div class="plan-card popular">
         <div class="plan-badge">Most Popular</div>
         <div class="plan-name">Standard Home</div>
         <div class="plan-price">
           <span class="plan-price-currency">KSh</span>
-          <span class="plan-price-amount">1,999</span>
+          <span class="plan-price-amount">2,500</span>
           <span class="plan-price-period">/mo</span>
         </div>
         <div class="plan-speed">20 Mbps <span>download</span></div>
@@ -3414,17 +3474,53 @@
           <li>99.9% uptime</li>
           <li>Free installation</li>
         </ul>
-        <button type="button" class="plan-cta primary plan-subscribe-btn" data-plan-code="standard-home">Subscribe & Activate</button>
+        <button type="button" class="plan-cta primary plan-subscribe-btn" data-plan-code="standard-20">Subscribe & Activate</button>
       </div>
-      <!-- Business -->
+      <!-- 40 Mbps -->
+      <div class="plan-card">
+        <div class="plan-name">Home Plus</div>
+        <div class="plan-price">
+          <span class="plan-price-currency">KSh</span>
+          <span class="plan-price-amount">3,500</span>
+          <span class="plan-price-period">/mo</span>
+        </div>
+        <div class="plan-speed">40 Mbps <span>download</span></div>
+        <ul class="plan-features">
+          <li>Unlimited data</li>
+          <li>Free router included</li>
+          <li>Priority phone support</li>
+          <li>99.9% uptime</li>
+          <li>Free installation</li>
+        </ul>
+        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="homeplus-40">Subscribe & Pay</button>
+      </div>
+      <!-- 60 Mbps -->
+      <div class="plan-card">
+        <div class="plan-name">Business Starter</div>
+        <div class="plan-price">
+          <span class="plan-price-currency">KSh</span>
+          <span class="plan-price-amount">5,000</span>
+          <span class="plan-price-period">/mo</span>
+        </div>
+        <div class="plan-speed">60 Mbps <span>download</span></div>
+        <ul class="plan-features">
+          <li>Unlimited data</li>
+          <li>Dedicated IP address</li>
+          <li>24/7 priority support</li>
+          <li>99.9% SLA uptime</li>
+          <li>Free installation</li>
+        </ul>
+        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="biz-60">Subscribe & Pay</button>
+      </div>
+      <!-- 100 Mbps -->
       <div class="plan-card">
         <div class="plan-name">Business Pro</div>
         <div class="plan-price">
           <span class="plan-price-currency">KSh</span>
-          <span class="plan-price-amount">4,499</span>
+          <span class="plan-price-amount">8,000</span>
           <span class="plan-price-period">/mo</span>
         </div>
-        <div class="plan-speed">50 Mbps <span>download</span></div>
+        <div class="plan-speed">100 Mbps <span>download</span></div>
         <ul class="plan-features">
           <li>Unlimited data</li>
           <li>Dedicated IP address</li>
@@ -3433,7 +3529,7 @@
           <li>Free installation</li>
           <li>Static IP available</li>
         </ul>
-        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="business-pro">Subscribe & Pay</button>
+        <button type="button" class="plan-cta secondary plan-subscribe-btn" data-plan-code="biz-pro-100">Subscribe & Pay</button>
       </div>
     </div>
     <div class="guarantee-block">
@@ -3843,6 +3939,27 @@
         </ul>
       </div>
     </div>
+    <div class="footer-share">
+      <span class="footer-share-label">Share CyCom with friends &amp; family:</span>
+      <div class="footer-share-btns">
+        <a class="share-btn share-wa" href="https://wa.me/?text=Check%20out%20CyCom%20Internet%20Kenya%20%E2%80%94%20fast%20WiFi%2C%20CCTV%20%26%20SMS%20services%3A%20https%3A%2F%2Fcycom.africa" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">
+          <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M19.11 17.22c-.27-.13-1.58-.78-1.82-.87-.24-.09-.42-.13-.6.14-.18.27-.69.87-.85 1.05-.16.18-.31.2-.58.07-.27-.13-1.13-.42-2.15-1.34-.8-.71-1.34-1.58-1.49-1.85-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.6-1.45-.82-1.98-.22-.53-.44-.46-.6-.47l-.51-.01c-.18 0-.47.07-.71.34-.24.27-.93.91-.93 2.22s.96 2.58 1.1 2.76c.13.18 1.88 2.87 4.56 4.03.64.28 1.14.45 1.53.58.64.2 1.23.17 1.69.1.52-.08 1.58-.65 1.8-1.27.22-.62.22-1.16.16-1.27-.07-.11-.24-.18-.51-.31zM16.02 4.8c-6.2 0-11.22 5.02-11.22 11.22 0 1.98.52 3.91 1.5 5.62L4.7 27.2l5.72-1.5c1.66.91 3.53 1.39 5.43 1.39h.01c6.2 0 11.22-5.02 11.22-11.22 0-3-1.17-5.82-3.29-7.94-2.12-2.12-4.94-3.29-7.94-3.29zm-.17 20.39h-.01c-1.68 0-3.33-.45-4.77-1.31l-.34-.2-3.39.89.91-3.3-.22-.34a9.28 9.28 0 01-1.42-4.93c0-5.14 4.18-9.32 9.33-9.32 2.49 0 4.84.97 6.6 2.73 1.76 1.76 2.73 4.1 2.73 6.6 0 5.14-4.19 9.32-9.32 9.32z"/></svg>
+          WhatsApp
+        </a>
+        <a class="share-btn share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcycom.africa" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Facebook
+        </a>
+        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=Check%20out%20CyCom%20Internet%20Kenya%20%E2%80%94%20fast%20WiFi%2C%20CCTV%20%26%20SMS%20services&url=https%3A%2F%2Fcycom.africa" target="_blank" rel="noopener noreferrer" aria-label="Share on X (Twitter)">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </a>
+        <a class="share-btn share-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fcycom.africa" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
     <div class="footer-bottom">
       <span>© 2026 CyCom Internet. All rights reserved.</span>
       <div class="footer-bottom-links">
@@ -4233,9 +4350,12 @@
   const PLAN_ACTIVATION_ENDPOINT = '/api/subscriptions/activate';
   const ACTIVE_PLAN_STORAGE_KEY = 'cycom_active_plan';
   const PLAN_CATALOG = {
-    'basic-home': { code: 'basic-home', name: 'Basic Home', price: 999, speed: '5 Mbps', audience: 'Home' },
-    'standard-home': { code: 'standard-home', name: 'Standard Home', price: 2299, speed: '20 Mbps', audience: 'Home' },
-    'business-pro': { code: 'business-pro', name: 'Business Pro', price: 4499, speed: '50 Mbps', audience: 'Business' }
+    'starter-5':    { code: 'starter-5',    name: 'Starter',          price: 1100, speed: '5 Mbps',   audience: 'Home' },
+    'basic-15':     { code: 'basic-15',     name: 'Basic Home',       price: 1500, speed: '15 Mbps',  audience: 'Home' },
+    'standard-20':  { code: 'standard-20',  name: 'Standard Home',    price: 2500, speed: '20 Mbps',  audience: 'Home' },
+    'homeplus-40':  { code: 'homeplus-40',  name: 'Home Plus',        price: 3500, speed: '40 Mbps',  audience: 'Home' },
+    'biz-60':       { code: 'biz-60',       name: 'Business Starter', price: 5000, speed: '60 Mbps',  audience: 'Business' },
+    'biz-pro-100':  { code: 'biz-pro-100',  name: 'Business Pro',     price: 8000, speed: '100 Mbps', audience: 'Business' }
   };
   let selectedPlanCode = '';
   let shopCart = [];
@@ -5570,6 +5690,13 @@
 
     statusEl.textContent = "Thanks! We've opened WhatsApp with your message pre-filled. Hit send to reach us instantly.";
     statusEl.className = 'form-msg success';
+  }
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./service-worker.js');
+    });
   }
 </script>
 </body>
