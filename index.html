@@ -55,46 +55,48 @@
     "email": "support@cycom.africa",
     "image": "https://cycom.africa/icons/icon-192.png",
     <script>
-    // Simple CCTV image slider with auto-slide
-    const cctvSliderImages = [
-      "https://www.zdnet.com/a/img/resize/962a748f7e73e367596d9e7ee348c3693f144c89/2014/04/08/d83b218c-1d17-11e4-8c7f-00505685119a/security-cameras-thumb.jpg?width=770&height=578&fit=crop&auto=webp",
-      "https://media.istockphoto.com/photos/camera-security-the-green-park-picture-id1263779991?k=20&m=1263779991&s=612x612&w=0&h=XzHesk9IUI1WdbdJCCOgdKC1KdepcAHQpjlwYRjP64c="
-    ];
-    let cctvSliderIndex = 0;
-    const cctvSliderImg = document.getElementById('cctvSliderImg');
-    const cctvSliderPrev = document.getElementById('cctvSliderPrev');
-    const cctvSliderNext = document.getElementById('cctvSliderNext');
-    function showCctvSlide(idx) {
-      cctvSliderImg.style.opacity = 0.3;
-      setTimeout(() => {
-        cctvSliderImg.src = cctvSliderImages[idx];
-        cctvSliderImg.style.opacity = 1;
-      }, 200);
-    }
-    if (cctvSliderImg && cctvSliderPrev && cctvSliderNext) {
-      cctvSliderPrev.onclick = function() {
-        cctvSliderIndex = (cctvSliderIndex - 1 + cctvSliderImages.length) % cctvSliderImages.length;
-        showCctvSlide(cctvSliderIndex);
-        resetCctvSliderInterval();
-      };
-      cctvSliderNext.onclick = function() {
-        cctvSliderIndex = (cctvSliderIndex + 1) % cctvSliderImages.length;
-        showCctvSlide(cctvSliderIndex);
-        resetCctvSliderInterval();
-      };
-      // Auto-slide every 4 seconds
-      let cctvSliderTimer = setInterval(() => {
-        cctvSliderIndex = (cctvSliderIndex + 1) % cctvSliderImages.length;
-        showCctvSlide(cctvSliderIndex);
-      }, 4000);
-      function resetCctvSliderInterval() {
-        clearInterval(cctvSliderTimer);
-        cctvSliderTimer = setInterval(() => {
+    // Simple CCTV image slider with auto-slide (runs after DOM is ready)
+    document.addEventListener('DOMContentLoaded', function() {
+      const cctvSliderImages = [
+        "https://www.zdnet.com/a/img/resize/962a748f7e73e367596d9e7ee348c3693f144c89/2014/04/08/d83b218c-1d17-11e4-8c7f-00505685119a/security-cameras-thumb.jpg?width=770&height=578&fit=crop&auto=webp",
+        "https://media.istockphoto.com/photos/camera-security-the-green-park-picture-id1263779991?k=20&m=1263779991&s=612x612&w=0&h=XzHesk9IUI1WdbdJCCOgdKC1KdepcAHQpjlwYRjP64c="
+      ];
+      let cctvSliderIndex = 0;
+      const cctvSliderImg = document.getElementById('cctvSliderImg');
+      const cctvSliderPrev = document.getElementById('cctvSliderPrev');
+      const cctvSliderNext = document.getElementById('cctvSliderNext');
+      function showCctvSlide(idx) {
+        cctvSliderImg.style.opacity = 0.3;
+        setTimeout(() => {
+          cctvSliderImg.src = cctvSliderImages[idx];
+          cctvSliderImg.style.opacity = 1;
+        }, 200);
+      }
+      if (cctvSliderImg && cctvSliderPrev && cctvSliderNext) {
+        cctvSliderPrev.onclick = function() {
+          cctvSliderIndex = (cctvSliderIndex - 1 + cctvSliderImages.length) % cctvSliderImages.length;
+          showCctvSlide(cctvSliderIndex);
+          resetCctvSliderInterval();
+        };
+        cctvSliderNext.onclick = function() {
+          cctvSliderIndex = (cctvSliderIndex + 1) % cctvSliderImages.length;
+          showCctvSlide(cctvSliderIndex);
+          resetCctvSliderInterval();
+        };
+        // Auto-slide every 4 seconds
+        let cctvSliderTimer = setInterval(() => {
           cctvSliderIndex = (cctvSliderIndex + 1) % cctvSliderImages.length;
           showCctvSlide(cctvSliderIndex);
         }, 4000);
+        function resetCctvSliderInterval() {
+          clearInterval(cctvSliderTimer);
+          cctvSliderTimer = setInterval(() => {
+            cctvSliderIndex = (cctvSliderIndex + 1) % cctvSliderImages.length;
+            showCctvSlide(cctvSliderIndex);
+          }, 4000);
+        }
       }
-    }
+    });
     </script>
     ],
     "sameAs": [
