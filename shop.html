@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyCom Shop — Routers, CCTV & Network Gear</title>
+  <meta name="description" content="Buy genuine routers, CCTV cameras, PoE switches and networking accessories from CyCom Internet Kenya. Fast delivery across Nairobi and beyond.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --aqua:#34d7d8;
+      --aqua-dark:#20b9ba;
+      --aqua-light:#e6fafa;
+      --dark:#062f30;
+      --navy:#0b4f90;
+      --cream:#f0fafa;
+      --text:#0f1724;
+      --muted:#5a7a7b;
+      --border:rgba(52,215,216,0.25);
+      --white:#fff;
+    }
+    body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+    .page{display:none;min-height:100vh;flex-direction:column}
+    .page.active{display:flex}
+
+    /* ── NAV ── */
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:0.5px solid var(--border);background:white;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer}
+    .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#fff 0%,#eef8ff 100%);border:1px solid rgba(0,160,233,0.24);border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+    .logo-icon img{width:100%;height:100%;object-fit:contain;border-radius:8px}
+    .logo-text{font-family:'Jost',sans-serif;font-size:20px;font-weight:700;color:var(--dark);letter-spacing:-0.5px}
+    .logo-text span{color:var(--aqua-dark)}
+    .nav-links{display:flex;gap:1.5rem;list-style:none}
+    .nav-links a{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;cursor:pointer;transition:color 0.2s}
+    .nav-links a:hover{color:var(--aqua-dark)}
+    .nav-right{display:flex;gap:1rem;align-items:center}
+    .nav-btn{background:none;border:none;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:var(--muted);transition:color 0.2s;padding:6px 0}
+    .nav-btn:hover{color:var(--aqua-dark)}
+    .cart-btn{display:flex;align-items:center;gap:6px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:var(--text);background:none;border:none;font-family:'Jost',sans-serif;font-weight:500}
+    .badge{background:var(--aqua-dark);color:white;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+    /* ── BUTTONS ── */
+    .btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:13px 32px;background:var(--aqua);color:var(--dark);font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;font-family:'Jost',sans-serif;font-weight:700;transition:background 0.2s;border-radius:4px;width:100%}
+    .btn-primary:hover{background:var(--aqua-dark)}
+    .btn-dark{display:inline-flex;align-items:center;justify-content:center;padding:13px 32px;background:var(--dark);color:white;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;font-family:'Jost',sans-serif;font-weight:600;transition:background 0.2s;border-radius:4px;width:100%}
+    .btn-dark:hover{background:#073536}
+    .btn-outline{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border:1.5px solid var(--aqua-dark);color:var(--aqua-dark);background:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;font-weight:600;transition:all 0.2s;border-radius:4px;width:100%}
+    .btn-outline:hover{background:var(--aqua);color:var(--dark);border-color:var(--aqua)}
+    .btn-sm{padding:9px 20px;font-size:10px;width:auto}
+
+    /* ── INPUTS ── */
+    .field{margin-bottom:1.2rem}
+    .field label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    .field input,.field select{width:100%;padding:11px 14px;border:1px solid rgba(0,0,0,0.12);background:white;font-family:'Jost',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;border-radius:4px}
+    .field input:focus,.field select:focus{border-color:var(--aqua-dark)}
+    .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a7a7b' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+
+    /* ── LAYOUT HELPERS ── */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .section{padding:2.5rem 2rem}
+    .section-header{display:flex;align-items:center;gap:1.2rem;margin-bottom:2rem}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--dark)}
+    .line{flex:1;height:0.5px;background:var(--border)}
+    .eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--aqua-dark)}
+    .summary-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:10px}
+    .summary-row.total{font-size:16px;font-weight:600;color:var(--dark);padding-top:1rem;border-top:0.5px solid var(--border);margin-top:0.5rem}
+
+    /* ══════════════════════════════════
+       HOME PAGE
+    ══════════════════════════════════ */
+    .hero{display:grid;grid-template-columns:1fr 1fr;min-height:380px}
+    .hero-text{padding:4rem 3rem;display:flex;flex-direction:column;justify-content:center;background:var(--dark)}
+    .hero-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--aqua);margin-bottom:1.5rem}
+    .hero-title{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;line-height:1.1;color:white;margin-bottom:1.5rem}
+    .hero-title em{font-style:italic;color:var(--aqua)}
+    .hero-sub{font-size:13px;color:rgba(255,255,255,0.55);letter-spacing:1px;line-height:1.8;margin-bottom:2.5rem}
+    .hero-visual{background:linear-gradient(135deg,#0a2a2b 0%,#062f30 50%,#0d3d3e 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .hero-ornament{width:200px;height:200px;border:0.5px solid rgba(52,215,216,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative}
+    .hero-ornament::before{content:'';position:absolute;width:160px;height:160px;border:0.5px solid rgba(52,215,216,0.15);border-radius:50%}
+    .hero-ornament::after{content:'📡';font-size:48px}
+    .hero-tags{position:absolute;bottom:2rem;right:2rem;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+    .hero-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);padding:6px 12px;border:0.5px solid rgba(52,215,216,0.25)}
+    .categories{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    .cat-card{padding:1.5rem 1rem;border:1px solid var(--border);background:white;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;border-radius:8px}
+    .cat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--aqua);transform:scaleX(0);transition:transform 0.3s}
+    .cat-card:hover{border-color:var(--aqua);transform:translateY(-2px);box-shadow:0 8px 20px rgba(52,215,216,0.12)}
+    .cat-card:hover::before{transform:scaleX(1)}
+    .cat-icon{font-size:26px;margin-bottom:0.8rem;display:block}
+    .cat-name{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text);font-weight:600}
+    .cat-count{font-size:11px;color:var(--muted);margin-top:4px}
+    .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .product-card{background:white;border:1px solid rgba(0,0,0,0.06);cursor:pointer;transition:all 0.2s;position:relative;border-radius:10px;overflow:hidden}
+    .product-card:hover{border-color:rgba(52,215,216,0.5);transform:translateY(-3px);box-shadow:0 12px 28px rgba(52,215,216,0.12)}
+    .product-img-box{height:200px;background:var(--cream);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .product-img-box img{width:100%;height:100%;object-fit:contain;padding:12px;transition:transform 0.3s}
+    .product-card:hover .product-img-box img{transform:scale(1.05)}
+    .product-emoji{font-size:56px;transition:transform 0.3s}
+    .product-card:hover .product-emoji{transform:scale(1.08)}
+    .product-badge{position:absolute;top:10px;left:10px;padding:4px 10px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;border-radius:3px}
+    .badge-new{background:var(--dark);color:white}
+    .badge-low{background:#e67e22;color:white}
+    .badge-out{background:#c0392b;color:white}
+    .badge-best{background:var(--aqua);color:var(--dark)}
+    .product-info{padding:1.2rem}
+    .product-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .product-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--dark);margin-bottom:8px;line-height:1.3}
+    .product-footer{display:flex;align-items:center;justify-content:space-between}
+    .product-price{font-size:15px;font-weight:600;color:var(--text)}
+    .add-btn{width:34px;height:34px;background:var(--dark);color:white;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;border-radius:6px}
+    .add-btn:hover{background:var(--aqua-dark)}
+    .add-btn:disabled{background:#ccc;cursor:not-allowed}
+    .promo-banner{margin:0 2rem 2rem;padding:2.5rem 3rem;background:var(--dark);display:flex;align-items:center;justify-content:space-between;border-radius:12px}
+    .banner-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--aqua);margin-bottom:8px}
+    .banner-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:white}
+
+    /* ══════════════════════════════════
+       PRODUCT DETAIL PAGE
+    ══════════════════════════════════ */
+    .breadcrumb{padding:1rem 2rem;font-size:12px;letter-spacing:1px;color:var(--muted)}
+    .breadcrumb span{cursor:pointer}
+    .breadcrumb span:hover{color:var(--aqua-dark)}
+    .product-detail{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 2rem 3rem}
+    .product-gallery{padding:2rem 2rem 2rem 0}
+    .main-img{background:white;border:1px solid var(--border);height:400px;display:flex;align-items:center;justify-content:center;font-size:96px;margin-bottom:1rem;border-radius:10px;overflow:hidden}
+    .main-img img{width:100%;height:100%;object-fit:contain;padding:16px}
+    .main-img-emoji{font-size:96px}
+    .thumbs{display:flex;gap:10px;flex-wrap:wrap}
+    .thumb{width:68px;height:68px;background:white;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:border-color 0.2s;border-radius:6px;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:contain;padding:4px}
+    .thumb:hover,.thumb.active{border-color:var(--aqua-dark)}
+    .product-info-side{padding:2rem 0 2rem 2rem;border-left:0.5px solid var(--border)}
+    .p-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--dark);line-height:1.2;margin-bottom:1rem}
+    .p-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:1.5rem}
+    .p-price{font-size:22px;font-weight:700;color:var(--dark)}
+    .p-stock{font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:3px;font-weight:600}
+    .p-stock.in{background:rgba(52,215,216,0.12);color:var(--aqua-dark)}
+    .p-stock.low{background:rgba(230,126,34,0.12);color:#c0730d}
+    .p-stock.out{background:rgba(192,57,43,0.1);color:#c0392b}
+    .p-desc{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;border-top:0.5px solid var(--border);padding-top:1.2rem}
+    .p-features{margin-bottom:1.8rem}
+    .p-features li{font-size:13px;color:var(--muted);padding:5px 0;border-bottom:0.5px solid rgba(0,0,0,0.04);display:flex;gap:8px;align-items:flex-start}
+    .p-features li::before{content:'✓';color:var(--aqua-dark);font-weight:700;flex-shrink:0;margin-top:1px}
+    .qty-row{display:flex;align-items:center;gap:16px;margin-bottom:1.5rem}
+    .qty-ctrl{display:flex;align-items:center;border:1px solid rgba(0,0,0,0.12);border-radius:6px;overflow:hidden}
+    .qty-btn{width:36px;height:36px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text);transition:background 0.2s}
+    .qty-btn:hover{background:var(--cream)}
+    .qty-val{width:40px;text-align:center;font-size:14px;font-weight:600}
+    .p-actions{display:flex;flex-direction:column;gap:10px}
+    .product-perks{margin-top:1.5rem;padding-top:1.5rem;border-top:0.5px solid var(--border);display:flex;flex-direction:column;gap:8px}
+    .product-perk{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center}
+    .product-perk span:first-child{color:var(--aqua-dark)}
+
+    /* ══════════════════════════════════
+       CART PAGE
+    ══════════════════════════════════ */
+    .cart-layout{display:grid;grid-template-columns:1fr 380px;gap:2rem;padding:0 2rem 3rem;align-items:start}
+    .cart-items{background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+    .cart-header{padding:1.2rem 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .cart-header-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400}
+    .cart-continue{background:none;border:none;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:var(--muted);font-family:'Jost',sans-serif}
+    .cart-continue:hover{color:var(--aqua-dark)}
+    .cart-item{display:grid;grid-template-columns:80px 1fr auto;gap:1rem;padding:1.2rem 1.5rem;border-bottom:0.5px solid var(--border);align-items:center}
+    .cart-item-img{width:80px;height:80px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:30px;border-radius:8px;overflow:hidden}
+    .cart-item-img img{width:100%;height:100%;object-fit:contain;padding:6px}
+    .cart-item-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--dark);margin-bottom:3px}
+    .cart-item-cat{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+    .cart-item-price{font-size:14px;font-weight:600;margin-top:8px}
+    .cart-item-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+    .remove-btn{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;transition:color 0.2s}
+    .remove-btn:hover{color:#c0392b}
+    .mini-qty{display:flex;align-items:center;border:1px solid rgba(0,0,0,0.1);border-radius:5px;overflow:hidden}
+    .mini-qty button{width:28px;height:28px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--text)}
+    .mini-qty span{width:28px;text-align:center;font-size:13px;font-weight:600}
+    .cart-summary{background:white;border:1px solid var(--border);padding:1.5rem;position:sticky;top:80px;border-radius:10px}
+    .summary-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid var(--border)}
+    .coupon-row{display:flex;gap:8px;margin:1.2rem 0}
+    .coupon-row input{flex:1;padding:10px 12px;border:1px solid rgba(0,0,0,0.1);font-family:'Jost',sans-serif;font-size:13px;outline:none;border-radius:4px}
+    .coupon-row input:focus{border-color:var(--aqua-dark)}
+    .coupon-row button{padding:10px 16px;background:var(--dark);color:white;border:none;font-size:11px;letter-spacing:1px;cursor:pointer;font-family:'Jost',sans-serif;border-radius:4px}
+    .coupon-row button:hover{background:var(--aqua-dark)}
+    .secure-note{margin-top:1rem;font-size:11px;color:var(--muted);text-align:center;letter-spacing:1px}
+    .empty-cart{text-align:center;padding:3rem 2rem;color:var(--muted)}
+    .empty-cart-icon{font-size:48px;margin-bottom:1rem}
+    .empty-cart-text{font-size:13px;margin-bottom:1.5rem}
+
+    /* ══════════════════════════════════
+       CHECKOUT PAGE
+    ══════════════════════════════════ */
+    .checkout-layout{display:grid;grid-template-columns:1fr 360px;gap:2rem;padding:2rem;align-items:start}
+    .checkout-form-area{background:white;border:1px solid var(--border);padding:2rem;border-radius:10px}
+    .checkout-steps{display:flex;gap:0;margin-bottom:2.5rem}
+    .step{display:flex;align-items:center;gap:8px;flex:1}
+    .step-num{width:28px;height:28px;border-radius:50%;background:var(--cream);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--muted);flex-shrink:0;transition:all 0.3s}
+    .step.active .step-num{background:var(--aqua);border-color:var(--aqua);color:var(--dark)}
+    .step.done .step-num{background:var(--dark);border-color:var(--dark);color:white}
+    .step-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:color 0.3s}
+    .step.active .step-label{color:var(--aqua-dark)}
+    .step.done .step-label{color:var(--dark)}
+    .step-connector{flex:1;height:0.5px;background:var(--border);margin:0 6px}
+    .step-section{display:none}
+    .step-section.active{display:block}
+    .step-section h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:1.5rem;color:var(--dark)}
+    .payment-options{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+    .payment-opt{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--border);cursor:pointer;transition:border-color 0.2s;border-radius:6px}
+    .payment-opt.selected{border-color:var(--aqua-dark);background:var(--aqua-light)}
+    .payment-opt input[type=radio]{accent-color:var(--aqua-dark)}
+    .payment-opt-label{font-size:13px;font-weight:600}
+    .payment-opt-sub{font-size:11px;color:var(--muted);margin-top:2px}
+    .payment-opt-icon{margin-left:auto;font-size:18px}
+    .extra-fields{display:none;padding:1rem;background:var(--cream);margin-top:6px;border:0.5px solid var(--border);border-radius:6px}
+    .extra-fields.show{display:block}
+    .checkout-mini-cart{background:white;border:1px solid var(--border);padding:1.5rem;position:sticky;top:80px;border-radius:10px}
+    .mini-item{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:center}
+    .mini-item-img{width:52px;height:52px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;position:relative;border-radius:6px;overflow:hidden}
+    .mini-item-img img{width:100%;height:100%;object-fit:contain;padding:4px}
+    .mini-badge{position:absolute;top:-5px;right:-5px;background:var(--aqua-dark);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .mini-item-name{font-size:13px;font-weight:500;color:var(--dark)}
+    .mini-item-price{font-size:12px;color:var(--muted);margin-top:3px}
+    .review-block{background:var(--cream);padding:1.2rem;margin-bottom:1rem;border:0.5px solid var(--border);border-radius:6px}
+    .review-block-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem}
+    .review-block-title{font-size:14px;font-weight:600;color:var(--dark)}
+    .review-block-sub{font-size:13px;color:var(--muted);margin-top:4px}
+    .order-total-row{display:flex;justify-content:space-between;padding:1rem 0;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);margin-bottom:1.5rem}
+    .order-confirmed{text-align:center;padding:3rem 2rem;display:none}
+    .order-confirmed.show{display:block}
+    .confirm-icon{font-size:56px;margin-bottom:1.5rem}
+    .confirm-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--dark);margin-bottom:1rem}
+    .confirm-order-num{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--aqua-dark);margin-bottom:1.5rem}
+    .confirm-sub{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:2rem}
+
+    /* ── FOOTER ── */
+    footer{padding:2rem;border-top:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;margin-top:auto;background:white}
+    .footer-logo{font-family:'Jost',sans-serif;font-size:16px;font-weight:700;color:var(--muted)}
+    .footer-logo span{color:var(--aqua-dark)}
+    .footer-note{font-size:11px;color:var(--muted);letter-spacing:1px}
+
+    /* ── TOAST ── */
+    .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--dark);color:white;padding:1rem 1.5rem;font-size:12px;letter-spacing:1px;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;border-left:3px solid var(--aqua);z-index:9999;border-radius:4px}
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    /* ── WA FLOAT ── */
+    .wa-float{position:fixed;bottom:1.5rem;left:1.5rem;z-index:9998;display:flex;flex-direction:column;gap:10px}
+    .wa-float a{display:flex;align-items:center;gap:10px;background:#25d366;color:white;padding:10px 16px;border-radius:50px;font-size:12px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,0.35);transition:all 0.2s;letter-spacing:0.5px}
+    .wa-float a:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,0.45)}
+    .wa-float svg{width:20px;height:20px;flex-shrink:0}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      nav{padding:0.8rem 1rem}
+      .hero{grid-template-columns:1fr}
+      .hero-text{padding:2.5rem 1.5rem}
+      .hero-title{font-size:36px}
+      .hero-visual{display:none}
+      .product-detail{grid-template-columns:1fr}
+      .product-info-side{border-left:none;border-top:0.5px solid var(--border);padding:1.5rem 0 0}
+      .cart-layout{grid-template-columns:1fr}
+      .checkout-layout{grid-template-columns:1fr}
+      .checkout-mini-cart{position:static}
+      .cart-summary{position:static}
+      .categories{grid-template-columns:repeat(2,1fr)}
+      .products-grid{grid-template-columns:repeat(2,1fr)}
+      .two-col{grid-template-columns:1fr}
+      nav .nav-links{display:none}
+      .promo-banner{flex-direction:column;gap:1.5rem;margin:0 1rem 2rem;padding:2rem 1.5rem}
+      .section{padding:2rem 1rem}
+    }
+    @media(max-width:480px){
+      .products-grid{grid-template-columns:1fr}
+      .categories{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     HOME / SHOP PAGE
+════════════════════════════════════════ -->
+<div id="home-page" class="page active">
+  <nav>
+    <a class="logo" href="/">
+      <div class="logo-icon">
+        <img src="icons/icon-192.png" alt="CyCom Logo" width="38" height="38" onerror="this.style.display='none'">
+      </div>
+      <span class="logo-text">Cy<span>Com</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="filterCategory('all')">All</a></li>
+      <li><a onclick="filterCategory('wifi')">WiFi</a></li>
+      <li><a onclick="filterCategory('cctv')">CCTV</a></li>
+      <li><a onclick="filterCategory('network')">Network</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="nav-btn" href="/">← Main Site</a>
+      <button class="cart-btn" onclick="gotoPage('cart-page')">
+        Cart <span class="badge" id="home-cart-badge">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Genuine Hardware — CyCom Kenya</div>
+      <h1 class="hero-title">Network Gear<br><em>Built to Last</em></h1>
+      <p class="hero-sub">Routers, CCTV cameras, PoE switches and<br>accessories — genuine, tested, supported.</p>
+      <button class="btn-primary" style="width:auto;padding:14px 36px" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">Browse Products</button>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-ornament"></div>
+      <div class="hero-tags">
+        <div class="hero-tag">Genuine Products</div>
+        <div class="hero-tag">Setup Support</div>
+        <div class="hero-tag">Nairobi Delivery</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Browse By</span>
+      <div class="line"></div>
+      <h2 class="section-title">Categories</h2>
+    </div>
+    <div class="categories">
+      <div class="cat-card" onclick="filterCategory('all')">
+        <span class="cat-icon">🛒</span>
+        <div class="cat-name">All Items</div>
+        <div class="cat-count" id="cat-count-all">6 items</div>
+      </div>
+      <div class="cat-card" onclick="filterCategory('wifi')">
+        <span class="cat-icon">📶</span>
+        <div class="cat-name">WiFi Routers</div>
+        <div class="cat-count">2 items</div>
+      </div>
+      <div class="cat-card" onclick="filterCategory('cctv')">
+        <span class="cat-icon">📷</span>
+        <div class="cat-name">CCTV</div>
+        <div class="cat-count">2 items</div>
+      </div>
+      <div class="cat-card" onclick="filterCategory('network')">
+        <span class="cat-icon">🔌</span>
+        <div class="cat-name">Network</div>
+        <div class="cat-count">2 items</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="products-section">
+    <div class="section-header">
+      <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Featured</span>
+      <div class="line"></div>
+      <h2 class="section-title" id="products-section-title">All Products</h2>
+    </div>
+    <div class="products-grid" id="products-grid"></div>
+  </div>
+
+  <div class="promo-banner">
+    <div>
+      <div class="banner-eyebrow">Need help choosing?</div>
+      <h3 class="banner-title">Our team advises and installs<br>everything we sell.</h3>
+    </div>
+    <a class="btn-outline" style="width:auto;padding:14px 36px;text-decoration:none" href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20need%20help%20choosing%20network%20gear." target="_blank" rel="noopener">Chat on WhatsApp</a>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Cy<span>Com</span> Shop</div>
+    <div class="footer-note">© 2026 CyCom Internet · <a href="/" style="color:var(--aqua-dark);text-decoration:none">cycom.africa</a></div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════
+     PRODUCT DETAIL PAGE
+════════════════════════════════════════ -->
+<div id="product-page" class="page">
+  <nav>
+    <a class="logo" href="/">
+      <div class="logo-icon">
+        <img src="icons/icon-192.png" alt="CyCom Logo" width="38" height="38" onerror="this.style.display='none'">
+      </div>
+      <span class="logo-text">Cy<span>Com</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="gotoPage('home-page')">Shop</a></li>
+      <li><a onclick="filterCategory('wifi');gotoPage('home-page')">WiFi</a></li>
+      <li><a onclick="filterCategory('cctv');gotoPage('home-page')">CCTV</a></li>
+      <li><a onclick="filterCategory('network');gotoPage('home-page')">Network</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="cart-btn" onclick="gotoPage('cart-page')">
+        Cart <span class="badge" id="product-cart-badge">0</span>
+      </button>
+    </div>
+  </nav>
+  <div class="breadcrumb">
+    <span onclick="gotoPage('home-page')">Shop</span> &rsaquo;
+    <span id="detail-breadcrumb-cat">Category</span> &rsaquo;
+    <span id="detail-breadcrumb-name">Product</span>
+  </div>
+  <div class="product-detail">
+    <div class="product-gallery">
+      <div class="main-img" id="main-img-wrap">
+        <span class="main-img-emoji" id="main-img-emoji">📦</span>
+        <img id="main-img-photo" src="" alt="" style="display:none">
+      </div>
+      <div class="thumbs" id="thumbs-row"></div>
+    </div>
+    <div class="product-info-side">
+      <span class="eyebrow" id="detail-category" style="display:block;margin-bottom:0.8rem">Category</span>
+      <h1 class="p-title" id="detail-name">Product Name</h1>
+      <div class="p-price-row">
+        <span class="p-price" id="detail-price">KSh 0</span>
+        <span class="p-stock" id="detail-stock"></span>
+      </div>
+      <p class="p-desc" id="detail-desc">Description</p>
+      <ul class="p-features" id="detail-features"></ul>
+      <div class="qty-row">
+        <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Qty</span>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <span class="qty-val" id="qty-val">1</span>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+      <div class="p-actions" id="detail-actions">
+        <button class="btn-primary" id="detail-add-btn" onclick="addDetailToCart()">Add to Cart</button>
+        <button class="btn-dark" onclick="addDetailToCart();setTimeout(()=>gotoPage('checkout-page'),700)">Buy Now</button>
+      </div>
+      <div class="product-perks">
+        <div class="product-perk"><span>✓</span> Free delivery within Nairobi CBD</div>
+        <div class="product-perk"><span>✓</span> Setup support available</div>
+        <div class="product-perk"><span>✓</span> Genuine manufacturer warranty</div>
+        <div class="product-perk"><span>✓</span> 7-day return policy</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     CART PAGE
+════════════════════════════════════════ -->
+<div id="cart-page" class="page">
+  <nav>
+    <a class="logo" href="/">
+      <div class="logo-icon">
+        <img src="icons/icon-192.png" alt="CyCom Logo" width="38" height="38" onerror="this.style.display='none'">
+      </div>
+      <span class="logo-text">Cy<span>Com</span></span>
+    </a>
+    <div class="nav-right">
+      <button class="nav-btn" onclick="gotoPage('home-page')">← Continue Shopping</button>
+      <button class="cart-btn">Cart <span class="badge" id="cart-page-badge">0</span></button>
+    </div>
+  </nav>
+  <div class="section" style="padding-bottom:1rem">
+    <div class="section-header">
+      <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">My</span>
+      <div class="line"></div>
+      <h2 class="section-title">Shopping Cart</h2>
+    </div>
+  </div>
+  <div class="cart-layout">
+    <div>
+      <div class="cart-items" id="cart-items-container">
+        <div class="cart-header">
+          <span class="cart-header-title" id="cart-items-title">0 Items</span>
+          <button class="cart-continue" onclick="gotoPage('home-page')">Continue Shopping</button>
+        </div>
+        <div id="cart-items-list">
+          <div class="empty-cart" id="empty-cart-msg">
+            <div class="empty-cart-icon">🛒</div>
+            <div class="empty-cart-text">Your cart is empty.</div>
+            <button class="btn-primary" style="width:auto;padding:11px 28px" onclick="gotoPage('home-page')">Browse Products</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cart-summary">
+      <div class="summary-title">Order Summary</div>
+      <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">KSh 0</span></div>
+      <div class="summary-row"><span>Delivery</span><span id="cart-delivery">—</span></div>
+      <div class="summary-row total"><span>Total</span><span id="cart-total">KSh 0</span></div>
+      <div class="coupon-row">
+        <input type="text" id="coupon-input" placeholder="Coupon code">
+        <button onclick="applyCoupon()">Apply</button>
+      </div>
+      <button class="btn-primary" onclick="proceedCheckout()">Proceed to Checkout</button>
+      <div class="secure-note">🔒 Secure Paystack checkout · SSL encrypted</div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Cy<span>Com</span> Shop</div>
+    <div class="footer-note">© 2026 CyCom Internet · <a href="/" style="color:var(--aqua-dark);text-decoration:none">cycom.africa</a></div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════
+     CHECKOUT PAGE
+════════════════════════════════════════ -->
+<div id="checkout-page" class="page">
+  <nav>
+    <a class="logo" href="/">
+      <div class="logo-icon">
+        <img src="icons/icon-192.png" alt="CyCom Logo" width="38" height="38" onerror="this.style.display='none'">
+      </div>
+      <span class="logo-text">Cy<span>Com</span></span>
+    </a>
+    <div class="nav-right">
+      <button class="cart-btn" onclick="gotoPage('cart-page')">← Back to Cart</button>
+    </div>
+  </nav>
+  <div class="checkout-layout">
+    <div class="checkout-form-area">
+      <div class="checkout-steps">
+        <div class="step active" id="step1-ind">
+          <div class="step-num">1</div>
+          <div class="step-label">Delivery</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" id="step2-ind">
+          <div class="step-num">2</div>
+          <div class="step-label">Payment</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" id="step3-ind">
+          <div class="step-num">3</div>
+          <div class="step-label">Review</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Delivery -->
+      <div class="step-section active" id="step1-sec">
+        <h3>Delivery Details</h3>
+        <div class="two-col">
+          <div class="field"><label>First Name</label><input type="text" id="co-fname" placeholder="John"></div>
+          <div class="field"><label>Last Name</label><input type="text" id="co-lname" placeholder="Kamau"></div>
+        </div>
+        <div class="field"><label>Email Address</label><input type="email" id="co-email" placeholder="you@example.com"></div>
+        <div class="field"><label>Phone Number</label><input type="tel" id="co-phone" placeholder="+254 700 000 000"></div>
+        <div class="field">
+          <label>Delivery Area</label>
+          <select id="co-area" onchange="updateDeliveryFee()">
+            <option value="">Select area...</option>
+            <option value="Nairobi CBD" data-fee="0">Nairobi CBD (Free)</option>
+            <option value="Westlands / Kilimani" data-fee="200">Westlands / Kilimani — KSh 200</option>
+            <option value="Embakasi / Donholm" data-fee="250">Embakasi / Donholm — KSh 250</option>
+            <option value="Kasarani / Roysambu" data-fee="300">Kasarani / Roysambu — KSh 300</option>
+            <option value="Kiambu / Thika Road" data-fee="350">Kiambu / Thika Road — KSh 350</option>
+            <option value="Outside Nairobi" data-fee="700">Outside Nairobi — KSh 700</option>
+          </select>
+        </div>
+        <div class="field"><label>Street / Building Address</label><input type="text" id="co-address" placeholder="e.g. 14 Westlands Road, Apt 3B"></div>
+        <div class="field"><label>Delivery Notes (optional)</label><input type="text" id="co-notes" placeholder="e.g. Call on arrival"></div>
+        <button class="btn-primary" onclick="nextStep(2)">Continue to Payment →</button>
+      </div>
+
+      <!-- Step 2: Payment -->
+      <div class="step-section" id="step2-sec">
+        <h3>Payment Method</h3>
+        <div class="payment-options">
+          <div class="payment-opt selected" onclick="selectPayment(this,'paystack')">
+            <input type="radio" name="pay" checked>
+            <div>
+              <div class="payment-opt-label">Paystack (Card / M-Pesa)</div>
+              <div class="payment-opt-sub">Secure online payment via Paystack</div>
+            </div>
+            <span class="payment-opt-icon">💳</span>
+          </div>
+          <div class="payment-opt" onclick="selectPayment(this,'mpesa')">
+            <input type="radio" name="pay">
+            <div>
+              <div class="payment-opt-label">M-Pesa STK Push</div>
+              <div class="payment-opt-sub">Pay directly from your Safaricom line</div>
+            </div>
+            <span class="payment-opt-icon">📱</span>
+          </div>
+          <div class="extra-fields" id="mpesa-fields">
+            <div class="field" style="margin-bottom:0">
+              <label>M-Pesa Number</label>
+              <input type="tel" id="mpesa-number" placeholder="+254 700 000 000">
+            </div>
+          </div>
+          <div class="payment-opt" onclick="selectPayment(this,'cod')">
+            <input type="radio" name="pay">
+            <div>
+              <div class="payment-opt-label">Cash on Delivery</div>
+              <div class="payment-opt-sub">Pay when your order arrives</div>
+            </div>
+            <span class="payment-opt-icon">💵</span>
+          </div>
+          <div class="payment-opt" onclick="selectPayment(this,'whatsapp')">
+            <input type="radio" name="pay">
+            <div>
+              <div class="payment-opt-label">Order via WhatsApp</div>
+              <div class="payment-opt-sub">Send order details directly to our team</div>
+            </div>
+            <span class="payment-opt-icon">💬</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:1rem">
+          <button class="btn-outline btn-sm" onclick="nextStep(1)">← Back</button>
+          <button class="btn-primary" style="flex:1" onclick="nextStep(3)">Review Order →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Review + Place Order -->
+      <div class="step-section" id="step3-sec">
+        <div id="review-content">
+          <h3>Review Your Order</h3>
+          <div class="review-block">
+            <div class="review-block-label">Delivery To</div>
+            <div class="review-block-title" id="review-name">—</div>
+            <div class="review-block-sub" id="review-address">—</div>
+            <div class="review-block-sub" id="review-phone">—</div>
+          </div>
+          <div class="review-block">
+            <div class="review-block-label">Payment Method</div>
+            <div class="review-block-title" id="review-payment">—</div>
+          </div>
+          <div class="order-total-row">
+            <span style="font-size:13px;color:var(--muted)">Order Total</span>
+            <span style="font-size:18px;font-weight:700;color:var(--dark)" id="review-total">KSh 0</span>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn-outline btn-sm" onclick="nextStep(2)">← Back</button>
+            <button class="btn-primary" style="flex:1" id="place-order-btn" onclick="placeOrder()">Place Order &amp; Pay</button>
+          </div>
+        </div>
+        <div class="order-confirmed" id="order-confirmed">
+          <div class="confirm-icon">✅</div>
+          <h2 class="confirm-title">Order Confirmed!</h2>
+          <div class="confirm-order-num" id="confirm-order-num">Order #CYC-000000</div>
+          <p class="confirm-sub" id="confirm-sub-text">Your order has been received. Our team will contact you shortly to confirm delivery.</p>
+          <button class="btn-primary" style="max-width:260px;margin:0 auto" onclick="gotoPage('home-page')">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini order summary -->
+    <div class="checkout-mini-cart">
+      <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem">Your Order</div>
+      <div id="checkout-mini-items"></div>
+      <div style="margin-top:1.2rem;padding-top:1rem;border-top:0.5px solid var(--border)">
+        <div class="summary-row"><span>Subtotal</span><span id="co-subtotal">KSh 0</span></div>
+        <div class="summary-row"><span>Delivery</span><span id="co-delivery-display">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding-top:1rem;border-top:0.5px solid var(--border);margin-top:0.5rem">
+          <span style="font-size:14px;font-weight:600">Total</span>
+          <span style="font-size:14px;font-weight:700;color:var(--dark)" id="co-total">KSh 0</span>
+        </div>
+      </div>
+      <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;color:var(--muted);display:flex;gap:6px"><span style="color:var(--aqua-dark)">✓</span> Paystack SSL Secured</div>
+        <div style="font-size:11px;color:var(--muted);display:flex;gap:6px"><span style="color:var(--aqua-dark)">✓</span> 7-Day Returns</div>
+        <div style="font-size:11px;color:var(--muted);display:flex;gap:6px"><span style="color:var(--aqua-dark)">✓</span> Genuine Products Guaranteed</div>
+        <div style="font-size:11px;color:var(--muted);display:flex;gap:6px"><span style="color:var(--aqua-dark)">✓</span> Setup Support Included</div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Cy<span>Com</span> Shop</div>
+    <div class="footer-note">© 2026 CyCom Internet · <a href="/" style="color:var(--aqua-dark);text-decoration:none">cycom.africa</a></div>
+  </footer>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- WhatsApp float -->
+<div class="wa-float">
+  <a href="https://wa.me/254710504940?text=Hi%20CyCom%2C%20I%20need%20help%20with%20my%20shop%20order." target="_blank" rel="noopener" title="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    WhatsApp Us
+  </a>
+</div>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+  /* ════════════════════════════════════
+     PRODUCTS DATA
+  ════════════════════════════════════ */
+  const PRODUCTS = [
+    {
+      id: 'router-dual',
+      category: 'wifi',
+      tag: 'Wi-Fi 6E',
+      name: 'TP-Link Archer AXE300',
+      price: 34999,
+      emoji: '📶',
+      image: 'images/archer-axe300-01.jpg',
+      images: ['images/archer-axe300-01.jpg','images/archer-axe300-02.jpg','images/archer-axe300-03.jpg'],
+      stock: 'in',
+      description: 'AXE16000 Quad-Band 16-Stream Wi-Fi 6E router with ultra-fast throughput and multi-gig connectivity for premium homes and offices.',
+      features: ['Up to 15.6 Gbps quad-band Wi-Fi 6E','2× 10G WAN/LAN ports','1× 2.5G WAN/LAN + 4× Gigabit LAN','Dedicated 6 GHz band for low-latency traffic','USB 3.0 file sharing port','TP-Link HomeShield security suite']
+    },
+    {
+      id: 'wifi-extender',
+      category: 'wifi',
+      tag: 'Outdoor AP',
+      name: 'TP-Link Omada EAP113-Outdoor',
+      price: 5999,
+      emoji: '📡',
+      image: 'images/eap113-outdoor-01.png',
+      images: ['images/eap113-outdoor-01.png','images/eap113-outdoor-02.jpg'],
+      stock: 'low',
+      description: '300Mbps Wireless N Outdoor Access Point with IP65 weatherproof housing and Omada cloud management.',
+      features: ['IP65 weatherproof for outdoor use','Up to 300Mbps with 2×2 MIMO','High-power amplifier for long range','Omada SDN cloud managed','802.3af PoE and 48V Passive PoE supported']
+    },
+    {
+      id: 'outdoor-cpe',
+      category: 'network',
+      tag: 'Outdoor Switch',
+      name: 'TP-Link Omada Outdoor PoE Switch',
+      price: 6999,
+      emoji: '🛰️',
+      image: 'images/sg2005p-pd-01.jpg',
+      images: ['images/sg2005p-pd-01.jpg','images/sg2005p-pd-02.jpg'],
+      stock: 'in',
+      description: '5-Port Gigabit Smart Switch with 1-Port PoE++ In and 4-Port PoE+ Out. IP55 weatherproof with 200m PoE range and cloud management.',
+      features: ['200m PoE distance via passthrough','1× PoE++ in, 4× PoE+ out (64W/44W)','IP55 weatherproof, -40°C to 60°C','4KV lightning protection','Omada SDN cloud managed','Wall or pole mount kit included']
+    },
+    {
+      id: 'poe-switch',
+      category: 'network',
+      tag: 'Network',
+      name: '8-Port PoE Switch',
+      price: 4999,
+      emoji: '🔌',
+      image: '',
+      images: [],
+      stock: 'in',
+      description: 'Power and connect your cameras and access points from one switch. Ideal for CCTV and wireless deployments.',
+      features: ['8 PoE-enabled Gigabit ports','Plug-and-play, no configuration needed','Ideal for CCTV and AP deployments','Desktop or rack mountable']
+    },
+    {
+      id: 'camera-5mp',
+      category: 'cctv',
+      tag: 'Security',
+      name: '5MP IP CCTV Camera',
+      price: 3999,
+      emoji: '📷',
+      image: '',
+      images: [],
+      stock: 'low',
+      description: 'High-clarity indoor/outdoor IP camera for homes, shops, and offices. Night vision and weatherproof housing included.',
+      features: ['5MP crystal-clear image quality','Night vision — up to 30m','IP67 waterproof metal body','Motion detection alerts','Compatible with most NVR systems']
+    },
+    {
+      id: 'hdd-1tb',
+      category: 'cctv',
+      tag: 'Storage',
+      name: '1TB Surveillance HDD',
+      price: 5499,
+      emoji: '💽',
+      image: '',
+      images: [],
+      stock: 'out',
+      description: 'Reliable hard drive engineered for 24/7 continuous camera recording workloads.',
+      features: ['24/7 continuous recording optimised','Works with DVR and NVR systems','Low heat, low-noise operation','Shock-resistant design']
+    }
+  ];
+
+  const DELIVERY_FEES = {
+    'Nairobi CBD': 0,
+    'Westlands / Kilimani': 200,
+    'Embakasi / Donholm': 250,
+    'Kasarani / Roysambu': 300,
+    'Kiambu / Thika Road': 350,
+    'Outside Nairobi': 700
+  };
+
+  const PAYSTACK_KEY = 'pk_live_2ae809fce170bbd23bd1aabf92ace804422af70d';
+
+  /* ════════════════════════════════════
+     STATE
+  ════════════════════════════════════ */
+  let activeFilter = 'all';
+  let cart = []; // {product, qty}
+  let detailProduct = null;
+  let detailQty = 1;
+  let currentStep = 1;
+  let selectedPayment = 'paystack';
+  let deliveryFee = 0;
+  let couponDiscount = 0;
+
+  /* ════════════════════════════════════
+     PAGE NAVIGATION
+  ════════════════════════════════════ */
+  function gotoPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'cart-page') renderCart();
+    if (id === 'checkout-page') renderCheckoutSummary();
+  }
+
+  /* ════════════════════════════════════
+     PRODUCT GRID
+  ════════════════════════════════════ */
+  function renderProducts() {
+    const grid = document.getElementById('products-grid');
+    const title = document.getElementById('products-section-title');
+    const filtered = activeFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === activeFilter);
+    const labels = {all:'All Products', wifi:'WiFi Routers', cctv:'CCTV Equipment', network:'Network Gear'};
+    title.textContent = labels[activeFilter] || 'Products';
+    grid.innerHTML = filtered.map(p => {
+      const stockBadge = p.stock === 'low' ? '<span class="product-badge badge-low">Low Stock</span>'
+        : p.stock === 'out' ? '<span class="product-badge badge-out">Out of Stock</span>'
+        : `<span class="product-badge badge-new">${p.tag}</span>`;
+      const imgEl = p.image
+        ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
+          + `<span class="product-emoji" style="display:none">${p.emoji}</span>`
+        : `<span class="product-emoji">${p.emoji}</span>`;
+      return `
+        <div class="product-card" onclick="openDetail('${p.id}')">
+          <div class="product-img-box">
+            ${imgEl}
+            ${stockBadge}
+          </div>
+          <div class="product-info">
+            <div class="product-category">${p.category.toUpperCase()}</div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-footer">
+              <div class="product-price">KSh ${p.price.toLocaleString()}</div>
+              <button class="add-btn" ${p.stock==='out'?'disabled':''} onclick="event.stopPropagation();addToCart('${p.id}',1)" title="${p.stock==='out'?'Out of stock':'Add to cart'}">+</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function filterCategory(cat) {
+    activeFilter = cat;
+    renderProducts();
+  }
+
+  /* ════════════════════════════════════
+     PRODUCT DETAIL
+  ════════════════════════════════════ */
+  function openDetail(id) {
+    detailProduct = PRODUCTS.find(p => p.id === id);
+    if (!detailProduct) return;
+    detailQty = 1;
+    document.getElementById('detail-breadcrumb-cat').textContent = detailProduct.category.toUpperCase();
+    document.getElementById('detail-breadcrumb-name').textContent = detailProduct.name;
+    document.getElementById('detail-category').textContent = detailProduct.category.toUpperCase();
+    document.getElementById('detail-name').textContent = detailProduct.name;
+    document.getElementById('detail-price').textContent = 'KSh ' + detailProduct.price.toLocaleString();
+    document.getElementById('detail-desc').textContent = detailProduct.description;
+    document.getElementById('qty-val').textContent = 1;
+
+    const stockEl = document.getElementById('detail-stock');
+    stockEl.className = 'p-stock ' + detailProduct.stock;
+    stockEl.textContent = detailProduct.stock === 'in' ? 'In Stock' : detailProduct.stock === 'low' ? 'Low Stock' : 'Out of Stock';
+
+    const featEl = document.getElementById('detail-features');
+    featEl.innerHTML = detailProduct.features.map(f => `<li>${f}</li>`).join('');
+
+    const addBtn = document.getElementById('detail-add-btn');
+    addBtn.disabled = detailProduct.stock === 'out';
+    addBtn.textContent = detailProduct.stock === 'out' ? 'Out of Stock' : 'Add to Cart';
+
+    // Images
+    const mainWrap = document.getElementById('main-img-wrap');
+    const mainEmoji = document.getElementById('main-img-emoji');
+    const mainPhoto = document.getElementById('main-img-photo');
+    if (detailProduct.image) {
+      mainPhoto.src = detailProduct.image;
+      mainPhoto.alt = detailProduct.name;
+      mainPhoto.style.display = 'block';
+      mainEmoji.style.display = 'none';
+      mainPhoto.onerror = () => { mainPhoto.style.display = 'none'; mainEmoji.style.display = 'block'; };
+    } else {
+      mainPhoto.style.display = 'none';
+      mainEmoji.style.display = 'block';
+      mainEmoji.textContent = detailProduct.emoji;
+    }
+
+    const thumbsRow = document.getElementById('thumbs-row');
+    thumbsRow.innerHTML = '';
+    if (detailProduct.images && detailProduct.images.length > 1) {
+      detailProduct.images.forEach((src, i) => {
+        const t = document.createElement('div');
+        t.className = 'thumb' + (i === 0 ? ' active' : '');
+        t.innerHTML = `<img src="${src}" alt="view ${i+1}" onerror="this.parentElement.style.display='none'">`;
+        t.onclick = () => {
+          document.querySelectorAll('.thumb').forEach(th => th.classList.remove('active'));
+          t.classList.add('active');
+          mainPhoto.src = src;
+          mainPhoto.style.display = 'block';
+          mainEmoji.style.display = 'none';
+        };
+        thumbsRow.appendChild(t);
+      });
+    }
+
+    gotoPage('product-page');
+  }
+
+  function changeQty(d) {
+    detailQty = Math.max(1, detailQty + d);
+    document.getElementById('qty-val').textContent = detailQty;
+  }
+
+  function addDetailToCart() {
+    if (!detailProduct || detailProduct.stock === 'out') return;
+    addToCart(detailProduct.id, detailQty);
+  }
+
+  /* ════════════════════════════════════
+     CART LOGIC
+  ════════════════════════════════════ */
+  function addToCart(id, qty) {
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p || p.stock === 'out') return;
+    const existing = cart.find(x => x.product.id === id);
+    if (existing) existing.qty += qty;
+    else cart.push({product: p, qty});
+    updateBadges();
+    showToast('Added to cart: ' + p.name);
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(x => x.product.id !== id);
+    updateBadges();
+    renderCart();
+  }
+
+  function updateCartQty(id, delta) {
+    const item = cart.find(x => x.product.id === id);
+    if (!item) return;
+    item.qty = Math.max(1, item.qty + delta);
+    renderCart();
+  }
+
+  function cartSubtotal() {
+    return cart.reduce((s, x) => s + x.product.price * x.qty, 0);
+  }
+
+  function cartGrandTotal() {
+    return Math.max(0, cartSubtotal() - couponDiscount) + deliveryFee;
+  }
+
+  function updateBadges() {
+    const count = cart.reduce((s, x) => s + x.qty, 0);
+    ['home-cart-badge','product-cart-badge','cart-page-badge'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = count;
+    });
+  }
+
+  function renderCart() {
+    const list = document.getElementById('cart-items-list');
+    const empty = document.getElementById('empty-cart-msg');
+    const titleEl = document.getElementById('cart-items-title');
+    const count = cart.reduce((s, x) => s + x.qty, 0);
+    titleEl.textContent = count + ' Item' + (count !== 1 ? 's' : '');
+    if (cart.length === 0) {
+      list.innerHTML = '';
+      list.appendChild(empty);
+      empty.style.display = 'block';
+    } else {
+      list.innerHTML = cart.map(({product: p, qty: q}) => {
+        const imgEl = p.image
+          ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="font-size:28px;display:none">${p.emoji}</span>`
+          : `<span style="font-size:28px">${p.emoji}</span>`;
+        return `
+        <div class="cart-item" id="ci-${p.id}">
+          <div class="cart-item-img">${imgEl}</div>
+          <div>
+            <div class="cart-item-cat">${p.category.toUpperCase()}</div>
+            <div class="cart-item-name">${p.name}</div>
+            <div class="cart-item-price">KSh ${p.price.toLocaleString()}</div>
+          </div>
+          <div class="cart-item-right">
+            <button class="remove-btn" onclick="removeFromCart('${p.id}')">×</button>
+            <div class="mini-qty">
+              <button onclick="updateCartQty('${p.id}',-1)">−</button>
+              <span>${q}</span>
+              <button onclick="updateCartQty('${p.id}',1)">+</button>
+            </div>
+            <div style="font-size:13px;font-weight:700;color:var(--dark)">KSh ${(p.price*q).toLocaleString()}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    document.getElementById('cart-subtotal').textContent = 'KSh ' + cartSubtotal().toLocaleString();
+    document.getElementById('cart-delivery').textContent = deliveryFee > 0 ? 'KSh ' + deliveryFee.toLocaleString() : 'TBD at checkout';
+    document.getElementById('cart-total').textContent = 'KSh ' + (cartSubtotal() - couponDiscount).toLocaleString();
+  }
+
+  function applyCoupon() {
+    const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+    if (code === 'CYCOM10') {
+      couponDiscount = Math.round(cartSubtotal() * 0.10);
+      showToast('10% discount applied!');
+    } else {
+      couponDiscount = 0;
+      showToast('Invalid coupon code');
+    }
+    renderCart();
+  }
+
+  function proceedCheckout() {
+    if (cart.length === 0) { showToast('Your cart is empty'); return; }
+    gotoPage('checkout-page');
+  }
+
+  /* ════════════════════════════════════
+     CHECKOUT
+  ════════════════════════════════════ */
+  function updateDeliveryFee() {
+    const sel = document.getElementById('co-area');
+    const opt = sel.options[sel.selectedIndex];
+    deliveryFee = parseInt(opt.getAttribute('data-fee') || '0');
+    renderCheckoutSummary();
+  }
+
+  function renderCheckoutSummary() {
+    const sub = cartSubtotal();
+    const total = cartGrandTotal();
+    document.getElementById('co-subtotal').textContent = 'KSh ' + sub.toLocaleString();
+    document.getElementById('co-delivery-display').textContent = deliveryFee > 0 ? 'KSh ' + deliveryFee.toLocaleString() : 'Free';
+    document.getElementById('co-total').textContent = 'KSh ' + total.toLocaleString();
+    document.getElementById('review-total').textContent = 'KSh ' + total.toLocaleString();
+
+    const miniItems = document.getElementById('checkout-mini-items');
+    miniItems.innerHTML = cart.map(({product: p, qty: q}) => {
+      const imgEl = p.image
+        ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="font-size:20px;display:none">${p.emoji}</span>`
+        : `<span style="font-size:20px">${p.emoji}</span>`;
+      return `
+        <div class="mini-item">
+          <div class="mini-item-img">${imgEl}<span class="mini-badge">${q}</span></div>
+          <div>
+            <div class="mini-item-name">${p.name}</div>
+            <div class="mini-item-price">KSh ${(p.price*q).toLocaleString()}</div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function nextStep(n) {
+    const prev = currentStep;
+    document.getElementById('step' + prev + '-sec').classList.remove('active');
+    const prevInd = document.getElementById('step' + prev + '-ind');
+    prevInd.classList.remove('active');
+    if (n > prev) prevInd.classList.add('done');
+    currentStep = n;
+    document.getElementById('step' + n + '-sec').classList.add('active');
+    const curInd = document.getElementById('step' + n + '-ind');
+    curInd.classList.add('active');
+    curInd.classList.remove('done');
+    if (n === 3) populateReview();
+    renderCheckoutSummary();
+    window.scrollTo(0, 0);
+  }
+
+  function selectPayment(el, type) {
+    document.querySelectorAll('.payment-opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+    selectedPayment = type;
+    document.getElementById('mpesa-fields').classList.toggle('show', type === 'mpesa');
+  }
+
+  function populateReview() {
+    const fname = document.getElementById('co-fname').value;
+    const lname = document.getElementById('co-lname').value;
+    const phone = document.getElementById('co-phone').value;
+    const area = document.getElementById('co-area').value;
+    const address = document.getElementById('co-address').value;
+    const payLabels = {paystack:'Paystack (Card / M-Pesa)',mpesa:'M-Pesa STK Push',cod:'Cash on Delivery',whatsapp:'Order via WhatsApp'};
+    document.getElementById('review-name').textContent = (fname + ' ' + lname).trim() || '—';
+    document.getElementById('review-address').textContent = [address, area].filter(Boolean).join(', ') || '—';
+    document.getElementById('review-phone').textContent = phone || '—';
+    document.getElementById('review-payment').textContent = payLabels[selectedPayment] || '—';
+  }
+
+  function placeOrder() {
+    if (cart.length === 0) { showToast('Your cart is empty'); return; }
+    const email = document.getElementById('co-email').value.trim();
+    const phone = document.getElementById('co-phone').value.trim();
+    const fname = document.getElementById('co-fname').value.trim();
+    const lname = document.getElementById('co-lname').value.trim();
+
+    if (!email || !phone || !fname) {
+      showToast('Please fill in your details in Step 1');
+      nextStep(1);
+      return;
+    }
+
+    const total = cartGrandTotal();
+    const orderNum = 'CYC-' + Date.now().toString().slice(-6);
+    document.getElementById('confirm-order-num').textContent = 'Order #' + orderNum;
+
+    if (selectedPayment === 'paystack') {
+      const handler = PaystackPop.setup({
+        key: PAYSTACK_KEY,
+        email: email,
+        amount: total * 100,
+        currency: 'KES',
+        ref: orderNum,
+        metadata: { custom_fields: [
+          {display_name:'Customer',variable_name:'customer',value: fname + ' ' + lname},
+          {display_name:'Phone',variable_name:'phone',value: phone}
+        ]},
+        callback: function(response) {
+          showConfirmation(orderNum, 'Payment received via Paystack. Reference: ' + response.reference + '.<br>Our team will contact you to confirm delivery.');
+        },
+        onClose: function() { showToast('Payment window closed. Choose another method or retry.'); }
+      });
+      handler.openIframe();
+    } else if (selectedPayment === 'whatsapp') {
+      const items = cart.map(({product:p,qty:q}) => `• ${p.name} x${q} — KSh ${(p.price*q).toLocaleString()}`).join('\n');
+      const area = document.getElementById('co-area').value;
+      const address = document.getElementById('co-address').value;
+      const msg = `Hi CyCom, I'd like to place an order:\n\n${items}\n\nDelivery: ${address}, ${area}\nTotal: KSh ${total.toLocaleString()}\nName: ${fname} ${lname}\nPhone: ${phone}`;
+      window.open('https://wa.me/254710504940?text=' + encodeURIComponent(msg), '_blank');
+      showConfirmation(orderNum, 'Your order details have been sent to WhatsApp. Our team will confirm shortly.');
+    } else if (selectedPayment === 'mpesa') {
+      showConfirmation(orderNum, 'M-Pesa STK push initiated. Please complete payment on your phone. Our team will confirm delivery.');
+    } else {
+      showConfirmation(orderNum, 'Order received. Our team will contact you to arrange Cash on Delivery.');
+    }
+  }
+
+  function showConfirmation(orderNum, msg) {
+    document.getElementById('review-content').style.display = 'none';
+    document.getElementById('confirm-order-num').textContent = 'Order #' + orderNum;
+    document.getElementById('confirm-sub-text').innerHTML = msg;
+    document.getElementById('order-confirmed').classList.add('show');
+    const ind = document.getElementById('step3-ind');
+    ind.classList.add('done'); ind.classList.remove('active');
+    cart = [];
+    couponDiscount = 0;
+    updateBadges();
+  }
+
+  /* ════════════════════════════════════
+     TOAST
+  ════════════════════════════════════ */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  /* ════════════════════════════════════
+     INIT
+  ════════════════════════════════════ */
+  renderProducts();
+  updateBadges();
+</script>
+</body>
+</html>
