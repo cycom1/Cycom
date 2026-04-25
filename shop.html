@@ -373,7 +373,7 @@
       </div>
       <div class="cat-card" onclick="filterCategory('network')">
         <span class="cat-icon">🔌</span>
-        <div class="cat-name">Network</div>
+        <div class="cat-name">Network & Computing</div>
         <div class="cat-count" id="cat-count-network">0 items</div>
       </div>
     </div>
@@ -1265,6 +1265,32 @@
       stock: 'in',
       description: 'Value Series face access terminal with touch screen, dual-lens recognition, and multi-factor authentication.',
       features: ['Face, card, and fingerprint authentication','0.2 second face recognition speed','4.3 inch capacitive touch screen','150,000 event storage','Two-way audio support']
+    },
+    {
+      id: 'hp-omnibook-7',
+      category: 'network',
+      tag: 'Laptop',
+      name: 'HP OmniBook 7',
+      price: 94999,
+      emoji: '💻',
+      image: 'https://www.hp.com/wcsstore/hpusstore/Treatment/rc2/FY25Q2_MDP_OminiStudio_7/laptop-4.png',
+      images: ['https://www.hp.com/wcsstore/hpusstore/Treatment/rc2/FY25Q2_MDP_OminiStudio_7/laptop-4.png'],
+      stock: 'in',
+      description: 'AI-enhanced HP OmniBook 7 laptop series built for performance and durability for power users, students, and daily professional work.',
+      features: ['AI PC lineup with multiple size options','Performance-focused everyday laptop design','Built for durability and long study or work sessions','Available in 14 inch, 16 inch, Flip 16 inch, and 17.3 inch variants','Kenya pricing shown from the current HP US starting configuration']
+    },
+    {
+      id: 'hp-omnibook-x',
+      category: 'network',
+      tag: 'Laptop',
+      name: 'HP OmniBook X',
+      price: 103999,
+      emoji: '💻',
+      image: 'https://www.hp.com/wcsstore/hpusstore/Treatment/rc2/FY25Q2_MDP_OmniBookX/images/hp-laptop-14.png',
+      images: ['https://www.hp.com/wcsstore/hpusstore/Treatment/rc2/FY25Q2_MDP_OmniBookX/images/hp-laptop-14.png'],
+      stock: 'in',
+      description: 'Premium HP OmniBook X AI laptop series blending thin-and-light design with creator-friendly performance for independent professionals and university students.',
+      features: ['Next Gen AI PC positioning from HP','Thin and light premium design','Built for creators, freelancers, and students','Available in OmniBook X Flip 14 inch, Flip 16 inch, and OmniBook X 14 inch options','Kenya pricing shown from the current HP US starting configuration']
     }
   ];
 
@@ -1309,7 +1335,7 @@
     const grid = document.getElementById('products-grid');
     const title = document.getElementById('products-section-title');
     const filtered = activeFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === activeFilter);
-    const labels = {all:'All Products', wifi:'WiFi Routers', cctv:'CCTV Equipment', network:'Network Gear'};
+    const labels = {all:'All Products', wifi:'WiFi Routers', cctv:'CCTV Equipment', network:'Network & Computing'};
     title.textContent = labels[activeFilter] || 'Products';
     grid.innerHTML = filtered.map(p => {
       const stockBadge = p.stock === 'low' ? '<span class="product-badge badge-low">Low Stock</span>'
