@@ -359,22 +359,22 @@
       <div class="cat-card" onclick="filterCategory('all')">
         <span class="cat-icon">🛒</span>
         <div class="cat-name">All Items</div>
-        <div class="cat-count" id="cat-count-all">6 items</div>
+        <div class="cat-count" id="cat-count-all">42 items</div>
       </div>
       <div class="cat-card" onclick="filterCategory('wifi')">
         <span class="cat-icon">📶</span>
         <div class="cat-name">WiFi Routers</div>
-        <div class="cat-count">2 items</div>
+        <div class="cat-count" id="cat-count-wifi">0 items</div>
       </div>
       <div class="cat-card" onclick="filterCategory('cctv')">
         <span class="cat-icon">📷</span>
         <div class="cat-name">CCTV</div>
-        <div class="cat-count">2 items</div>
+        <div class="cat-count" id="cat-count-cctv">0 items</div>
       </div>
       <div class="cat-card" onclick="filterCategory('network')">
         <span class="cat-icon">🔌</span>
         <div class="cat-name">Network</div>
-        <div class="cat-count">2 items</div>
+        <div class="cat-count" id="cat-count-network">0 items</div>
       </div>
     </div>
   </div>
@@ -1342,6 +1342,19 @@
     renderProducts();
   }
 
+  function updateCategoryCounts() {
+    const counts = {
+      all: PRODUCTS.length,
+      wifi: PRODUCTS.filter(p => p.category === 'wifi').length,
+      cctv: PRODUCTS.filter(p => p.category === 'cctv').length,
+      network: PRODUCTS.filter(p => p.category === 'network').length
+    };
+    document.getElementById('cat-count-all').textContent = counts.all + ' items';
+    document.getElementById('cat-count-wifi').textContent = counts.wifi + ' items';
+    document.getElementById('cat-count-cctv').textContent = counts.cctv + ' items';
+    document.getElementById('cat-count-network').textContent = counts.network + ' items';
+  }
+
   /* ════════════════════════════════════
      PRODUCT DETAIL
   ════════════════════════════════════ */
@@ -1659,6 +1672,7 @@
      INIT
   ════════════════════════════════════ */
   renderProducts();
+  updateCategoryCounts();
   updateBadges();
 </script>
 </body>
