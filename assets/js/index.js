@@ -43,6 +43,19 @@
     waBtn.href = `https://wa.me/254710504940?text=${message}`;
   }
 
+  function heroCheckCoverage(form) {
+    const heroArea = form.querySelector('#heroCoverageArea');
+    const area = heroArea?.value || '';
+    if (!area) { heroArea?.focus(); return false; }
+
+    const target = document.getElementById('coverageArea');
+    if (target) target.value = area;
+    if (typeof checkCoverage === 'function') checkCoverage();
+
+    document.getElementById('coverage')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return false;
+  }
+
   function isAdminMode() {
     const params = new URLSearchParams(window.location.search);
     return params.get('admin') === '1' || localStorage.getItem('cycom_admin_mode') === '1';
@@ -109,7 +122,7 @@
       tag: 'Wi-Fi 6E',
       name: 'TP-Link Archer AXE300 (AXE16000)',
       price: 34999,
-      media: 'ðŸ“¶',
+      media: '📶',
       image: 'images/archer-axe300-01.jpg',
       images: [
         'images/archer-axe300-01.jpg',
@@ -130,7 +143,7 @@
       tag: 'Outdoor AP',
       name: 'TP-Link Omada EAP113-Outdoor',
       price: 5999,
-      media: 'ðŸ“¡',
+      media: '📡',
       image: 'images/eap113-outdoor-01.png',
       images: [
         'images/eap113-outdoor-01.png',
@@ -151,7 +164,7 @@
       tag: 'Outdoor',
       name: 'TP-Link Omada Outdoor PoE Switch (SG2005P-PD)',
       price: 6999,
-      media: 'ðŸ›°ï¸',
+      media: '🛰️',
       image: 'images/sg2005p-pd-01.jpg',
       images: [
         'images/sg2005p-pd-01.jpg',
@@ -191,7 +204,7 @@
       tag: 'Network',
       name: '8-Port PoE Switch',
       price: 4999,
-      media: 'ðŸ”Œ',
+      media: '🔌',
       stock: 'in',
       qty: 9,
       bestValue: true,
@@ -204,7 +217,7 @@
       tag: 'Security',
       name: '5MP IP CCTV Camera',
       price: 3999,
-      media: 'ðŸ“·',
+      media: '📷',
       stock: 'low',
       qty: 2,
       description: 'High-clarity indoor/outdoor camera for homes, shops, and offices.',
@@ -216,7 +229,7 @@
       tag: 'Storage',
       name: '1TB Surveillance HDD',
       price: 5499,
-      media: 'ðŸ’½',
+      media: '💽',
       stock: 'out',
       qty: 0,
       description: 'Reliable hard drive designed for continuous camera recording workloads.',
@@ -1014,6 +1027,28 @@
     return mediaMap[id] || 'images/bg/hero-network-team.jpg';
   }
 
+  function handleImgError(img) {
+    if (img.dataset.fallbackApplied) return;
+    img.dataset.fallbackApplied = '1';
+    img.style.visibility = 'hidden';
+    img.insertAdjacentHTML('afterend', '<div class="media-fallback-note media-fallback-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Photo coming soon</span></div>');
+  }
+
+  function verifyMediaImages(root) {
+    if (!root) return;
+    const fallbackNote = '<div class="media-fallback-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Photo coming soon</span></div>';
+    root.querySelectorAll('[data-media-src]').forEach((el) => {
+      const src = el.getAttribute('data-media-src');
+      if (!src) return;
+      const probe = new Image();
+      probe.onerror = () => {
+        el.classList.add('media-fallback');
+        el.insertAdjacentHTML('beforeend', fallbackNote);
+      };
+      probe.src = src;
+    });
+  }
+
   function renderTopShopPicks() {
     const picksEl = document.getElementById('topShopPicksGrid');
     if (!picksEl) return;
@@ -1021,9 +1056,10 @@
     const picks = shopProducts.slice(0, 4);
     picksEl.innerHTML = picks.map((product) => {
       const displayPrice = Number(product.price) > 0 ? formatKsh(product.price) : 'Contact for price';
+      const mediaSrc = product.image || getProductMedia(product.id);
       return `
         <article class="top-shop-item">
-          <div class="top-shop-item-media" style="background-image:url('${product.image || getProductMedia(product.id)}');" aria-hidden="true"></div>
+          <div class="top-shop-item-media" data-media-src="${mediaSrc}" style="background-image:url('${mediaSrc}');" aria-hidden="true"></div>
           <div class="top-shop-item-name">${product.name}</div>
           <div class="top-shop-item-meta">
             <span class="top-shop-item-price">${displayPrice}</span>
@@ -1032,6 +1068,7 @@
         </article>
       `;
     }).join('');
+    verifyMediaImages(picksEl);
   }
 
   function renderShopProducts() {
@@ -1043,6 +1080,7 @@
       const stockMeta = getStockMeta(product.stock);
       const outOfStock = product.stock === 'out';
       const buyMsg = encodeURIComponent(`Hi CyCom, I want to buy the ${product.name} (${formatKsh(product.price)}).`);
+      const mediaSrc = product.image || getProductMedia(product.id);
 
       return `
         <div class="shop-card" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-stock="${product.stock}">
@@ -1050,7 +1088,7 @@
             <span class="shop-tag">${product.tag}</span>
             <div class="shop-price">${formatKsh(product.price)}</div>
           </div>
-          <div class="shop-media" style="background-image:url('${product.image || getProductMedia(product.id)}');" aria-hidden="true">
+          <div class="shop-media" data-media-src="${mediaSrc}" style="background-image:url('${mediaSrc}');" aria-hidden="true">
             <span class="shop-media-chip">${product.category}</span>
             ${product.bestValue ? '<span class="shop-best-value">Best Value</span>' : ''}
           </div>
@@ -1069,6 +1107,7 @@
         </div>
       `;
     }).join('');
+    verifyMediaImages(grid);
 
     Array.from(grid.querySelectorAll('.shop-card')).forEach((card) => {
       const addBtn = card.querySelector('.shop-add-btn');
@@ -1136,7 +1175,7 @@
         const galleryCount = gallery.length > 1
           ? '<div class="pv-gallery-count">' + (activeIndex + 1) + ' / ' + gallery.length + '</div>'
           : '';
-        imgWrap.innerHTML = navButtons + '<img class="pv-main-image" src="' + gallery[activeIndex] + '" alt="' + product.name + '"><div class="pv-zoom-lens"></div>' + galleryCount;
+        imgWrap.innerHTML = navButtons + '<img class="pv-main-image" src="' + gallery[activeIndex] + '" alt="' + product.name + '" onerror="handleImgError(this)"><div class="pv-zoom-lens"></div>' + galleryCount;
 
         const prevBtn = imgWrap.querySelector('.pv-nav-prev');
         const nextBtn = imgWrap.querySelector('.pv-nav-next');
@@ -1220,7 +1259,7 @@
       if (thumbsWrap) {
         thumbsWrap.innerHTML = gallery.map((src, index) =>
           '<button type="button" class="pv-thumb' + (index === 0 ? ' is-active' : '') + '" data-index="' + index + '" aria-label="Product image ' + (index + 1) + '" style="--delay:' + (index * 0.04) + 's">' +
-            '<img src="' + src + '" alt="' + product.name + ' thumbnail ' + (index + 1) + '">' +
+            '<img src="' + src + '" alt="' + product.name + ' thumbnail ' + (index + 1) + '" onerror="handleImgError(this)">' +
           '</button>'
         ).join('');
         thumbsWrap.querySelectorAll('.pv-thumb').forEach((btn) => {
@@ -1238,7 +1277,7 @@
       renderMain(activeIndex);
       startAuto();
     } else {
-      imgWrap.innerHTML = '<div class="pv-img-placeholder">' + (product.media || 'ðŸ“¦') + '</div>';
+      imgWrap.innerHTML = '<div class="pv-img-placeholder">' + (product.media || '📦') + '</div>';
       if (thumbsWrap) thumbsWrap.innerHTML = '';
     }
 
@@ -1585,7 +1624,7 @@
           tag,
           name,
           price: Math.round(price),
-          media: 'ðŸ›ï¸',
+          media: '🛍️',
           stock: ['in', 'low', 'out'].includes(stock) ? stock : 'in',
           qty: Math.round(qty),
           description,

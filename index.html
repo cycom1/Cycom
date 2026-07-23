@@ -234,6 +234,24 @@
         </a>
         <a href="#contact" class="btn-outline">Book Installation</a>
       </div>
+      <form class="hero-quick-check" onsubmit="return heroCheckCoverage(this)">
+        <label for="heroCoverageArea" class="hero-quick-check-label">Check coverage in your area</label>
+        <div class="hero-quick-check-row">
+          <select id="heroCoverageArea" required>
+            <option value="">Select your area…</option>
+            <option>Nairobi CBD</option>
+            <option>Westlands / Kilimani</option>
+            <option>Embakasi / Donholm</option>
+            <option>Kasarani / Roysambu</option>
+            <option>Kiambu / Thika Road</option>
+            <option>Kitale</option>
+            <option>Kisumu</option>
+            <option>Kakamega</option>
+            <option>Outside Nairobi</option>
+          </select>
+          <button type="submit">Check →</button>
+        </div>
+      </form>
       <div class="hero-stats">
         <div class="hero-stat">
           <span class="hero-stat-num">99.9%</span>
